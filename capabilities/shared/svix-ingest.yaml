@@ -1,0 +1,41 @@
+apiVersion: capabilities.naftiko.dev/v1
+kind: Capability
+metadata:
+  name: svix-ingest
+  title: Svix Ingest API
+  description: |
+    Receiving-side capability for Svix. Wraps the /ingest/api/v1/ surface to
+    create Ingest sources (Stripe, GitHub, Shopify, generic HMAC, etc.), attach
+    forwarding endpoints, and apply transformations.
+  tags:
+    - Ingest
+    - Webhook Receiving
+    - Verification
+    - Transformation
+spec:
+  provider: svix
+  baseUrl: https://api.us.svix.com
+  authentication:
+    type: bearer
+  openapi: ../../openapi/svix-openapi.json
+  resources:
+    - name: sources
+      description: Hosted receiving URLs that accept inbound webhooks from third parties.
+      operations:
+        - listIngestSources
+        - createIngestSource
+        - getIngestSource
+        - updateIngestSource
+        - deleteIngestSource
+        - rotateIngestSourceToken
+        - getIngestDashboardAccess
+    - name: ingestEndpoints
+      description: Forwarding endpoints attached to a source.
+      operations:
+        - listIngestEndpoints
+        - createIngestEndpoint
+        - getIngestEndpoint
+        - updateIngestEndpoint
+        - deleteIngestEndpoint
+        - rotateIngestEndpointSecret
+        - setIngestEndpointTransformation

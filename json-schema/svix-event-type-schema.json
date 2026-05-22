@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/svix/json-schema/event-type.json",
+  "title": "Svix Event Type",
+  "description": "A globally-registered event type that endpoints can subscribe to via filterTypes. May carry a versioned JSON Schema describing its payload.",
+  "type": "object",
+  "required": ["name", "description", "deprecated", "createdAt", "updatedAt"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "maxLength": 256,
+      "description": "The event type's unique name (e.g. invoice.paid)."
+    },
+    "description": { "type": "string" },
+    "archived": { "type": "boolean", "default": false },
+    "deprecated": { "type": "boolean" },
+    "groupName": {
+      "type": ["string", "null"],
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "maxLength": 256
+    },
+    "featureFlags": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9\\-_.]+$",
+        "maxLength": 256
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "schemas": {
+      "type": ["object", "null"],
+      "description": "Map of version -> JSON Schema describing the payload."
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

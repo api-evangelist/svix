@@ -1,0 +1,53 @@
+apiVersion: capabilities.naftiko.dev/v1
+kind: Workflow
+metadata:
+  name: customer-webhook-onboarding
+  title: Onboard A New Customer To Webhook Delivery
+  description: |
+    End-to-end composition for adding a new tenant to a Svix-powered webhook
+    surface: create the application, define event types if missing, mint a
+    Consumer App Portal access URL the customer can use to register their
+    own endpoints, then send a smoke-test event to validate delivery.
+  tags:
+    - Onboarding
+    - Webhooks
+    - Multi Tenant
+spec:
+  provider: svix
+  steps:
+    - id: create-application
+      capability: svix-webhooks
+      operation: createApplication
+      input:
+        name: "${input.tenantName}"
+        uid: "${input.tenantUid}"
+        metadata:
+          plan: "${input.plan}"
+    - id: ensure-event-types
+      capability: svix-webhooks
+      operation: createEventType
+      forEach: "${input.eventTypes}"
+      input:
+        name: "${item.name}"
+        description: "${item.description}"
+        groupName: "${item.group}"
+      onConflict: continue
+    - id: mint-portal-access
+      capability: svix-webhooks
+      operation: getAppPortalAccess
+      input:
+        appId: "${steps.create-application.output.id}"
+        expiry: 3600
+    - id: send-smoke-test
+      capability: svix-webhooks
+      operation: createMessage
+      input:
+        appId: "${steps.create-application.output.id}"
+        eventType: "svix.test"
+        payload:
+          message: "Welcome to webhooks"
+          tenantUid: "${input.tenantUid}"
+  outputs:
+    applicationId: "${steps.create-application.output.id}"
+    portalUrl: "${steps.mint-portal-access.output.url}"
+    testMessageId: "${steps.send-smoke-test.output.id}"

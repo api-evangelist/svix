@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/svix/json-schema/message-attempt.json",
+  "title": "Svix Message Attempt",
+  "description": "A single delivery attempt of a Message to an Endpoint, including the HTTP outcome, response body, duration, and the next scheduled retry if Svix is going to try again.",
+  "type": "object",
+  "required": ["id", "endpointId", "msgId", "url", "status", "timestamp"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^atmpt_[A-Za-z0-9]{27}$" },
+    "endpointId": { "type": "string", "pattern": "^ep_[A-Za-z0-9]{27}$" },
+    "msgId": { "type": "string", "pattern": "^msg_[A-Za-z0-9]{27}$" },
+    "url": { "type": "string", "format": "uri" },
+    "response": { "type": "string", "description": "Response body or error string." },
+    "responseStatusCode": { "type": "integer", "minimum": 0 },
+    "responseDurationMs": { "type": "integer", "minimum": 0 },
+    "status": {
+      "type": "integer",
+      "enum": [0, 1, 2, 3],
+      "description": "0=Success, 1=Pending, 2=Failed, 3=Sending."
+    },
+    "triggerType": {
+      "type": "integer",
+      "enum": [0, 1, 2],
+      "description": "0=Scheduled, 1=Manual, 2=Replay."
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "nextAttempt": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

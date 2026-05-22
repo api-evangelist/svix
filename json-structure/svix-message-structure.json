@@ -1,0 +1,18 @@
+{
+  "name": "SvixMessage",
+  "description": "Structural definition of the Svix Message — a webhook payload submitted by the platform user for fan-out delivery.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "format": "ksuid", "prefix": "msg_" },
+    { "name": "eventId", "type": "string", "required": false },
+    { "name": "eventType", "type": "string", "required": true },
+    { "name": "payload", "type": "object", "required": true },
+    { "name": "channels", "type": "string[]", "required": false, "maxItems": 10 },
+    { "name": "tags", "type": "string[]", "required": false, "maxItems": 5 },
+    { "name": "deliverAt", "type": "datetime", "required": false },
+    { "name": "timestamp", "type": "datetime", "required": true }
+  ],
+  "relations": [
+    { "name": "application", "kind": "belongsTo", "target": "SvixApplication" },
+    { "name": "attempts", "kind": "hasMany", "target": "SvixMessageAttempt" }
+  ]
+}

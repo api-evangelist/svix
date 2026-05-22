@@ -1,0 +1,35 @@
+{
+  "operation": "GET /api/v1/app/{app_id}/msg/{msg_id}/attempt",
+  "summary": "List Attempts For Message",
+  "description": "List every delivery attempt Svix made for a message, including HTTP status, response time, and the next scheduled retry.",
+  "request": {
+    "method": "GET",
+    "url": "https://api.us.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_3srOrx2ZWZBpBUvZwXKQmoEYga2/attempt?limit=20&status=2",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": "atmpt_4srOrx2ZWZBpBUvZwXKQmoEYga2",
+          "endpointId": "ep_2srOrx2ZWZBpBUvZwXKQmoEYga2",
+          "msgId": "msg_3srOrx2ZWZBpBUvZwXKQmoEYga2",
+          "url": "https://customer.example.com/webhooks/svix",
+          "response": "Connection timed out",
+          "responseStatusCode": 0,
+          "responseDurationMs": 30000,
+          "status": 2,
+          "triggerType": 0,
+          "timestamp": "2026-05-22T15:32:42Z",
+          "nextAttempt": "2026-05-22T15:37:42Z"
+        }
+      ],
+      "iterator": "atmpt_4srOrx2ZWZBpBUvZwXKQmoEYga2",
+      "prevIterator": null,
+      "done": true
+    }
+  }
+}

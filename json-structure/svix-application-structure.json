@@ -1,0 +1,18 @@
+{
+  "name": "SvixApplication",
+  "description": "Structural definition of the Svix Application entity — the per-tenant container.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "format": "ksuid", "prefix": "app_" },
+    { "name": "uid", "type": "string", "required": false, "description": "Customer-supplied unique identifier." },
+    { "name": "name", "type": "string", "required": true },
+    { "name": "metadata", "type": "map<string,string>", "required": true },
+    { "name": "throttleRate", "type": "integer", "required": false, "min": 0, "max": 65535 },
+    { "name": "createdAt", "type": "datetime", "required": true },
+    { "name": "updatedAt", "type": "datetime", "required": true }
+  ],
+  "relations": [
+    { "name": "endpoints", "kind": "hasMany", "target": "SvixEndpoint" },
+    { "name": "messages", "kind": "hasMany", "target": "SvixMessage" },
+    { "name": "integrations", "kind": "hasMany", "target": "SvixIntegration" }
+  ]
+}

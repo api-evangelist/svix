@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/svix/json-schema/application.json",
+  "title": "Svix Application",
+  "description": "A Svix Application — a multi-tenant container that holds endpoints, messages, and integrations for a single customer/tenant of the user of Svix.",
+  "type": "object",
+  "required": ["id", "name", "metadata", "createdAt", "updatedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^app_[A-Za-z0-9]{27}$",
+      "description": "Svix-assigned application ID (prefixed KSUID).",
+      "examples": ["app_1srOrx2ZWZBpBUvZwXKQmoEYga2"]
+    },
+    "uid": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "description": "Optional customer-supplied unique identifier for the application."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable application name."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Arbitrary key/value metadata."
+    },
+    "throttleRate": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 65535,
+      "description": "Maximum messages per second to send to this application."
+    },
+    "rateLimit": {
+      "type": ["integer", "null"],
+      "deprecated": true,
+      "description": "Deprecated, use throttleRate instead."
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

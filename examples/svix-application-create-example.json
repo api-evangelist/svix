@@ -1,0 +1,38 @@
+{
+  "operation": "POST /api/v1/app",
+  "summary": "Create Application",
+  "description": "Create a new Svix application (typically one per tenant/customer on your platform).",
+  "request": {
+    "method": "POST",
+    "url": "https://api.us.svix.com/api/v1/app",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json",
+      "Idempotency-Key": "f3a7b6e2-1234-4abc-9def-0123456789ab"
+    },
+    "body": {
+      "name": "Acme Corp",
+      "uid": "tenant_acme_corp",
+      "metadata": {
+        "plan": "enterprise",
+        "region": "us-east-1"
+      },
+      "throttleRate": 100
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+      "uid": "tenant_acme_corp",
+      "name": "Acme Corp",
+      "metadata": {
+        "plan": "enterprise",
+        "region": "us-east-1"
+      },
+      "throttleRate": 100,
+      "createdAt": "2026-05-22T15:30:00Z",
+      "updatedAt": "2026-05-22T15:30:00Z"
+    }
+  }
+}

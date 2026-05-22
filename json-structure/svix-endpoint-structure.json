@@ -1,0 +1,22 @@
+{
+  "name": "SvixEndpoint",
+  "description": "Structural definition of the Svix Endpoint entity — a subscriber URL.",
+  "fields": [
+    { "name": "id", "type": "string", "required": true, "format": "ksuid", "prefix": "ep_" },
+    { "name": "uid", "type": "string", "required": false },
+    { "name": "url", "type": "uri", "required": true, "maxLength": 65536 },
+    { "name": "description", "type": "string", "required": true },
+    { "name": "disabled", "type": "boolean", "required": false, "default": false },
+    { "name": "filterTypes", "type": "string[]", "required": false, "description": "Event types this endpoint subscribes to." },
+    { "name": "channels", "type": "string[]", "required": false, "maxItems": 10 },
+    { "name": "metadata", "type": "map<string,string>", "required": true },
+    { "name": "throttleRate", "type": "integer", "required": false },
+    { "name": "version", "type": "integer", "required": true, "deprecated": true },
+    { "name": "createdAt", "type": "datetime", "required": true },
+    { "name": "updatedAt", "type": "datetime", "required": true }
+  ],
+  "relations": [
+    { "name": "application", "kind": "belongsTo", "target": "SvixApplication" },
+    { "name": "attempts", "kind": "hasMany", "target": "SvixMessageAttempt" }
+  ]
+}

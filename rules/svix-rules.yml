@@ -1,0 +1,167 @@
+extends:
+  - spectral:oas
+
+documentationUrl: https://api.svix.com/docs
+
+# Spectral ruleset enforcing the conventions observed in the Svix
+# hosted OpenAPI (svix-openapi.json, info.version 1.84.0). These
+# rules are descriptive — they describe what Svix does — and
+# prescriptive — they fail builds for new endpoints that drift.
+
+aliases:
+  AllOperations:
+    - "$.paths[*][get,put,post,delete,patch]"
+
+rules:
+  # ---------------------------------------------------------------
+  # Naming & casing
+  # ---------------------------------------------------------------
+  svix-operation-summary-title-case:
+    description: Operation summaries are in Title Case ("Create Application", not "create application").
+    severity: warn
+    given: "#AllOperations"
+    then:
+      field: summary
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][A-Za-z0-9]*)(\\s[A-Z0-9][A-Za-z0-9]*)*$"
+
+  svix-operation-id-camel-case:
+    description: operationId values are lowerCamelCase (e.g. v1ApplicationCreate).
+    severity: error
+    given: "#AllOperations"
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]+$"
+
+  svix-schema-pascal-case:
+    description: Schema component names are PascalCase (ApplicationIn, EndpointOut).
+    severity: error
+    given: "$.components.schemas[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][A-Za-z0-9]+$"
+
+  svix-property-camel-case:
+    description: Schema properties are camelCase (createdAt, throttleRate, eventType).
+    severity: warn
+    given: "$.components.schemas[*].properties[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  # ---------------------------------------------------------------
+  # URL & versioning conventions
+  # ---------------------------------------------------------------
+  svix-path-version-prefix:
+    description: Every path starts with /api/v1/ or /ingest/api/v1/.
+    severity: error
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/(api|ingest/api)/v1/"
+
+  svix-path-kebab-case:
+    description: Path segments are kebab-case or snake_case templated IDs ({app_id}).
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^/[a-z0-9_/\\-{}]+$"
+
+  # ---------------------------------------------------------------
+  # Authentication
+  # ---------------------------------------------------------------
+  svix-security-bearer-required:
+    description: HTTP Bearer auth must be defined in components.securitySchemes.
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      field: HTTPBearer
+      function: truthy
+
+  svix-security-applied:
+    description: Every non-health operation requires HTTPBearer auth.
+    severity: warn
+    given: "$.paths[?(!@property.match(/health/))][get,put,post,delete,patch]"
+    then:
+      field: security
+      function: truthy
+
+  # ---------------------------------------------------------------
+  # Resource identifier patterns
+  # ---------------------------------------------------------------
+  svix-app-id-pattern:
+    description: app_id path params have the prefixed-KSUID pattern `^app_[A-Za-z0-9]{27}$`.
+    severity: warn
+    given: "$.components.schemas.ApplicationOut.properties.id"
+    then:
+      field: pattern
+      function: pattern
+      functionOptions:
+        match: "^\\^app_"
+
+  svix-endpoint-id-pattern:
+    description: endpoint_id values have the prefixed-KSUID pattern `^ep_[A-Za-z0-9]{27}$`.
+    severity: warn
+    given: "$.components.schemas.EndpointOut.properties.id"
+    then:
+      field: pattern
+      function: pattern
+      functionOptions:
+        match: "^\\^ep_"
+
+  svix-msg-id-pattern:
+    description: msg_id values have the prefixed-KSUID pattern `^msg_[A-Za-z0-9]{27}$`.
+    severity: warn
+    given: "$.components.schemas.MessageOut.properties.id"
+    then:
+      field: pattern
+      function: pattern
+      functionOptions:
+        match: "^\\^msg_"
+
+  # ---------------------------------------------------------------
+  # Pagination
+  # ---------------------------------------------------------------
+  svix-list-pagination:
+    description: List responses use iterator-based pagination with `data`, `iterator`, `prevIterator`, `done`.
+    severity: info
+    given: "$.components.schemas[?(@property.match(/ListResponse_/))]"
+    then:
+      field: properties
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [data, iterator, prevIterator, done]
+
+  # ---------------------------------------------------------------
+  # Errors
+  # ---------------------------------------------------------------
+  svix-error-response-shape:
+    description: 4xx responses reference the standard HTTPError or HttpValidationError schemas.
+    severity: warn
+    given: "$.paths[*][get,put,post,delete,patch].responses[?(@property.match(/^4\\d\\d$/))]"
+    then:
+      field: content.application/json.schema.$ref
+      function: pattern
+      functionOptions:
+        match: "(HTTPError|HttpValidationError)$"
+
+  # ---------------------------------------------------------------
+  # Idempotency
+  # ---------------------------------------------------------------
+  svix-post-idempotency-key:
+    description: POST operations accept an Idempotency-Key header (Svix-wide idempotency support).
+    severity: info
+    given: "$.paths[*].post"
+    then:
+      field: parameters
+      function: truthy

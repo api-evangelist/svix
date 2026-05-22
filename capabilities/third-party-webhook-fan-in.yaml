@@ -1,0 +1,43 @@
+apiVersion: capabilities.naftiko.dev/v1
+kind: Workflow
+metadata:
+  name: third-party-webhook-fan-in
+  title: Fan Inbound Third-Party Webhooks Into Internal Events
+  description: |
+    Receiving-side composition using Svix Ingest. Create an Ingest source for
+    a third-party provider (Stripe, GitHub, Shopify), attach a transformation
+    that normalizes their payload into your event schema, and forward into the
+    Svix sending surface so downstream consumers receive your canonical shape.
+  tags:
+    - Ingest
+    - Integration
+    - Transformation
+spec:
+  provider: svix
+  steps:
+    - id: create-source
+      capability: svix-ingest
+      operation: createIngestSource
+      input:
+        name: "${input.providerName}"
+        type: "${input.providerType}"
+        config: "${input.providerConfig}"
+    - id: attach-transformation-endpoint
+      capability: svix-ingest
+      operation: createIngestEndpoint
+      input:
+        sourceId: "${steps.create-source.output.id}"
+        url: "${input.forwardUrl}"
+        transformation:
+          enabled: true
+          code: "${input.transformationCode}"
+    - id: mint-dashboard
+      capability: svix-ingest
+      operation: getIngestDashboardAccess
+      input:
+        sourceId: "${steps.create-source.output.id}"
+        expiry: 7200
+  outputs:
+    sourceId: "${steps.create-source.output.id}"
+    ingestUrl: "${steps.create-source.output.ingestUrl}"
+    dashboardUrl: "${steps.mint-dashboard.output.url}"

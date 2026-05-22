@@ -1,0 +1,15 @@
+{
+  "name": "SvixEventType",
+  "description": "Structural definition of the Svix Event Type — the named contract endpoints subscribe to.",
+  "fields": [
+    { "name": "name", "type": "string", "required": true, "pattern": "^[a-zA-Z0-9\\-_.]+$" },
+    { "name": "description", "type": "string", "required": true },
+    { "name": "groupName", "type": "string", "required": false },
+    { "name": "archived", "type": "boolean", "required": false, "default": false },
+    { "name": "deprecated", "type": "boolean", "required": true },
+    { "name": "featureFlags", "type": "string[]", "required": false },
+    { "name": "schemas", "type": "map<string,object>", "required": false, "description": "Map of version -> JSON Schema." },
+    { "name": "createdAt", "type": "datetime", "required": true },
+    { "name": "updatedAt", "type": "datetime", "required": true }
+  ]
+}

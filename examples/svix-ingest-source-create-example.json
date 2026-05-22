@@ -1,0 +1,33 @@
+{
+  "operation": "POST /ingest/api/v1/source",
+  "summary": "Create Ingest Source",
+  "description": "Create a Svix Ingest source — a hosted URL that accepts inbound webhooks from third-party providers (Stripe, GitHub, Shopify, etc.), verifies their signatures, transforms them, and fans them out to your endpoints.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.us.svix.com/ingest/api/v1/source",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "stripe-billing-prod",
+      "type": "stripe",
+      "config": {
+        "secret": "whsec_StripeSigningSecretGoesHere"
+      },
+      "uid": "src_stripe_prod"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "src_5srOrx2ZWZBpBUvZwXKQmoEYga2",
+      "uid": "src_stripe_prod",
+      "name": "stripe-billing-prod",
+      "type": "stripe",
+      "ingestUrl": "https://ingest.svix.com/in/src_stripe_prod/",
+      "createdAt": "2026-05-22T15:35:00Z",
+      "updatedAt": "2026-05-22T15:35:00Z"
+    }
+  }
+}

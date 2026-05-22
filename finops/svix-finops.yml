@@ -1,0 +1,90 @@
+finOpsFrameworkVersion: '2024'
+focusVersion: '1.0'
+provider:
+  id: svix
+  name: Svix
+  url: https://www.svix.com
+  pricingSource: https://www.svix.com/pricing/
+  fetched: '2026-05-22'
+
+billing:
+  invoicingCadence: monthly
+  invoiceCurrency: USD
+  paymentChannels:
+    - credit_card_self_serve
+    - invoice_for_enterprise
+  billingPortal: https://dashboard.svix.com
+  contractTypes:
+    - month_to_month
+    - annual_enterprise
+
+services:
+  - serviceCategory: Webhooks
+    serviceName: Svix Dispatch
+    skus:
+      - skuId: attempted_message
+        skuName: Attempted webhook message
+        pricingUnit: message
+        unitPrice: 0.0001
+        priceCurrency: USD
+        includedInPlan:
+          free: 50000
+          professional: 50000
+        notes: Retries and Svix-filtered messages do not count.
+  - serviceCategory: Subscription
+    serviceName: Plan Fee
+    skus:
+      - skuId: plan_free
+        skuName: Free plan
+        unitPrice: 0
+        pricingUnit: month
+        priceCurrency: USD
+      - skuId: plan_professional
+        skuName: Professional plan
+        unitPrice: 490
+        pricingUnit: month
+        priceCurrency: USD
+      - skuId: plan_enterprise
+        skuName: Enterprise plan
+        unitPrice: custom
+        pricingUnit: month
+        priceCurrency: USD
+
+allocation:
+  dimensions:
+    - name: application_id
+      description: Tag costs to the tenant/customer the messages were sent on behalf of.
+      source: api.applicationId
+    - name: event_type
+      description: Tag costs to the event type for product-team showback.
+      source: api.eventType
+    - name: tags
+      description: Tag costs to user-supplied tags on each message.
+      source: api.tags
+    - name: region
+      description: Tag costs to the region (us / eu / ca / au / in).
+      source: api.serverHost
+
+observability:
+  usageStatsApi:
+    - endpoint: /api/v1/stats/usage/app
+      description: Per-application message attempt counts over time.
+    - endpoint: /api/v1/stats/usage/event-types
+      description: Per-event-type message counts over time.
+    - endpoint: /api/v1/app/{app_id}/endpoint/{endpoint_id}/stats
+      description: Per-endpoint delivery success/failure counts.
+  exports:
+    - format: csv
+      access: dashboard
+      note: Usage reports available from dashboard.svix.com.
+
+practices:
+  showback:
+    - Tag every message with tenant/customer identifiers via Application.uid or message.tags.
+    - Use channels to segment by business line for multi-product platforms.
+  rightsizing:
+    - Use Application.throttleRate and Endpoint.throttleRate to cap noisy tenants.
+    - Disable inactive endpoints to avoid retry spend on broken URLs.
+  budgetGuardrails:
+    - Use operational webhooks to alert your own systems on endpoint failures.
+    - Use auto-disable (5-day failure window) to prevent unbounded retry spend.

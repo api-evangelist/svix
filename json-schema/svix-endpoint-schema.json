@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/svix/json-schema/endpoint.json",
+  "title": "Svix Endpoint",
+  "description": "A subscriber URL registered under a Svix Application. Receives signed webhook deliveries.",
+  "type": "object",
+  "required": ["id", "url", "description", "metadata", "version", "createdAt", "updatedAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ep_[A-Za-z0-9]{27}$",
+      "description": "Svix-assigned endpoint ID (prefixed KSUID)."
+    },
+    "uid": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "description": "Optional customer-supplied unique identifier."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "minLength": 1,
+      "maxLength": 65536,
+      "description": "HTTPS URL Svix POSTs webhook payloads to."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable endpoint name."
+    },
+    "disabled": { "type": "boolean", "default": false },
+    "filterTypes": {
+      "type": ["array", "null"],
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9\\-_.]+$",
+        "maxLength": 256
+      },
+      "description": "Event types this endpoint subscribes to (omit for all)."
+    },
+    "channels": {
+      "type": ["array", "null"],
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9\\-_.:]+$",
+        "maxLength": 128
+      },
+      "description": "Free-form channel filters."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "throttleRate": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "deprecated": true
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

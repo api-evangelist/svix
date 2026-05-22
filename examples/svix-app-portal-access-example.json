@@ -1,0 +1,25 @@
+{
+  "operation": "POST /api/v1/auth/app-portal-access/{app_id}",
+  "summary": "Get App Portal Access Url",
+  "description": "Mint a one-time URL the customer can use to access the Consumer App Portal (Svix-hosted UI where they manage their own endpoints, view attempts, replay events, etc.) — no separate auth surface needed.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.us.svix.com/api/v1/auth/app-portal-access/app_1srOrx2ZWZBpBUvZwXKQmoEYga2",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "expiry": 3600,
+      "featureFlags": [],
+      "readOnly": false
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "url": "https://app.svix.com/login#key=eyJhcHBJZCI6ImFwcF8xc3JPcngyWldaQnBCVXZad1hLUW1vRVlnYTIiLCJ0b2tlbiI6Inh4eHgifQ%3D%3D",
+      "token": "eyJhcHBJZCI6ImFwcF8xc3JPcngyWldaQnBCVXZad1hLUW1vRVlnYTIiLCJ0b2tlbiI6Inh4eHgifQ=="
+    }
+  }
+}

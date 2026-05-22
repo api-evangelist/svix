@@ -1,0 +1,98 @@
+apiCommonsPlansVersion: '0.1'
+provider:
+  id: svix
+  name: Svix
+  url: https://www.svix.com
+  pricingUrl: https://www.svix.com/pricing/
+  source: https://www.svix.com/pricing/
+  fetched: '2026-05-22'
+
+billingModel:
+  currency: USD
+  meteringUnit: attempted_message
+  meteringNote: |
+    "Only attempted messages are counted towards usage. Messages filtered by Svix
+    (e.g. when there are no sinks) and retries are both free."
+    — svix.com/pricing
+  contractCadences:
+    - monthly
+
+plans:
+  - id: free
+    name: Free
+    monthlyPrice:
+      amount: 0
+      currency: USD
+    includedUsage:
+      attemptedMessages:
+        amount: 50000
+        period: month
+    overage:
+      attemptedMessages:
+        unit: message
+        unitPrice: 0.0001
+    limits:
+      maxRatePerSecond: 200
+      payloadRetentionDays: 30
+    features:
+      - Hosted Consumer App Portal
+      - All SDKs (Python, JS, Go, Java, Kotlin, Ruby, C#, PHP, Rust)
+      - HMAC signing per Standard Webhooks
+      - Automatic retries with exponential backoff
+      - Replay APIs
+      - Multi-region (US / EU / CA / AU / IN)
+
+  - id: professional
+    name: Professional
+    monthlyPrice:
+      amount: 490
+      currency: USD
+    includedUsage:
+      attemptedMessages:
+        amount: 50000
+        period: month
+    overage:
+      attemptedMessages:
+        unit: message
+        unitPrice: 0.0001
+    limits:
+      maxRatePerSecond: 800
+      payloadRetentionDays: 90
+    features:
+      - Everything in Free
+      - Higher rate limits
+      - Longer payload retention
+
+  - id: enterprise
+    name: Enterprise
+    monthlyPrice:
+      amount: custom
+      currency: USD
+    includedUsage:
+      attemptedMessages:
+        amount: custom
+        period: month
+    limits:
+      maxRatePerSecond: custom
+      payloadRetentionDays: custom
+    features:
+      - OIDC / SAML SSO
+      - On-premises deployment
+      - Audit logs
+      - Advanced role-based access control
+      - Volume pricing
+      - Dedicated support / SLA
+
+addOns:
+  - id: svix-ingest
+    name: Svix Ingest
+    description: Inbound webhook receiving and verification. Priced separately — contact sales.
+  - id: svix-stream
+    name: Svix Stream
+    description: High-volume event streaming with pull-based consumption. Priced separately — contact sales.
+
+notes:
+  - quote: '"Only attempted messages are counted towards usage. Messages filtered by Svix (e.g. when there are no sinks) and retries are both free."'
+    source: https://www.svix.com/pricing/
+  - quote: '"Data persisted by the Svix service is encrypted at rest using 256-bit AES."'
+    source: https://www.svix.com/security/

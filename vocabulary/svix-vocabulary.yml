@@ -1,0 +1,139 @@
+name: Svix Vocabulary
+description: |
+  Operational and capability vocabulary for the Svix webhooks-as-a-service
+  platform. Captures core entities, lifecycle states, delivery semantics,
+  and the commercial surface so downstream tooling can normalize across
+  webhook providers.
+url: https://github.com/api-evangelist/svix/blob/main/vocabulary/svix-vocabulary.yml
+created: '2026-05-22'
+modified: '2026-05-22'
+
+entities:
+  - term: Application
+    definition: A multi-tenant container, typically one per customer of the Svix user, that holds endpoints, messages, integrations, and per-tenant throttle settings.
+    idPrefix: app_
+  - term: Endpoint
+    definition: A subscriber URL registered under an Application. Receives signed webhook deliveries optionally filtered by event type and channel.
+    idPrefix: ep_
+  - term: Message
+    definition: A webhook payload submitted by the platform user. Svix fans it out to every matching endpoint and tracks each delivery as a MessageAttempt.
+    idPrefix: msg_
+  - term: MessageAttempt
+    definition: A single delivery attempt for a Message against an Endpoint, capturing HTTP status, response body, duration, and the next scheduled retry.
+    idPrefix: atmpt_
+  - term: EventType
+    definition: A globally-registered event type name (e.g. invoice.paid) that endpoints subscribe to. Optionally carries versioned JSON Schemas.
+  - term: Integration
+    definition: A per-application API key surface used by external integrators that must call Svix on the application's behalf without full account credentials.
+  - term: OperationalWebhookEndpoint
+    definition: Svix delivering webhooks to the Svix user about their own Svix account events (delivery failures, app disablements, etc.).
+  - term: BackgroundTask
+    definition: A long-running operation handle for things like environment import/export or bulk replay.
+  - term: Stream
+    definition: A top-level Svix Stream tenant. Stream offers high-volume event fan-out with pull-based consumption alongside push webhooks.
+  - term: StreamSink
+    definition: A destination attached to a Stream — webhook URL, S3, Kafka, BigQuery, etc.
+  - term: IngestSource
+    definition: A Svix-hosted receiving URL that accepts inbound webhooks from third-party providers and forwards them.
+  - term: Connector
+    definition: A reusable integration template (Stripe, Slack, etc.) the user can attach to an application.
+
+states:
+  attemptStatus:
+    - { value: 0, name: Success }
+    - { value: 1, name: Pending }
+    - { value: 2, name: Failed }
+    - { value: 3, name: Sending }
+  triggerType:
+    - { value: 0, name: Scheduled }
+    - { value: 1, name: Manual }
+    - { value: 2, name: Replay }
+  backgroundTaskStatus:
+    - { value: running, name: Running }
+    - { value: finished, name: Finished }
+    - { value: failed, name: Failed }
+
+deliverySemantics:
+  - term: Retries
+    definition: Svix automatically retries failed deliveries on an exponential backoff schedule.
+  - term: Idempotency
+    definition: POST requests accept an Idempotency-Key header; Svix caches the result for 12 hours.
+  - term: Signing
+    definition: Each Endpoint has a base64 signing secret. Deliveries are signed per the Standard Webhooks specification.
+  - term: Throttling
+    definition: throttleRate caps outgoing messages per second per Application or per Endpoint.
+  - term: Transformations
+    definition: JavaScript transformations applied to message payloads before delivery (per Endpoint or Sink).
+  - term: Replay
+    definition: Manual or window-based redelivery of past messages (replay-missing, bulk-replay).
+
+commercialSurface:
+  plans:
+    - name: Free
+      monthlyMessages: 50000
+      overagePerMessage: 0.0001
+      maxRatePerSec: 200
+      retentionDays: 30
+    - name: Professional
+      monthlyPrice: 490
+      monthlyMessages: 50000
+      overagePerMessage: 0.0001
+      maxRatePerSec: 800
+      retentionDays: 90
+    - name: Enterprise
+      pricing: custom
+      features:
+        - SSO via OIDC / SAML
+        - on-premises deployment
+        - audit logs
+        - advanced RBAC
+  regions:
+    - us
+    - eu
+    - ca
+    - au
+    - in
+  compliance:
+    - SOC 2 Type II
+    - HIPAA attestation
+    - PCI-DSS attestation
+    - GDPR
+    - CCPA
+    - PIPEDA
+
+ecosystem:
+  sdks:
+    - Python
+    - JavaScript
+    - Go
+    - Java
+    - Kotlin
+    - Ruby
+    - C#
+    - PHP
+    - Rust
+  cli: Svix CLI (Go)
+  terraform: terraform-provider-svix
+  integrations:
+    - Zapier
+    - ngrok
+  openSourceServer: svix/svix-webhooks (MIT)
+  standardWebhooks: Svix is the primary author of the Standard Webhooks specification.
+
+tags:
+  - Webhooks
+  - Webhook Sending
+  - Webhook Receiving
+  - Event Driven
+  - Eventing
+  - Streaming
+  - Ingest
+  - Reliability
+  - Retries
+  - Signing
+  - HMAC
+  - Standard Webhooks
+  - Multi Tenant
+  - Multi Region
+  - Enterprise
+  - SaaS

@@ -1,0 +1,80 @@
+apiCommonsRateLimitsVersion: '0.1'
+provider:
+  id: svix
+  name: Svix
+  url: https://www.svix.com
+  source:
+    - https://www.svix.com/pricing/
+    - https://docs.svix.com/throttling
+  fetched: '2026-05-22'
+
+policies:
+  - id: free-plan-message-rate
+    description: Free-tier delivery rate cap.
+    scope: account
+    plan: free
+    metric: outbound_messages_per_second
+    limit: 200
+    window: 1s
+    enforcement: throttle
+
+  - id: professional-plan-message-rate
+    description: Professional-tier delivery rate cap.
+    scope: account
+    plan: professional
+    metric: outbound_messages_per_second
+    limit: 800
+    window: 1s
+    enforcement: throttle
+
+  - id: enterprise-plan-message-rate
+    description: Enterprise-tier delivery rate cap (custom; sized per contract).
+    scope: account
+    plan: enterprise
+    metric: outbound_messages_per_second
+    limit: custom
+    enforcement: throttle
+
+  - id: per-application-throttle
+    description: Per-application send rate (configurable via Application.throttleRate).
+    scope: application
+    metric: outbound_messages_per_second
+    limit: configurable
+    field: throttleRate
+    enforcement: throttle
+
+  - id: per-endpoint-throttle
+    description: Per-endpoint send rate (configurable via Endpoint.throttleRate).
+    scope: endpoint
+    metric: outbound_messages_per_second
+    limit: configurable
+    field: throttleRate
+    enforcement: throttle
+
+  - id: api-request-rate-limit-header
+    description: |
+      Svix returns HTTP 429 with Retry-After when API request rate is exceeded.
+      Specific per-endpoint limits are not publicly published; contact support
+      for high-volume use cases.
+    scope: account
+    metric: api_requests
+    response: 429
+    enforcement: reject
+    retryAfterHeader: true
+
+  - id: idempotency-window
+    description: |
+      Idempotency-Key responses are cached for 12 hours.
+    scope: request
+    metric: idempotency_cache_ttl
+    limit: 43200
+    window: 12h
+
+  - id: endpoint-disable-on-failure
+    description: |
+      Endpoints that fail continuously for ~5 days are disabled automatically;
+      the customer is notified via operational webhook.
+    scope: endpoint
+    metric: consecutive_failure_days
+    limit: 5
+    enforcement: disable

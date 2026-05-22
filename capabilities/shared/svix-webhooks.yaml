@@ -1,0 +1,93 @@
+apiVersion: capabilities.naftiko.dev/v1
+kind: Capability
+metadata:
+  name: svix-webhooks
+  title: Svix Webhooks API
+  description: |
+    Shared per-API capability covering the Svix hosted webhooks surface — apps,
+    endpoints, event types, messages, attempts, and operational webhooks. Backed
+    by the v1.84.0 OpenAPI at api.svix.com.
+  tags:
+    - Webhooks
+    - Webhook Sending
+    - Event Driven
+    - Reliability
+spec:
+  provider: svix
+  baseUrl: https://api.us.svix.com
+  authentication:
+    type: bearer
+    description: HTTP Bearer using Svix-issued API token from dashboard.svix.com.
+  openapi: ../../openapi/svix-openapi.json
+  resources:
+    - name: applications
+      description: Multi-tenant containers; usually one per customer.
+      operations:
+        - listApplications
+        - createApplication
+        - getApplication
+        - updateApplication
+        - patchApplication
+        - deleteApplication
+    - name: endpoints
+      description: Subscriber URLs registered under an application.
+      operations:
+        - listEndpoints
+        - createEndpoint
+        - getEndpoint
+        - updateEndpoint
+        - patchEndpoint
+        - deleteEndpoint
+        - rotateEndpointSecret
+        - sendExampleEvent
+        - getEndpointStats
+        - replayMissingMessages
+        - bulkReplayEvents
+    - name: messages
+      description: Webhook payloads sent to an application's endpoints.
+      operations:
+        - listMessages
+        - createMessage
+        - getMessage
+        - expungeMessagePayload
+        - expungeAllMessagePayloads
+    - name: messageAttempts
+      description: Delivery history with status, response, and next retry.
+      operations:
+        - listAttemptsForMessage
+        - listAttemptsForEndpoint
+        - getAttempt
+        - resendMessageToEndpoint
+    - name: eventTypes
+      description: Global registry of event types with optional JSON Schema.
+      operations:
+        - listEventTypes
+        - createEventType
+        - getEventType
+        - updateEventType
+        - patchEventType
+        - deleteEventType
+        - importEventTypesFromOpenapi
+    - name: authentication
+      description: Mint Consumer App Portal access tokens; revoke session tokens.
+      operations:
+        - getAppPortalAccess
+        - expireAllAppTokens
+        - logout
+    - name: operationalWebhooks
+      description: Svix tells you about your own Svix account (delivery failures, etc.).
+      operations:
+        - listOperationalEndpoints
+        - createOperationalEndpoint
+        - rotateOperationalEndpointSecret
+    - name: backgroundTasks
+      description: Long-running operations (imports, exports, bulk replays).
+      operations:
+        - listBackgroundTasks
+        - getBackgroundTask
+    - name: statistics
+      description: Per-app and per-event-type usage statistics.
+      operations:
+        - getAppUsageStats
+        - getEventTypeUsageStats
+        - getAttemptStatistics

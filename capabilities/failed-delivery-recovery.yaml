@@ -1,0 +1,44 @@
+apiVersion: capabilities.naftiko.dev/v1
+kind: Workflow
+metadata:
+  name: failed-delivery-recovery
+  title: Recover Failed Webhook Deliveries
+  description: |
+    Composition for diagnosing and recovering a customer endpoint that has been
+    failing: pull the recent attempt history, identify the failure window, then
+    issue a replay-missing for that window. Optionally rotate the endpoint's
+    signing secret if compromise is suspected.
+  tags:
+    - Operations
+    - Reliability
+    - Recovery
+spec:
+  provider: svix
+  steps:
+    - id: list-recent-attempts
+      capability: svix-webhooks
+      operation: listAttemptsForEndpoint
+      input:
+        appId: "${input.appId}"
+        endpointId: "${input.endpointId}"
+        status: 1
+        limit: 100
+    - id: replay-window
+      capability: svix-webhooks
+      operation: replayMissingMessages
+      when: "${steps.list-recent-attempts.output.data.length > 0}"
+      input:
+        appId: "${input.appId}"
+        endpointId: "${input.endpointId}"
+        since: "${input.since}"
+    - id: rotate-secret
+      capability: svix-webhooks
+      operation: rotateEndpointSecret
+      when: "${input.suspectCompromise == true}"
+      input:
+        appId: "${input.appId}"
+        endpointId: "${input.endpointId}"
+  outputs:
+    failedAttemptCount: "${steps.list-recent-attempts.output.data.length}"
+    replayBackgroundTaskId: "${steps.replay-window.output.id}"
+    secretRotated: "${steps.rotate-secret.executed}"

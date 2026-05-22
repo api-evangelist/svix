@@ -1,0 +1,51 @@
+{
+  "operation": "POST /api/v1/app/{app_id}/endpoint",
+  "summary": "Create Endpoint",
+  "description": "Register a subscriber URL that will receive webhooks for an application, optionally filtered by event type and channel.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.us.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/endpoint",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "url": "https://customer.example.com/webhooks/svix",
+      "description": "Production webhook endpoint for Acme",
+      "filterTypes": [
+        "invoice.paid",
+        "invoice.failed",
+        "user.signup"
+      ],
+      "channels": [
+        "project_123"
+      ],
+      "metadata": {
+        "owner": "billing-team"
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "ep_2srOrx2ZWZBpBUvZwXKQmoEYga2",
+      "url": "https://customer.example.com/webhooks/svix",
+      "description": "Production webhook endpoint for Acme",
+      "disabled": false,
+      "filterTypes": [
+        "invoice.paid",
+        "invoice.failed",
+        "user.signup"
+      ],
+      "channels": [
+        "project_123"
+      ],
+      "metadata": {
+        "owner": "billing-team"
+      },
+      "version": 1,
+      "createdAt": "2026-05-22T15:31:00Z",
+      "updatedAt": "2026-05-22T15:31:00Z"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/svix/json-schema/message.json",
+  "title": "Svix Message",
+  "description": "A webhook message sent to a Svix Application. Svix fans the message out to every matching endpoint and tracks each delivery as a Message Attempt.",
+  "type": "object",
+  "required": ["id", "eventType", "payload", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^msg_[A-Za-z0-9]{27}$",
+      "description": "Svix-assigned message ID."
+    },
+    "eventId": {
+      "type": ["string", "null"],
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "description": "Optional client-supplied identifier."
+    },
+    "eventType": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9\\-_.]+$",
+      "maxLength": 256,
+      "description": "Name of the event type, used for endpoint filtering."
+    },
+    "payload": {
+      "type": "object",
+      "description": "JSON body delivered to subscriber endpoints."
+    },
+    "channels": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9\\-_.:]+$",
+        "maxLength": 128
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "maxItems": 10
+    },
+    "tags": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9\\-_./\\\\#]+$",
+        "maxLength": 128
+      },
+      "uniqueItems": true
+    },
+    "deliverAt": { "type": ["string", "null"], "format": "date-time" },
+    "timestamp": { "type": "string", "format": "date-time" }
+  }
+}

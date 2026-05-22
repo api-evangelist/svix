@@ -1,0 +1,280 @@
+name: Svix
+description: |
+  Svix is an enterprise webhooks-as-a-service platform on the sending side of the
+  webhook market. It provides a single API for delivering reliable, secure, low-latency
+  webhooks at scale, with hosted UIs (Consumer App Portal), a polyglot SDK pipeline,
+  an open source server, and adjacent products for streaming (Stream) and webhook
+  ingestion (Ingest). Hosted offering is multi-region (US, EU, CA, AU, IN) with
+  SOC 2 Type II, HIPAA, PCI-DSS attestations.
+url: https://github.com/api-evangelist/svix
+humanURL: https://www.svix.com
+baseURL: https://api.svix.com
+image: https://www.svix.com/static/img/brand-padded.svg
+created: '2026-05-22'
+modified: '2026-05-22'
+specificationVersion: '0.20'
+type: Index
+aid: svix
+tags:
+  - Webhooks
+  - Webhooks As A Service
+  - Webhook Delivery
+  - Webhook Sending
+  - Event Driven
+  - Eventing
+  - Messaging
+  - Pub Sub
+  - Streaming
+  - Ingest
+  - Integration
+  - Reliability
+  - Retries
+  - Deliverability
+  - Signing
+  - Verification
+  - HMAC
+  - Standard Webhooks
+  - Multi Tenant
+  - Multi Region
+  - Enterprise
+  - SaaS
+  - Developer Platform
+  - API
+  - REST
+  - SOC 2
+  - HIPAA
+  - PCI DSS
+  - GDPR
+  - Open Source
+  - Rust
+  - Polyglot SDK
+  - Terraform
+  - CLI
+
+apis:
+  - name: Svix Webhooks API
+    description: |
+      The hosted Svix API for sending webhooks to your customers' endpoints. Covers
+      applications (tenants), endpoints (subscriber URLs), event types, messages
+      (webhook payloads), message attempts (delivery history), integrations
+      (per-application API keys), and the authentication endpoints used to mint
+      Consumer App Portal access tokens. Also includes operational webhooks (Svix
+      telling you about your own Svix account), statistics, environment
+      import/export, background tasks, and connectors.
+    humanURL: https://api.svix.com/docs
+    baseURL: https://api.svix.com
+    aid: svix:webhooks-api
+    tags:
+      - Webhooks
+      - Webhook Sending
+      - Applications
+      - Endpoints
+      - Messages
+      - Message Attempts
+      - Event Types
+      - Integrations
+      - Operational Webhooks
+      - Background Tasks
+      - Statistics
+      - Connectors
+      - Environments
+    properties:
+      - type: OpenAPI
+        url: openapi/svix-openapi.json
+      - type: Documentation
+        url: https://docs.svix.com
+      - type: APIReference
+        url: https://api.svix.com/docs
+      - type: Authentication
+        url: https://docs.svix.com/api-keys
+      - type: Errors
+        url: https://docs.svix.com/retries
+      - type: RateLimits
+        url: rate-limits/svix-rate-limits.yml
+
+  - name: Svix Ingest API
+    description: |
+      The receiving-side surface of Svix. Ingest sources are URLs that accept
+      incoming webhooks from third parties (Stripe, GitHub, Shopify, etc.), apply
+      verification, transformations, and forward them to your endpoints. Same
+      Bearer token, same multi-region hosts, exposed under the /ingest/api/v1/
+      prefix of the same hosted OpenAPI.
+    humanURL: https://api.svix.com/docs
+    baseURL: https://api.svix.com
+    aid: svix:ingest-api
+    tags:
+      - Ingest
+      - Webhook Receiving
+      - Sources
+      - Verification
+      - Transformation
+      - Inbound Webhooks
+    properties:
+      - type: OpenAPI
+        url: openapi/svix-openapi.json
+      - type: Documentation
+        url: https://www.svix.com/ingest/
+      - type: APIReference
+        url: https://api.svix.com/docs
+
+  - name: Svix Stream API
+    description: |
+      Svix Stream is event streaming for product telemetry — sinks, events, and
+      pollers exposed under /api/v1/stream/. Provides the same delivery-reliability
+      semantics as webhooks but designed for high-volume event fan-out and pull-based
+      consumption.
+    humanURL: https://www.svix.com/stream/
+    baseURL: https://api.svix.com
+    aid: svix:stream-api
+    tags:
+      - Streaming
+      - Event Stream
+      - Sinks
+      - Pollers
+      - Telemetry
+    properties:
+      - type: OpenAPI
+        url: openapi/svix-openapi.json
+      - type: Documentation
+        url: https://www.svix.com/stream/
+
+  - name: Svix Open Source Server API
+    description: |
+      The self-hostable open source Svix server (svix-webhooks repo). Smaller surface
+      area than the hosted product (no Stream, no Ingest, no Connectors, no
+      Background Tasks, no multi-region) — 29 paths, 46 operations in v1.1.1 — but
+      API-compatible with the hosted product for the core webhook-sending workflow.
+    humanURL: https://github.com/svix/svix-webhooks
+    baseURL: http://localhost:8071
+    aid: svix:open-source-server
+    tags:
+      - Open Source
+      - Self Hosted
+      - Webhook Sending
+      - Rust
+      - MIT License
+    properties:
+      - type: GitHubRepository
+        url: https://github.com/svix/svix-webhooks
+      - type: Documentation
+        url: https://docs.svix.com/
+
+common:
+  - type: Portal
+    url: https://www.svix.com
+  - type: DeveloperPortal
+    url: https://dashboard.svix.com
+  - type: Documentation
+    url: https://docs.svix.com
+  - type: APIReference
+    url: https://api.svix.com/docs
+  - type: GettingStarted
+    url: https://docs.svix.com/quickstart
+  - type: Quickstart
+    url: https://docs.svix.com/quickstart
+  - type: Tutorials
+    url: https://docs.svix.com/tutorials
+  - type: SignUp
+    url: https://dashboard.svix.com
+  - type: Login
+    url: https://dashboard.svix.com
+  - type: Pricing
+    url: https://www.svix.com/pricing/
+  - type: Plans
+    url: plans/svix-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/svix-rate-limits.yml
+  - type: FinOps
+    url: finops/svix-finops.yml
+  - type: Regions
+    url: https://docs.svix.com/multi-region
+  - type: Authentication
+    url: https://docs.svix.com/api-keys
+  - type: Security
+    url: https://www.svix.com/security/
+  - type: Compliance
+    url: https://www.svix.com/security/
+  - type: TrustCenter
+    url: https://www.svix.com/security/
+  - type: TermsOfService
+    url: https://www.svix.com/terms/
+  - type: PrivacyPolicy
+    url: https://www.svix.com/privacy/
+  - type: StatusPage
+    url: https://status.svix.com
+  - type: Blog
+    url: https://www.svix.com/blog/
+  - type: ChangeLog
+    url: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+  - type: ReleaseNotes
+    url: https://github.com/svix/svix-webhooks/releases
+  - type: Support
+    url: mailto:support@svix.com
+  - type: Contact
+    url: https://www.svix.com/contact/
+  - type: GitHubOrganization
+    url: https://github.com/svix
+  - type: GitHubRepository
+    url: https://github.com/svix/svix-webhooks
+  - type: Console
+    url: https://dashboard.svix.com
+  - type: Sandbox
+    url: https://play.svix.com
+  - type: CLI
+    name: Svix CLI
+    url: https://github.com/svix/svix-webhooks/tree/main/svix-cli
+  - type: SDK
+    name: Python SDK
+    url: https://pypi.org/project/svix/
+  - type: SDK
+    name: JavaScript / TypeScript SDK
+    url: https://www.npmjs.com/package/svix
+  - type: SDK
+    name: Go SDK
+    url: https://github.com/svix/svix-webhooks/tree/main/go
+  - type: SDK
+    name: Java SDK
+    url: https://central.sonatype.com/artifact/com.svix/svix
+  - type: SDK
+    name: Kotlin SDK
+    url: https://github.com/svix/svix-webhooks/tree/main/kotlin
+  - type: SDK
+    name: Ruby SDK
+    url: https://rubygems.org/gems/svix
+  - type: SDK
+    name: C# / .NET SDK
+    url: https://www.nuget.org/packages/Svix
+  - type: SDK
+    name: PHP SDK
+    url: https://packagist.org/packages/svix/svix
+  - type: SDK
+    name: Rust SDK
+    url: https://crates.io/crates/svix
+  - type: Integrations
+    name: Terraform Provider
+    url: https://github.com/svix/terraform-provider-svix
+  - type: Integrations
+    name: Zapier
+    url: https://docs.svix.com/integrations/zapier
+  - type: Integrations
+    name: ngrok
+    url: https://docs.svix.com/integrations/ngrok
+  - type: X
+    url: https://twitter.com/SvixHQ
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/svix
+  - type: Capabilities
+    url: capabilities/
+  - type: Rules
+    url: rules/svix-rules.yml
+  - type: JSONSchema
+    url: json-schema/
+  - type: JSONLD
+    url: json-ld/svix-context.jsonld
+  - type: Vocabulary
+    url: vocabulary/svix-vocabulary.yml
+
+maintainers:
+  - FN: Kin Lane
+    url: https://apievangelist.com
+    email: info@apievangelist.com

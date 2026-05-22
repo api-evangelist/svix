@@ -1,0 +1,52 @@
+{
+  "operation": "POST /api/v1/event-type",
+  "summary": "Create Event Type",
+  "description": "Define a new event type that endpoints can subscribe to. Optionally include a JSON Schema describing the payload for versioned schemas.",
+  "request": {
+    "method": "POST",
+    "url": "https://api.us.svix.com/api/v1/event-type",
+    "headers": {
+      "Authorization": "Bearer testsk_xxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "invoice.paid",
+      "description": "An invoice was paid by a customer.",
+      "groupName": "invoice",
+      "schemas": {
+        "1": {
+          "title": "Invoice Paid Event",
+          "type": "object",
+          "required": ["invoiceId", "userId"],
+          "properties": {
+            "invoiceId": { "type": "string", "description": "The invoice id" },
+            "userId": { "type": "string", "description": "The user id" }
+          }
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "name": "invoice.paid",
+      "description": "An invoice was paid by a customer.",
+      "groupName": "invoice",
+      "archived": false,
+      "deprecated": false,
+      "schemas": {
+        "1": {
+          "title": "Invoice Paid Event",
+          "type": "object",
+          "required": ["invoiceId", "userId"],
+          "properties": {
+            "invoiceId": { "type": "string", "description": "The invoice id" },
+            "userId": { "type": "string", "description": "The user id" }
+          }
+        }
+      },
+      "createdAt": "2026-05-22T15:33:00Z",
+      "updatedAt": "2026-05-22T15:33:00Z"
+    }
+  }
+}
