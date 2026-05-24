@@ -274,6 +274,8 @@ common:
   - type: Vocabulary
     url: vocabulary/svix-vocabulary.yml
 
+  - type: LLMsTxt
+    url: https://docs.svix.com/llms.txt
 maintainers:
   - FN: Kin Lane
     url: https://apievangelist.com
