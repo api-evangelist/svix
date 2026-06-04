@@ -1,0 +1,60 @@
+arazzo: 1.0.1
+info:
+  title: Svix Rotate Ingest Source Token
+  summary: Rotate an ingest source's token and return its refreshed ingest URL.
+  description: >-
+    An ingest source's token is embedded in its ingest URL, so rotating the
+    token changes the URL that upstream providers post to. This workflow
+    confirms the ingest source exists, rotates its token, and returns the new
+    ingest URL so the upstream provider can be updated. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: rotate-ingest-source-token
+  summary: Rotate an ingest source token and return the refreshed ingest URL.
+  description: >-
+    Verifies the ingest source, rotates its token, and returns the new ingest
+    URL produced by the rotation.
+  inputs:
+    type: object
+    required:
+    - sourceId
+    properties:
+      sourceId:
+        type: string
+        description: The id or uid of the ingest source whose token is rotated.
+  steps:
+  - stepId: getSource
+    description: >-
+      Confirm the ingest source exists before rotating its token. Returns 200
+      with the source object.
+    operationId: v1.ingest.source.get
+    parameters:
+    - name: source_id
+      in: path
+      value: $inputs.sourceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sourceId: $response.body#/id
+  - stepId: rotateToken
+    description: >-
+      Rotate the ingest source token, producing a new ingest URL. Returns 200
+      with the refreshed ingest URL.
+    operationId: v1.ingest.source.rotate-token
+    parameters:
+    - name: source_id
+      in: path
+      value: $steps.getSource.outputs.sourceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ingestUrl: $response.body#/ingestUrl
+  outputs:
+    sourceId: $steps.getSource.outputs.sourceId
+    ingestUrl: $steps.rotateToken.outputs.ingestUrl

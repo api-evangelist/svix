@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: Svix Register Event Type and Send Example
+  summary: Create an event type, subscribe an endpoint to it, and send the event type's example message.
+  description: >-
+    Event types are the schema-bearing catalog entries that drive Svix
+    delivery. This workflow registers a new event type, creates an endpoint
+    that filters on it for an existing application, and then asks Svix to send
+    the event type's built-in example payload to that endpoint so the
+    integration can be verified end to end. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: register-event-type-and-send
+  summary: Define an event type, subscribe an endpoint, and deliver its example message.
+  description: >-
+    Creates an event type with a description, registers an endpoint on the
+    given application filtered to that event type, and triggers an example
+    message of the event type to confirm delivery.
+  inputs:
+    type: object
+    required:
+    - appId
+    - eventTypeName
+    - eventTypeDescription
+    - endpointUrl
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application to attach the endpoint to.
+      eventTypeName:
+        type: string
+        description: The unique event type name (e.g. "invoice.paid").
+      eventTypeDescription:
+        type: string
+        description: Human readable description of the event type.
+      endpointUrl:
+        type: string
+        description: The HTTPS URL the endpoint delivers events to.
+  steps:
+  - stepId: createEventType
+    description: >-
+      Register the event type in the environment catalog. Svix returns 201 with
+      the new event type object.
+    operationId: v1.event-type.create
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.eventTypeName
+        description: $inputs.eventTypeDescription
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      eventTypeName: $response.body#/name
+  - stepId: createEndpoint
+    description: >-
+      Create an endpoint on the application that filters on the new event type.
+      Returns 201 with the endpoint object.
+    operationId: v1.endpoint.create
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.endpointUrl
+        filterTypes:
+        - $steps.createEventType.outputs.eventTypeName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: sendExample
+    description: >-
+      Ask Svix to deliver the event type's built-in example payload to the
+      endpoint to verify the subscription. Returns 202 with the message object.
+    operationId: v1.endpoint.send-example
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $steps.createEndpoint.outputs.endpointId
+    requestBody:
+      contentType: application/json
+      payload:
+        eventType: $steps.createEventType.outputs.eventTypeName
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      messageId: $response.body#/id
+  outputs:
+    eventTypeName: $steps.createEventType.outputs.eventTypeName
+    endpointId: $steps.createEndpoint.outputs.endpointId
+    messageId: $steps.sendExample.outputs.messageId

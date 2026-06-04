@@ -1,0 +1,105 @@
+arazzo: 1.0.1
+info:
+  title: Svix Send Message and Confirm Delivery
+  summary: Send a message to an existing application and poll its attempts until delivery succeeds.
+  description: >-
+    A delivery-confirmation flow for an application that already has endpoints
+    configured. The workflow publishes a message, fetches it back to confirm it
+    was accepted, and then polls the message's delivery attempts until a
+    successful attempt is recorded. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: send-message-and-confirm-delivery
+  summary: Publish a message and poll its attempts until a successful delivery is seen.
+  description: >-
+    Sends a message to the application, confirms the message exists, then polls
+    the attempts filtered to the succeeded status, retrying until one appears.
+  inputs:
+    type: object
+    required:
+    - appId
+    - eventType
+    - payload
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application to publish to.
+      eventType:
+        type: string
+        description: The event type name of the message.
+      payload:
+        type: object
+        description: The JSON payload to deliver to subscribers.
+  steps:
+  - stepId: sendMessage
+    description: >-
+      Publish the message to the application for fan-out. Returns 202 Accepted
+      with the message object.
+    operationId: v1.message.create
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    requestBody:
+      contentType: application/json
+      payload:
+        eventType: $inputs.eventType
+        payload: $inputs.payload
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      messageId: $response.body#/id
+  - stepId: getMessage
+    description: >-
+      Fetch the message back to confirm Svix accepted and stored it. Returns 200
+      with the message object.
+    operationId: v1.message.get
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: msg_id
+      in: path
+      value: $steps.sendMessage.outputs.messageId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      eventType: $response.body#/eventType
+  - stepId: pollSuccess
+    description: >-
+      Poll the message's attempts filtered to the succeeded status, retrying
+      until at least one successful delivery is recorded. Returns 200.
+    operationId: v1.message-attempt.list-by-msg
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: msg_id
+      in: path
+      value: $steps.sendMessage.outputs.messageId
+    - name: status
+      in: query
+      value: 0
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.length > 0
+      type: jsonpath
+    onFailure:
+    - name: retryPoll
+      type: retry
+      retryAfter: 3
+      retryLimit: 10
+      criteria:
+      - condition: $statusCode == 200
+    outputs:
+      succeededAttempts: $response.body#/data
+  outputs:
+    messageId: $steps.sendMessage.outputs.messageId
+    succeededAttempts: $steps.pollSuccess.outputs.succeededAttempts

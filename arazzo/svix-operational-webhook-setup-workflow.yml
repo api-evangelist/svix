@@ -1,0 +1,66 @@
+arazzo: 1.0.1
+info:
+  title: Svix Set Up Operational Webhook Endpoint
+  summary: Register an operational webhook endpoint and retrieve its signing secret.
+  description: >-
+    Operational webhooks notify your own systems about Svix-internal events such
+    as message delivery failures and endpoint disabling. This workflow registers
+    an operational webhook endpoint filtered to the events you care about and
+    then reads its signing secret so your receiver can verify the payloads.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: operational-webhook-setup
+  summary: Create an operational webhook endpoint and return its signing secret.
+  description: >-
+    Creates an operational webhook endpoint subscribed to the given filter
+    types and reads its signing secret for payload verification.
+  inputs:
+    type: object
+    required:
+    - endpointUrl
+    - filterType
+    properties:
+      endpointUrl:
+        type: string
+        description: The HTTPS URL operational events are delivered to.
+      filterType:
+        type: string
+        description: The operational event type to subscribe to (e.g. "message.attempt.failing").
+  steps:
+  - stepId: createEndpoint
+    description: >-
+      Register the operational webhook endpoint subscribed to the filter type.
+      Returns 201 with the endpoint object.
+    operationId: v1.operational-webhook.endpoint.create
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.endpointUrl
+        filterTypes:
+        - $inputs.filterType
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: getSecret
+    description: >-
+      Read the operational webhook endpoint's signing secret so the receiver can
+      verify payloads. Returns 200 with the secret key.
+    operationId: v1.operational-webhook.endpoint.get-secret
+    parameters:
+    - name: endpoint_id
+      in: path
+      value: $steps.createEndpoint.outputs.endpointId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      secret: $response.body#/key
+  outputs:
+    endpointId: $steps.createEndpoint.outputs.endpointId
+    secret: $steps.getSecret.outputs.secret

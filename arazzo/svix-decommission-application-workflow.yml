@@ -1,0 +1,88 @@
+arazzo: 1.0.1
+info:
+  title: Svix Decommission an Application
+  summary: List an application's endpoints, branch on whether one exists, delete it, then delete the application.
+  description: >-
+    Cleanly tearing down a tenant in Svix means removing its endpoints before
+    removing the application. This workflow lists the application's endpoints,
+    branches on whether any endpoint is present, deletes the first endpoint when
+    one exists, and then deletes the application itself. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: decommission-application
+  summary: Remove an application's endpoint and then delete the application.
+  description: >-
+    Lists the application's endpoints, and when at least one exists deletes the
+    first endpoint, then deletes the application in all cases.
+  inputs:
+    type: object
+    required:
+    - appId
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application to decommission.
+  steps:
+  - stepId: listEndpoints
+    description: >-
+      List the application's endpoints to find any that must be removed first.
+      Returns 200 with a paged endpoint list.
+    operationId: v1.endpoint.list
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      endpointId: $response.body#/data/0/id
+    onSuccess:
+    - name: hasEndpoint
+      type: goto
+      stepId: deleteEndpoint
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noEndpoint
+      type: goto
+      stepId: deleteApplication
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: deleteEndpoint
+    description: >-
+      Delete the first endpoint found on the application. Returns 204 No Content.
+    operationId: v1.endpoint.delete
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $steps.listEndpoints.outputs.endpointId
+    successCriteria:
+    - condition: $statusCode == 204
+  - stepId: deleteApplication
+    description: >-
+      Delete the application itself once its endpoint has been removed. Returns
+      204 No Content.
+    operationId: v1.application.delete
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    successCriteria:
+    - condition: $statusCode == 204
+  outputs:
+    deletedEndpointId: $steps.listEndpoints.outputs.endpointId

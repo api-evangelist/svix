@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: Svix Create Ingest Source and Endpoint
+  summary: Create an ingest source, attach an ingest endpoint, and read back the source's ingest URL.
+  description: >-
+    Svix Ingest receives webhooks from upstream providers and forwards them to
+    your endpoints. This workflow creates a generic-webhook ingest source,
+    attaches an ingest endpoint that forwards received events, and reads the
+    source back to surface its ingest URL so the upstream provider can be
+    pointed at it. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: ingest-source-and-endpoint
+  summary: Stand up an ingest source with a forwarding endpoint and return its ingest URL.
+  description: >-
+    Creates a generic-webhook ingest source, attaches a forwarding ingest
+    endpoint, and fetches the source to return its ingest URL.
+  inputs:
+    type: object
+    required:
+    - sourceName
+    - endpointUrl
+    properties:
+      sourceName:
+        type: string
+        description: Human readable name for the ingest source.
+      sourceUid:
+        type: string
+        description: Optional unique identifier for the ingest source.
+      endpointUrl:
+        type: string
+        description: The HTTPS URL received events are forwarded to.
+  steps:
+  - stepId: createSource
+    description: >-
+      Create a generic-webhook ingest source to receive upstream webhooks.
+      Returns 201 with the source object.
+    operationId: v1.ingest.source.create
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.sourceName
+        uid: $inputs.sourceUid
+        type: generic-webhook
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      sourceId: $response.body#/id
+  - stepId: createEndpoint
+    description: >-
+      Attach an ingest endpoint to the source that forwards received events.
+      Returns 201 with the endpoint object.
+    operationId: v1.ingest.endpoint.create
+    parameters:
+    - name: source_id
+      in: path
+      value: $steps.createSource.outputs.sourceId
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.endpointUrl
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: getSource
+    description: >-
+      Read the source back to surface its ingest URL for the upstream provider.
+      Returns 200 with the source object.
+    operationId: v1.ingest.source.get
+    parameters:
+    - name: source_id
+      in: path
+      value: $steps.createSource.outputs.sourceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      ingestUrl: $response.body#/ingestUrl
+  outputs:
+    sourceId: $steps.createSource.outputs.sourceId
+    endpointId: $steps.createEndpoint.outputs.endpointId
+    ingestUrl: $steps.getSource.outputs.ingestUrl

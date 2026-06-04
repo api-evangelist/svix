@@ -1,0 +1,120 @@
+arazzo: 1.0.1
+info:
+  title: Svix Provision Application and Send First Message
+  summary: Create an application, register a webhook endpoint, send a message, and inspect the delivery attempts.
+  description: >-
+    The canonical Svix onboarding flow. The workflow creates a new
+    application to act as a tenant, registers a webhook endpoint that will
+    receive events for that application, sends a first message to fan it out to
+    the endpoint, and then lists the delivery attempts for that message so the
+    caller can confirm the webhook fired. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: provision-and-send-message
+  summary: Stand up an application with an endpoint and deliver a first webhook message.
+  description: >-
+    Creates an application, attaches a webhook endpoint subscribed to the given
+    event type, publishes a message of that event type, and then lists the
+    delivery attempts recorded for the message.
+  inputs:
+    type: object
+    required:
+    - applicationName
+    - endpointUrl
+    - eventType
+    - payload
+    properties:
+      applicationName:
+        type: string
+        description: Human readable name for the new application (tenant).
+      applicationUid:
+        type: string
+        description: Optional unique identifier for the application.
+      endpointUrl:
+        type: string
+        description: The HTTPS URL the webhook endpoint will deliver events to.
+      eventType:
+        type: string
+        description: The event type name the endpoint subscribes to and the message uses.
+      payload:
+        type: object
+        description: The JSON payload delivered to subscribers for this message.
+  steps:
+  - stepId: createApplication
+    description: >-
+      Create the application that owns the endpoint and messages. Svix returns
+      either 200 or 201 with the new application object.
+    operationId: v1.application.create
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.applicationName
+        uid: $inputs.applicationUid
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      applicationId: $response.body#/id
+  - stepId: createEndpoint
+    description: >-
+      Register a webhook endpoint on the application, subscribed to the supplied
+      event type. Svix returns 201 with the new endpoint object.
+    operationId: v1.endpoint.create
+    parameters:
+    - name: app_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    requestBody:
+      contentType: application/json
+      payload:
+        url: $inputs.endpointUrl
+        filterTypes:
+        - $inputs.eventType
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: sendMessage
+    description: >-
+      Publish a message of the subscribed event type to the application, which
+      Svix fans out to matching endpoints. Returns 202 with the message object.
+    operationId: v1.message.create
+    parameters:
+    - name: app_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    requestBody:
+      contentType: application/json
+      payload:
+        eventType: $inputs.eventType
+        payload: $inputs.payload
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      messageId: $response.body#/id
+  - stepId: listAttempts
+    description: >-
+      List the delivery attempts recorded for the message so the caller can
+      confirm the endpoint was invoked. Returns 200 with a paged attempt list.
+    operationId: v1.message-attempt.list-by-msg
+    parameters:
+    - name: app_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    - name: msg_id
+      in: path
+      value: $steps.sendMessage.outputs.messageId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      attempts: $response.body#/data
+  outputs:
+    applicationId: $steps.createApplication.outputs.applicationId
+    endpointId: $steps.createEndpoint.outputs.endpointId
+    messageId: $steps.sendMessage.outputs.messageId
+    attempts: $steps.listAttempts.outputs.attempts

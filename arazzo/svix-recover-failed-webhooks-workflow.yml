@@ -1,0 +1,105 @@
+arazzo: 1.0.1
+info:
+  title: Svix Recover Failed Webhooks
+  summary: Trigger recovery of an endpoint's failed messages and poll the background task to completion.
+  description: >-
+    When a receiving service has an outage, Svix can replay the messages that
+    failed during a window. This workflow confirms the endpoint exists, starts
+    a recovery for messages since a given timestamp, and then polls the
+    resulting background task until it finishes so the caller knows the replay
+    completed. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: recover-failed-webhooks
+  summary: Replay an endpoint's failed messages and wait for the recovery task to finish.
+  description: >-
+    Verifies the endpoint, starts a recovery from the given timestamp, then
+    polls the background task created by the recovery until its status is no
+    longer running.
+  inputs:
+    type: object
+    required:
+    - appId
+    - endpointId
+    - since
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application owning the endpoint.
+      endpointId:
+        type: string
+        description: The id or uid of the endpoint to recover failed messages for.
+      since:
+        type: string
+        description: ISO 8601 timestamp; failed messages on or after this are replayed.
+  steps:
+  - stepId: getEndpoint
+    description: >-
+      Confirm the endpoint exists before starting recovery. Returns 200 with the
+      endpoint object.
+    operationId: v1.endpoint.get
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $inputs.endpointId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: startRecovery
+    description: >-
+      Start replaying the endpoint's failed messages since the given timestamp.
+      Returns 202 Accepted with a background task reference.
+    operationId: v1.endpoint.recover
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $steps.getEndpoint.outputs.endpointId
+    requestBody:
+      contentType: application/json
+      payload:
+        since: $inputs.since
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      taskId: $response.body#/id
+      status: $response.body#/status
+  - stepId: pollTask
+    description: >-
+      Poll the recovery background task until it leaves the running state. The
+      step retries while the task status is still running.
+    operationId: v1.background-task.get
+    parameters:
+    - name: task_id
+      in: path
+      value: $steps.startRecovery.outputs.taskId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.status != 'running'
+      type: jsonpath
+    onFailure:
+    - name: retryTask
+      type: retry
+      retryAfter: 3
+      retryLimit: 10
+      criteria:
+      - condition: $statusCode == 200
+    outputs:
+      taskId: $response.body#/id
+      finalStatus: $response.body#/status
+  outputs:
+    endpointId: $steps.getEndpoint.outputs.endpointId
+    taskId: $steps.startRecovery.outputs.taskId
+    finalStatus: $steps.pollTask.outputs.finalStatus

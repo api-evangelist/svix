@@ -1,0 +1,69 @@
+arazzo: 1.0.1
+info:
+  title: Svix Provision Application and Open App Portal
+  summary: Create an application and mint a magic-link URL into its embedded App Portal.
+  description: >-
+    The Svix App Portal is the embeddable consumer UI where your customers
+    manage their own endpoints. This workflow creates an application to
+    represent a customer, then mints a short-lived App Portal access token and
+    magic-link URL so the customer can be dropped straight into their portal.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: create-app-portal-access
+  summary: Create an application and return a magic link into its App Portal.
+  description: >-
+    Creates a new application for a customer and requests App Portal access,
+    returning the embeddable portal URL and access token.
+  inputs:
+    type: object
+    required:
+    - applicationName
+    properties:
+      applicationName:
+        type: string
+        description: Human readable name for the customer's application.
+      applicationUid:
+        type: string
+        description: Optional unique identifier for the application.
+  steps:
+  - stepId: createApplication
+    description: >-
+      Create the application representing the customer. Returns 201 with the
+      application object.
+    operationId: v1.application.create
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.applicationName
+        uid: $inputs.applicationUid
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      applicationId: $response.body#/id
+  - stepId: appPortalAccess
+    description: >-
+      Mint an App Portal access token and magic-link URL for the application so
+      the customer can manage their own webhooks. Returns 200 with url and token.
+    operationId: v1.authentication.app-portal-access
+    parameters:
+    - name: app_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    requestBody:
+      contentType: application/json
+      payload: {}
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      portalUrl: $response.body#/url
+      portalToken: $response.body#/token
+  outputs:
+    applicationId: $steps.createApplication.outputs.applicationId
+    portalUrl: $steps.appPortalAccess.outputs.portalUrl
+    portalToken: $steps.appPortalAccess.outputs.portalToken

@@ -1,0 +1,95 @@
+arazzo: 1.0.1
+info:
+  title: Svix Endpoint Health Check
+  summary: Send an example message to an endpoint and read its delivery statistics.
+  description: >-
+    A lightweight liveness check for a configured webhook endpoint. The workflow
+    confirms the endpoint exists, sends it an example message for the given
+    event type, and then reads the endpoint's delivery statistics so the caller
+    can see success and failure counts. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: endpoint-health-check
+  summary: Send an example message to an endpoint and report its delivery stats.
+  description: >-
+    Verifies the endpoint, sends an example message of the given event type, and
+    reads the endpoint's delivery statistics.
+  inputs:
+    type: object
+    required:
+    - appId
+    - endpointId
+    - eventType
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application owning the endpoint.
+      endpointId:
+        type: string
+        description: The id or uid of the endpoint to health check.
+      eventType:
+        type: string
+        description: The event type name whose example payload is sent.
+  steps:
+  - stepId: getEndpoint
+    description: >-
+      Confirm the endpoint exists before testing it. Returns 200 with the
+      endpoint object.
+    operationId: v1.endpoint.get
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $inputs.endpointId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      endpointId: $response.body#/id
+  - stepId: sendExample
+    description: >-
+      Send the event type's example payload to the endpoint to exercise it.
+      Returns 202 Accepted with the message object.
+    operationId: v1.endpoint.send-example
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $steps.getEndpoint.outputs.endpointId
+    requestBody:
+      contentType: application/json
+      payload:
+        eventType: $inputs.eventType
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      messageId: $response.body#/id
+  - stepId: getStats
+    description: >-
+      Read the endpoint's delivery statistics to report success and failure
+      counts. Returns 200 with the stats object.
+    operationId: v1.endpoint.get-stats
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: endpoint_id
+      in: path
+      value: $steps.getEndpoint.outputs.endpointId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      stats: $response.body
+  outputs:
+    endpointId: $steps.getEndpoint.outputs.endpointId
+    messageId: $steps.sendExample.outputs.messageId
+    stats: $steps.getStats.outputs.stats

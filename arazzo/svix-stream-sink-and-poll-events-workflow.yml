@@ -1,0 +1,112 @@
+arazzo: 1.0.1
+info:
+  title: Svix Create Stream with Poller Sink and Send Events
+  summary: Create a stream, attach a poller sink, publish events, and poll the sink for them.
+  description: >-
+    Svix Streams collect high-volume events into sinks that consumers can poll.
+    This workflow creates a stream, attaches a poller sink to it, publishes a
+    batch of events into the stream, and then polls the sink until the events
+    are available for consumption. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: stream-sink-and-poll-events
+  summary: Stand up a stream and poller sink, publish events, and poll them back.
+  description: >-
+    Creates a stream, attaches a poller sink, publishes a batch of events into
+    the stream, then polls the sink's event stream until events are returned.
+  inputs:
+    type: object
+    required:
+    - streamName
+    - events
+    properties:
+      streamName:
+        type: string
+        description: Human readable name for the stream.
+      events:
+        type: array
+        description: The batch of events to publish into the stream.
+        items:
+          type: object
+  steps:
+  - stepId: createStream
+    description: >-
+      Create the stream that collects events. Returns 201 with the stream
+      object.
+    operationId: v1.streaming.stream.create
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.streamName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      streamId: $response.body#/id
+  - stepId: createSink
+    description: >-
+      Attach a poller sink to the stream so events can be consumed by polling.
+      Returns 201 with the sink object.
+    operationId: v1.streaming.sink.create
+    parameters:
+    - name: stream_id
+      in: path
+      value: $steps.createStream.outputs.streamId
+    requestBody:
+      contentType: application/json
+      payload:
+        status: enabled
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      sinkId: $response.body#/id
+  - stepId: sendEvents
+    description: >-
+      Publish the batch of events into the stream for routing to the sink.
+      Returns 202 Accepted.
+    operationId: v1.streaming.events.create
+    parameters:
+    - name: stream_id
+      in: path
+      value: $steps.createStream.outputs.streamId
+    requestBody:
+      contentType: application/json
+      payload:
+        events: $inputs.events
+    successCriteria:
+    - condition: $statusCode == 202
+  - stepId: pollEvents
+    description: >-
+      Poll the poller sink's event stream until events are available, retrying
+      while the returned data is empty. Returns 200.
+    operationId: v1.streaming.events.get
+    parameters:
+    - name: stream_id
+      in: path
+      value: $steps.createStream.outputs.streamId
+    - name: sink_id
+      in: path
+      value: $steps.createSink.outputs.sinkId
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data.length > 0
+      type: jsonpath
+    onFailure:
+    - name: retryPoll
+      type: retry
+      retryAfter: 3
+      retryLimit: 10
+      criteria:
+      - condition: $statusCode == 200
+    outputs:
+      events: $response.body#/data
+  outputs:
+    streamId: $steps.createStream.outputs.streamId
+    sinkId: $steps.createSink.outputs.sinkId
+    events: $steps.pollEvents.outputs.events

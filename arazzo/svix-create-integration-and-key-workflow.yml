@@ -1,0 +1,84 @@
+arazzo: 1.0.1
+info:
+  title: Svix Create Integration and Retrieve Key
+  summary: Create an integration on an application and read back its API key.
+  description: >-
+    Integrations let a third party manage a slice of an application's webhook
+    configuration with a scoped key. This workflow confirms the application
+    exists, creates a named integration on it, and reads back the integration's
+    API key so it can be handed to the integrating party. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: svixApi
+  url: ../openapi/svix-openapi.json
+  type: openapi
+workflows:
+- workflowId: create-integration-and-key
+  summary: Create an application integration and return its API key.
+  description: >-
+    Verifies the application, creates an integration on it, and retrieves the
+    integration's API key.
+  inputs:
+    type: object
+    required:
+    - appId
+    - integrationName
+    properties:
+      appId:
+        type: string
+        description: The id or uid of the application to attach the integration to.
+      integrationName:
+        type: string
+        description: Human readable name for the integration.
+  steps:
+  - stepId: getApplication
+    description: >-
+      Confirm the application exists before creating the integration. Returns
+      200 with the application object.
+    operationId: v1.application.get
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      applicationId: $response.body#/id
+  - stepId: createIntegration
+    description: >-
+      Create the named integration on the application. Returns 201 with the
+      integration object.
+    operationId: v1.integration.create
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.integrationName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      integrationId: $response.body#/id
+  - stepId: getIntegrationKey
+    description: >-
+      Read the integration's API key so it can be shared with the integrating
+      party. Returns 200 with the key.
+    operationId: v1.integration.get-key
+    parameters:
+    - name: app_id
+      in: path
+      value: $inputs.appId
+    - name: integ_id
+      in: path
+      value: $steps.createIntegration.outputs.integrationId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      integrationKey: $response.body#/key
+  outputs:
+    integrationId: $steps.createIntegration.outputs.integrationId
+    integrationKey: $steps.getIntegrationKey.outputs.integrationKey
