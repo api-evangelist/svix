@@ -1,0 +1,4407 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Application",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app",
+            "params": [
+              {
+                "name": "exclude_apps_with_no_endpoints",
+                "value": "",
+                "type": "query",
+                "description": "Exclude applications that have no endpoints. Default is false."
+              },
+              {
+                "name": "exclude_apps_with_disabled_endpoints",
+                "value": "",
+                "type": "query",
+                "description": "Exclude applications that have only disabled endpoints. Default is false."
+              },
+              {
+                "name": "exclude_apps_with_svix_play_endpoints",
+                "value": "",
+                "type": "query",
+                "description": "Exclude applications that only have Svix Play endpoints. Default is false."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's applications."
+        },
+        {
+          "info": {
+            "name": "Create Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "get_if_exists",
+                "value": "",
+                "type": "query",
+                "description": "Get an existing application, or create a new one if doesn't exist. It's two separate functions in the libs."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new application."
+        },
+        {
+          "info": {
+            "name": "Get Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an application."
+        },
+        {
+          "info": {
+            "name": "Update Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an application."
+        },
+        {
+          "info": {
+            "name": "Patch Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an application."
+        },
+        {
+          "info": {
+            "name": "Delete Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an application."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Message Attempt",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Attempts By Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/attempt/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "status_code_class",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the HTTP status code"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the tag"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` attempt content is included in the response"
+              },
+              {
+                "name": "with_msg",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, the message information is included in the response\n\nNote that message payloads are never included in the response, regardless of this flag."
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List attempts by endpoint id\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the `before` or `after` parameter as appropriate.\n"
+        },
+        {
+          "info": {
+            "name": "List Attempts By Msg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/attempt/msg/:msg_id",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "status_code_class",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the HTTP status code"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the tag"
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter the attempts based on the attempted endpoint"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` attempt content is included in the response"
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List attempts by message ID.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the `before` or `after` parameter as appropriate."
+        },
+        {
+          "info": {
+            "name": "List Attempted Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/msg",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the message tags"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response"
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List messages for a particular endpoint.\n\nAdditionally includes metadata about the latest message attempt.\nThe `before` parameter lets you filter all items created before a certain date and is ignored if an iterator is passed.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the"
+        },
+        {
+          "info": {
+            "name": "Get Attempt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/attempt/:attempt_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "attempt_id",
+                "value": "",
+                "type": "path",
+                "description": "The MessageAttempt's ID."
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "`msg_id`: Use a message id or a message `eventId`"
+        },
+        {
+          "info": {
+            "name": "Delete attempt response body",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/attempt/:attempt_id/content",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "attempt_id",
+                "value": "",
+                "type": "path",
+                "description": "The MessageAttempt's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the given attempt's response body.\n\nUseful when an endpoint accidentally returned sensitive content.\nThe message can't be replayed or resent once its payload has been deleted or expired."
+        },
+        {
+          "info": {
+            "name": "List Attempted Destinations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/endpoint",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List endpoints attempted by a given message.\n\nAdditionally includes metadata about the latest message attempt.\nBy default, endpoints are listed in ascending order by ID."
+        },
+        {
+          "info": {
+            "name": "Resend Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/endpoint/:endpoint_id/resend",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend a message to the specified endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the application's endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new endpoint for the application.\n\nWhen `secret` is `null` the secret is automatically generated (recommended)."
+        },
+        {
+          "info": {
+            "name": "Get Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an endpoint."
+        },
+        {
+          "info": {
+            "name": "Bulk Replay Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/bulk-replay",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Bulk replay messages sent to the endpoint.\n\nOnly messages that were created after `since` will be sent.\nThis will replay both successful, and failed messages\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.bulk-replay\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Update Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially set the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Recover Failed Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/recover",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend all failed messages since a given time.\n\nMessages that were sent successfully, even if failed initially, are not resent.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.recover\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Replay Missing Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/replay-missing",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replays messages to the endpoint.\n\nOnly messages that were created after `since` will be sent.\nMessages that were previously sent to the endpoint are not resent.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.replay\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates the endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        },
+        {
+          "info": {
+            "name": "Send Event Type Example Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/send-example",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Send an example message for an event."
+        },
+        {
+          "info": {
+            "name": "Endpoint Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/stats",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Filter the range to data starting from this date."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Filter the range to data ending by this date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get basic statistics for the endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Integration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the application's integrations."
+        },
+        {
+          "info": {
+            "name": "Create Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an integration."
+        },
+        {
+          "info": {
+            "name": "Get Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an integration."
+        },
+        {
+          "info": {
+            "name": "Update Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an integration."
+        },
+        {
+          "info": {
+            "name": "Delete Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an integration."
+        },
+        {
+          "info": {
+            "name": "Get Integration Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id/key",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an integration's key."
+        },
+        {
+          "info": {
+            "name": "Rotate Integration Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id/key/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate the integration's key. The previous key will be immediately revoked."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Message",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel."
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response."
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter messages matching the provided tag."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all of the application's messages.\n\nThe `before` and `after` parameters let you filter all items created before or after a certain date. These can be\nused alongside an iterator to paginate over results within a certain window.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nse"
+        },
+        {
+          "info": {
+            "name": "Create Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, message payloads are included in the response."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new message and dispatches it to all of the application's endpoints.\n\nThe `eventId` is an optional custom unique ID. It's verified to be unique only up to a day, after that no verification will be made.\nIf a message with the same `eventId` already exists for the application, a 409 conflict error will be returned.\n\nThe `eventType` indicates the type and schema of the event. All messages of a certain `eventType` are expected to have the same schema. Endpoints can choose to only listen to"
+        },
+        {
+          "info": {
+            "name": "Expunge all message contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/expunge-all-contents",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete all message payloads for the application.\n\nThis operation is only available in the <a href=\"https://svix.com/pricing\" target=\"_blank\">Enterprise</a> plan.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"application.purge_content\",\n  \"data\": {\n    \"messagesPurged\": 150\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Create Message Precheck",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/precheck/active",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "A pre-check call for `message.create` that checks whether any active endpoints are\nlistening to this message.\n\nNote: most people shouldn't be using this API. Svix doesn't bill you for\nmessages not actually sent, so using this API doesn't save money.\nIf unsure, please ask Svix support before using this API."
+        },
+        {
+          "info": {
+            "name": "Get Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a message by its ID or eventID."
+        },
+        {
+          "info": {
+            "name": "Delete message payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/content",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete the given message's payload.\n\nUseful in cases when a message was accidentally sent with sensitive content.\nThe message can't be replayed or resent once its payload has been deleted or expired."
+        },
+        {
+          "info": {
+            "name": "Poller Poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "event_type",
+                "value": "",
+                "type": "query",
+                "description": "Filters messages sent with this event type (optional)."
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filters messages sent with this channel (optional)."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reads the stream of created messages for an application, filtered on the Sink's event types and Channels."
+        },
+        {
+          "info": {
+            "name": "Poller Consumer Poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id/consumer/:consumer_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "consumer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reads the stream of created messages for an application, filtered on the Sink's event types and\nChannels, using server-managed iterator tracking."
+        },
+        {
+          "info": {
+            "name": "Poller Consumer Seek",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id/consumer/:consumer_id/seek",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "consumer_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sets the starting offset for the consumer of a polling endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Consumer App Portal Access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/app-portal-access/:app_id",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Use this function to get magic links (and authentication codes) for connecting your users to the Consumer Application Portal."
+        },
+        {
+          "info": {
+            "name": "Expire All",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/app/:app_id/expire-all",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Expire all of the tokens associated with a specific application."
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/logout",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Logout an app token.\n\nTrying to log out other tokens will fail."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stream Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Stream Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream-logout",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Logout a stream token.\n\nTrying to log out other tokens will fail."
+        },
+        {
+          "info": {
+            "name": "Get Stream Portal Access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream-portal-access/:stream_id",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Use this function to get magic links (and authentication codes) for connecting your users to the Stream Consumer Portal."
+        },
+        {
+          "info": {
+            "name": "Stream Expire All",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/expire-all",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Expire all of the tokens associated with a specific stream."
+        },
+        {
+          "info": {
+            "name": "Get Poller Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/sink/:sink_id/poller/token",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the current auth token for the stream poller."
+        },
+        {
+          "info": {
+            "name": "Rotate Poller Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/sink/:sink_id/poller/token/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new auth token for the stream poller API."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Background Task",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Background Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/background-task",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter the response based on the status."
+              },
+              {
+                "name": "task",
+                "value": "",
+                "type": "query",
+                "description": "Filter the response based on the type."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List background tasks executed in the past 90 days."
+        },
+        {
+          "info": {
+            "name": "Get Background Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/background-task/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path",
+                "description": "The QueueBackgroundTask's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a background task by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connector",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Connectors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/connector",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              },
+              {
+                "name": "product_type",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all connectors for an application."
+        },
+        {
+          "info": {
+            "name": "Create Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/connector",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new connector."
+        },
+        {
+          "info": {
+            "name": "Get Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a connector."
+        },
+        {
+          "info": {
+            "name": "Update Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a connector."
+        },
+        {
+          "info": {
+            "name": "Patch Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a connector."
+        },
+        {
+          "info": {
+            "name": "Delete Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a connector."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Environment Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/environment/export",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download a JSON file containing all org-settings and event types.\n\nNote that the schema for [`EnvironmentOut`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs."
+        },
+        {
+          "info": {
+            "name": "Import Environment Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/environment/import",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Import a configuration into the active organization.\n\nIt doesn't delete anything, only adds / updates what was passed to it.\n\nNote that the schema for [`EnvironmentIn`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Event Type",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/event-type",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              },
+              {
+                "name": "include_archived",
+                "value": "",
+                "type": "query",
+                "description": "When `true` archived (deleted but not expunged) items are included in the response."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` the full item (including the schema) is included in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the list of event types."
+        },
+        {
+          "info": {
+            "name": "Create Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/event-type",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create new or unarchive existing event type.\n\nUnarchiving an event type will allow endpoints to filter on it and messages to be sent with it.\nEndpoints filtering on the event type before archival will continue to filter on it.\nThis operation does not preserve the description and schemas."
+        },
+        {
+          "info": {
+            "name": "Event Type Import From Openapi",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/event-type/import/openapi",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Given an OpenAPI spec, create new or update existing event types.\n\nIf an existing `archived` event type is updated, it will be unarchived.\nThe importer will convert all webhooks found in the either the `webhooks` or `x-webhooks`\ntop-level."
+        },
+        {
+          "info": {
+            "name": "Get Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an event type."
+        },
+        {
+          "info": {
+            "name": "Update Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an event type."
+        },
+        {
+          "info": {
+            "name": "Patch Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an event type."
+        },
+        {
+          "info": {
+            "name": "Delete Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              },
+              {
+                "name": "expunge",
+                "value": "",
+                "type": "query",
+                "description": "By default event types are archived when \"deleted\". Passing this to `true` deletes them entirely."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Archive an event type.\n\nEndpoints already configured to filter on an event type will continue to do so after archival.\nHowever, new messages can not be sent with it and endpoints can not filter on it.\nAn event type can be unarchived with the\n[create operation](#operation/create_event_type_api_v1_event_type__post)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/health"
+          },
+          "docs": "Verify the API server is up and running."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhook Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Operational Webhook Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List operational webhook endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the operational webhook."
+        },
+        {
+          "info": {
+            "name": "Update Operational Webhook Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent with the operational webhook."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an operational webhook endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Operational Webhook Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates an operational webhook endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Aggregate App Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stats/usage/app",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a background task to calculate the number of message attempts (`messageDestinations`) made for all applications in the environment.\n\nNote that this endpoint is asynchronous. You will need to poll the `Get Background Task` endpoint to\nretrieve the results of the operation.\n\nThe completed background task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qe39Stble9Rn3ZxFrqL5ZSsjT\",\n  \"status\": \"finished\",\n  \"task\": \"application.stats\",\n  \"data\": {\n    \"appStats\": [\n      "
+        },
+        {
+          "info": {
+            "name": "Aggregate Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stats/usage/event-types",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a background task to calculate the listed event types for all apps in the organization.\n\nNote that this endpoint is asynchronous. You will need to poll the `Get Background Task` endpoint to\nretrieve the results of the operation.\n\nThe completed background task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qe39Stble9Rn3ZxFrqL5ZSsjT\",\n  \"status\": \"finished\",\n  \"task\": \"event-type.aggregate\",\n  \"data\": {\n    \"event_types\": [\n      {\n        \"appId\": \"app_33W1An2Zz5cO9S"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stream",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's streams."
+        },
+        {
+          "info": {
+            "name": "Create Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new stream."
+        },
+        {
+          "info": {
+            "name": "Get Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a stream by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a stream."
+        },
+        {
+          "info": {
+            "name": "Patch Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a stream."
+        },
+        {
+          "info": {
+            "name": "Delete Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a stream."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stream Event Type",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Stream Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              },
+              {
+                "name": "include_archived",
+                "value": "",
+                "type": "query",
+                "description": "Include archived (deleted but not expunged) items in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's event types for streaming."
+        },
+        {
+          "info": {
+            "name": "Create Stream Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an event type for Streams."
+        },
+        {
+          "info": {
+            "name": "Get Stream Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an event type."
+        },
+        {
+          "info": {
+            "name": "Update Stream Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update or create a event type for Streams."
+        },
+        {
+          "info": {
+            "name": "Patch Stream Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Patch an event type for Streams."
+        },
+        {
+          "info": {
+            "name": "Delete Stream Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/stream/event-type/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              },
+              {
+                "name": "expunge",
+                "value": "",
+                "type": "query",
+                "description": "By default, event types are archived when \"deleted\". With this flag, they are deleted entirely."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an event type."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Event",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/events",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates events on the Stream."
+        },
+        {
+          "info": {
+            "name": "Poller Sink Stream Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/events",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Iterate over a stream of events.\n\nThe sink must be of type `poller` to use the poller endpoint."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sink",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sinks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the stream's sinks."
+        },
+        {
+          "info": {
+            "name": "Create Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new sink."
+        },
+        {
+          "info": {
+            "name": "Get Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a sink by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a sink."
+        },
+        {
+          "info": {
+            "name": "Patch Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a sink."
+        },
+        {
+          "info": {
+            "name": "Delete Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a sink."
+        },
+        {
+          "info": {
+            "name": "Get Sink Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/headers",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the HTTP sink headers.\n\nOnly valid for `http` or `otelTracing` sinks."
+        },
+        {
+          "info": {
+            "name": "Patch Sink Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/headers",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the Sink's headers.\n\nOnly valid for `http` or `otelTracing` sinks."
+        },
+        {
+          "info": {
+            "name": "Get Sink Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/secret",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the sink's signing secret (only supported for http sinks)\n\nThis is used to verify the authenticity of the delivery.\n\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Sink Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates the signing secret (only supported for http sinks)."
+        },
+        {
+          "info": {
+            "name": "Get Sink Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/transformation",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this sink."
+        },
+        {
+          "info": {
+            "name": "Set Sink Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/transformation",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this sink."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ingest Source",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Ingest Sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's Ingest Sources."
+        },
+        {
+          "info": {
+            "name": "Create Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an Ingest Source by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Delete Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Ingest Source Consumer Portal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/dashboard",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get access to the Ingest Source Consumer Portal."
+        },
+        {
+          "info": {
+            "name": "Rotate Ingest Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/token/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate the Ingest Source's Url Token.\n\nThis will rotate the ingest source's token, which is used to\nconstruct the unique `ingestUrl` for the source. Previous tokens\nwill remain valid for 48 hours after rotation. The token can be\nrotated a maximum of three times within the 48-hour period."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ingest Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Ingest Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List ingest endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the ingest."
+        },
+        {
+          "info": {
+            "name": "Update Ingest Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent to the endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an ingest endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Ingest Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates an ingest endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Ingest Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this ingest endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

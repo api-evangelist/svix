@@ -1,115 +1,237 @@
-# Svix
+# Svix (svix)
 
-[Svix](https://www.svix.com) is an enterprise webhooks-as-a-service platform that sits on the **sending side** of the webhook market. Where receiving-side providers like Hookdeck specialize in consuming inbound webhooks, Svix specializes in helping platforms ship reliable, low-latency, signed webhooks to their own customers' subscriber URLs at scale — with hosted UIs, a polyglot SDK pipeline, an open source self-hostable server, and adjacent products for event streaming (Stream) and inbound ingestion (Ingest).
+Svix is an enterprise webhooks-as-a-service platform on the sending side of the
+webhook market. It provides a single API for delivering reliable, secure, low-latency
+webhooks at scale, with hosted UIs (Consumer App Portal), a polyglot SDK pipeline,
+an open source server, and adjacent products for streaming (Stream) and webhook
+ingestion (Ingest). Hosted offering is multi-region (US, EU, CA, AU, IN) with
+SOC 2 Type II, HIPAA, PCI-DSS attestations.
 
-> "Svix makes sending webhooks easy and reliable by offering webhook sending as a service." — [docs.svix.com](https://docs.svix.com)
+**APIs.json:** [https://github.com/api-evangelist/svix](https://github.com/api-evangelist/svix)
 
-This repository is the API Evangelist profile of Svix: the inventory of every API surface they expose, the OpenAPI of the hosted product, plus generated capabilities, JSON Schemas, vocabulary, plans, rate limits, and FinOps artifacts.
+## Scope
 
-## APIs Documented
+- **Type:** Index
 
-| API | Description | Spec |
-|---|---|---|
-| **Svix Webhooks API** | The core hosted sending surface — apps, endpoints, event types, messages, attempts, integrations, operational webhooks, background tasks, statistics, environments, connectors. | [`openapi/svix-openapi.json`](openapi/svix-openapi.json) |
-| **Svix Ingest API** | Receiving-side surface (`/ingest/api/v1/`) — sources, ingest endpoints, transformations. Same OpenAPI document. | [`openapi/svix-openapi.json`](openapi/svix-openapi.json) |
-| **Svix Stream API** | Event streaming (`/api/v1/stream/`) — streams, stream event types, sinks, pollers. Same OpenAPI document. | [`openapi/svix-openapi.json`](openapi/svix-openapi.json) |
-| **Svix Open Source Server** | Self-hostable subset of the hosted product (`server/openapi.json` in `svix/svix-webhooks`, MIT licensed, Rust). | upstream: [svix/svix-webhooks](https://github.com/svix/svix-webhooks/blob/main/server/openapi.json) |
+## Tags
 
-### Scale of the hosted OpenAPI
+- Webhooks
+- Webhooks As A Service
+- Webhook Delivery
+- Webhook Sending
+- Event Driven
+- Eventing
+- Messaging
+- Pub Sub
+- Streaming
+- Ingest
+- Integration
+- Reliability
+- Retries
+- Deliverability
+- Signing
+- Verification
+- HMAC
+- Standard Webhooks
+- Multi Tenant
+- Multi Region
+- Enterprise
+- SaaS
+- Developer Platform
+- API
+- REST
+- SOC 2
+- HIPAA
+- PCI DSS
+- GDPR
+- Open Source
+- Rust
+- Polyglot SDK
+- Terraform
+- CLI
 
-- **OpenAPI version**: 3.x
-- **Info version**: `1.84.0`
-- **Paths**: 79
-- **Operations**: 128
-- **Tag groups**: 15 (Application, Message, Message Attempt, Endpoint, Integration, Event Type, Authentication, Health, Webhook, Background Task, Statistics, Webhook Endpoint, Environment, Ingest Endpoint, Connector)
-- **Components.schemas**: 461
-- **Regions**: 5 — `api.us.svix.com`, `api.eu.svix.com`, `api.ca.svix.com`, `api.au.svix.com`, `api.in.svix.com`
-- **Authentication**: HTTP Bearer (token from [dashboard.svix.com](https://dashboard.svix.com))
+## Timestamps
 
-The open source server's spec is a smaller, focused subset: 29 paths, 46 operations, 64 schemas at `info.version` `1.1.1`.
+- **Created:** 2026-05-22
+- **Modified:** 2026-05-22
 
-## Repository Layout
+## APIs
 
-```
-svix/
-├── apis.yml                # Master index for this provider
-├── README.md
-├── openapi/                # Hosted-product OpenAPI spec
-│   └── svix-openapi.json
-├── examples/               # Request / response examples for key operations
-├── rules/                  # Spectral ruleset capturing Svix conventions
-│   └── svix-rules.yml
-├── capabilities/           # Naftiko capabilities
-│   ├── shared/             #   Shared per-API capabilities
-│   │   ├── svix-webhooks.yaml
-│   │   ├── svix-ingest.yaml
-│   │   └── svix-stream.yaml
-│   ├── customer-webhook-onboarding.yaml
-│   ├── failed-delivery-recovery.yaml
-│   └── third-party-webhook-fan-in.yaml
-├── json-schema/            # JSON Schema for Application, Endpoint, Message, MessageAttempt, EventType
-├── json-structure/         # JSON Structure (field/relation metadata) for the same entities
-├── json-ld/                # JSON-LD context aligned with schema.org + standardwebhooks.com
-│   └── svix-context.jsonld
-├── vocabulary/             # Operational + capability vocabulary
-│   └── svix-vocabulary.yml
-├── plans/                  # API Commons Plans 0.1 — Free / Professional / Enterprise
-│   └── svix-plans-pricing.yml
-├── rate-limits/            # API Commons Rate Limits 0.1
-│   └── svix-rate-limits.yml
-└── finops/                 # FinOps Framework / FOCUS mapping
-    └── svix-finops.yml
-```
+### Svix Webhooks API
 
-## Pricing Snapshot
+The hosted Svix API for sending webhooks to your customers' endpoints. Covers
+applications (tenants), endpoints (subscriber URLs), event types, messages
+(webhook payloads), message attempts (delivery history), integrations
+(per-application API keys), and the authentication endpoints used to mint
+Consumer App Portal access tokens. Also includes operational webhooks (Svix
+telling you about your own Svix account), statistics, environment
+import/export, background tasks, and connectors.
 
-| Plan | Monthly | Included messages | Overage | Max rate | Retention |
-|---|---|---|---|---|---|
-| Free | $0 | 50,000 / mo | $0.0001 / msg | 200 / s | 30 days |
-| Professional | $490 | 50,000 / mo | $0.0001 / msg | 800 / s | 90 days |
-| Enterprise | Custom | Custom | Custom | Custom | Custom |
+- **Human URL:** [https://api.svix.com/docs](https://api.svix.com/docs)
+- **Base URL:** `https://api.svix.com`
 
-> "Only attempted messages are counted towards usage. Messages filtered by Svix (e.g. when there are no sinks) and retries are both free." — [svix.com/pricing](https://www.svix.com/pricing/)
+#### Tags
 
-Enterprise adds OIDC / SAML SSO, on-premises deployment, audit logs, and advanced RBAC.
+- Webhooks
+- Webhook Sending
+- Applications
+- Endpoints
+- Messages
+- Message Attempts
+- Event Types
+- Integrations
+- Operational Webhooks
+- Background Tasks
+- Statistics
+- Connectors
+- Environments
 
-## Ecosystem
+#### Properties
 
-- **SDKs**: Python, JavaScript / TypeScript, Go, Java, Kotlin, Ruby, C# / .NET, PHP, Rust — all generated from the same OpenAPI through a custom Rust-based `openapi-codegen`.
-- **CLI**: [svix-cli](https://github.com/svix/svix-webhooks/tree/main/svix-cli) (Go), installable via `brew install svix/svix/svix-cli` or Scoop.
-- **Terraform provider**: [`terraform-provider-svix`](https://github.com/svix/terraform-provider-svix).
-- **Open source server**: [svix/svix-webhooks](https://github.com/svix/svix-webhooks) — 3.2k+ stars, MIT-licensed, written in Rust on Axum + SeaORM.
-- **Standard Webhooks**: Svix is the primary author and maintainer of the [Standard Webhooks](https://www.standardwebhooks.com) specification — the same signing/verification scheme the hosted product implements.
-- **Integrations**: Zapier, ngrok, Stripe / GitHub / Shopify / Adyen / Adobe Sign / Airwallex / Checkbook / Azure / S3 (via Ingest connectors).
-- **Adjacent products**: Svix Stream (event streaming), Svix Ingest (inbound webhook receiving), Svix Play (test/debug surface at [play.svix.com](https://play.svix.com)), Svix Portal (the consumer-facing UI).
+- [OpenAPI](openapi/svix-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/svix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/svix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Documentation](https://docs.svix.com)
+- [API Reference](https://api.svix.com/docs)
+- [Authentication](https://docs.svix.com/api-keys)
+- [Errors](https://docs.svix.com/retries)
+- [Rate Limits](rate-limits/svix-rate-limits.yml)
 
-## Compliance & Security
+### Svix Ingest API
 
-SOC 2 Type II, HIPAA attestation, PCI-DSS attestation, GDPR, CCPA, PIPEDA. Data at rest encrypted with 256-bit AES; HSMs for key storage; TLS 1.2/1.3 in transit. Regional data residency in US, EU, CA, AU, IN.
+The receiving-side surface of Svix. Ingest sources are URLs that accept
+incoming webhooks from third parties (Stripe, GitHub, Shopify, etc.), apply
+verification, transformations, and forward them to your endpoints. Same
+Bearer token, same multi-region hosts, exposed under the /ingest/api/v1/
+prefix of the same hosted OpenAPI.
 
-> "Data persisted by the Svix service is encrypted at rest using 256-bit AES." — [svix.com/security](https://www.svix.com/security/)
+- **Human URL:** [https://api.svix.com/docs](https://api.svix.com/docs)
+- **Base URL:** `https://api.svix.com`
 
-## Position In The Market
+#### Tags
 
-The webhook market splits into two distinct sides:
+- Ingest
+- Webhook Receiving
+- Sources
+- Verification
+- Transformation
+- Inbound Webhooks
 
-- **Sending side** (this provider, Svix): for platforms that *emit* webhooks to their customers. Concerns: fan-out, signing, retries, throttling, customer-facing UIs, schema management, multi-region.
-- **Receiving side** (e.g. Hookdeck): for engineering teams that *receive* webhooks from third parties. Concerns: ingestion, verification, transformation, queueing, replay, observability.
+#### Properties
 
-Svix has been quietly extending into the receiving side via **Svix Ingest**, but its center of gravity — and the bulk of its OpenAPI surface — is still sending. Its open-sourcing of the server and authorship of the Standard Webhooks spec are how it claims neutrality and category leadership at the same time.
+- [OpenAPI](openapi/svix-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/svix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/svix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Documentation](https://www.svix.com/ingest/)
+- [API Reference](https://api.svix.com/docs)
 
-## Links
+### Svix Stream API
 
-- Provider site: <https://www.svix.com>
-- Docs: <https://docs.svix.com>
-- API reference: <https://api.svix.com/docs>
-- Dashboard: <https://dashboard.svix.com>
-- Status: <https://status.svix.com>
-- Blog: <https://www.svix.com/blog/>
-- GitHub org: <https://github.com/svix>
-- Open source server: <https://github.com/svix/svix-webhooks>
-- Standard Webhooks: <https://www.standardwebhooks.com>
+Svix Stream is event streaming for product telemetry — sinks, events, and
+pollers exposed under /api/v1/stream/. Provides the same delivery-reliability
+semantics as webhooks but designed for high-volume event fan-out and pull-based
+consumption.
 
----
+- **Human URL:** [https://www.svix.com/stream/](https://www.svix.com/stream/)
+- **Base URL:** `https://api.svix.com`
 
-Maintained as part of the [API Evangelist](https://apievangelist.com) network. See [`apis.yml`](apis.yml) for the structured index used by network-wide tooling.
+#### Tags
+
+- Streaming
+- Event Stream
+- Sinks
+- Pollers
+- Telemetry
+
+#### Properties
+
+- [OpenAPI](openapi/svix-openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/svix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/svix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Documentation](https://www.svix.com/stream/)
+
+### Svix Open Source Server API
+
+The self-hostable open source Svix server (svix-webhooks repo). Smaller surface
+area than the hosted product (no Stream, no Ingest, no Connectors, no
+Background Tasks, no multi-region) — 29 paths, 46 operations in v1.1.1 — but
+API-compatible with the hosted product for the core webhook-sending workflow.
+
+- **Human URL:** [https://github.com/svix/svix-webhooks](https://github.com/svix/svix-webhooks)
+- **Base URL:** `http://localhost:8071`
+
+#### Tags
+
+- Open Source
+- Self Hosted
+- Webhook Sending
+- Rust
+- MIT License
+
+#### Properties
+
+- [GitHub Repository](https://github.com/svix/svix-webhooks)
+- [Documentation](https://docs.svix.com/)
+- [Postman Collection](collections/svix.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/svix.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+## Common Properties
+
+- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
+- [Portal](https://www.svix.com)
+- [Developer Portal](https://dashboard.svix.com)
+- [Documentation](https://docs.svix.com)
+- [API Reference](https://api.svix.com/docs)
+- [Getting Started](https://docs.svix.com/quickstart)
+- [Quickstart](https://docs.svix.com/quickstart)
+- [Tutorials](https://docs.svix.com/tutorials)
+- [Sign Up](https://dashboard.svix.com)
+- [Login](https://dashboard.svix.com)
+- [Pricing](https://www.svix.com/pricing/)
+- [Plans](plans/svix-plans-pricing.yml)
+- [Rate Limits](rate-limits/svix-rate-limits.yml)
+- [Fin Ops](finops/svix-finops.yml)
+- [Regions](https://docs.svix.com/multi-region)
+- [Authentication](https://docs.svix.com/api-keys)
+- [Security](https://www.svix.com/security/)
+- [Compliance](https://www.svix.com/security/)
+- [Trust Center](https://www.svix.com/security/)
+- [Terms of Service](https://www.svix.com/terms/)
+- [Privacy Policy](https://www.svix.com/privacy/)
+- [Status Page](https://status.svix.com)
+- [Blog](https://www.svix.com/blog/)
+- [Changelog](https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md)
+- [Release Notes](https://github.com/svix/svix-webhooks/releases)
+- [Support](mailto:support@svix.com)
+- [Contact](https://www.svix.com/contact/)
+- [GitHub Organization](https://github.com/svix)
+- [GitHub Repository](https://github.com/svix/svix-webhooks)
+- [Console](https://dashboard.svix.com)
+- [Sandbox](https://play.svix.com)
+- [C L I](https://github.com/svix/svix-webhooks/tree/main/svix-cli)
+- [SDK](https://pypi.org/project/svix/)
+- [SDK](https://www.npmjs.com/package/svix)
+- [SDK](https://github.com/svix/svix-webhooks/tree/main/go)
+- [SDK](https://central.sonatype.com/artifact/com.svix/svix)
+- [SDK](https://github.com/svix/svix-webhooks/tree/main/kotlin)
+- [SDK](https://rubygems.org/gems/svix)
+- [SDK](https://www.nuget.org/packages/Svix)
+- [SDK](https://packagist.org/packages/svix/svix)
+- [SDK](https://crates.io/crates/svix)
+- [Integrations](https://github.com/svix/terraform-provider-svix)
+- [Integrations](https://docs.svix.com/integrations/zapier)
+- [Integrations](https://docs.svix.com/integrations/ngrok)
+- [X (Twitter)](https://twitter.com/SvixHQ)
+- [LinkedIn](https://www.linkedin.com/company/svix)
+- [Capabilities](capabilities/)
+- [Rules](rules/svix-rules.yml)
+- [JSON Schema](json-schema/) — [JSON Schema](https://json-schema.org/specification)
+- [JSON-LD](json-ld/svix-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [Vocabulary](vocabulary/svix-vocabulary.yml)
+- [L L Ms Txt](https://docs.svix.com/llms.txt)
+
+## Maintainers
+
+**FN:** Kin Lane
+**Email:** info@apievangelist.com
+**URL:** https://apievangelist.com

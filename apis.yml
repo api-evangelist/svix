@@ -160,6 +160,8 @@ apis:
         url: https://docs.svix.com/
 
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/svix/overview
   - type: ArazzoWorkflows
     url: arazzo/
     workflows:
