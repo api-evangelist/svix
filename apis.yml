@@ -87,7 +87,7 @@ apis:
         url: https://api.svix.com/docs
       - type: Authentication
         url: https://docs.svix.com/api-keys
-      - type: Errors
+      - type: ErrorCodes
         url: https://docs.svix.com/retries
       - type: RateLimits
         url: rate-limits/svix-rate-limits.yml
@@ -162,54 +162,51 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/svix/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-    - url: arazzo/svix-create-app-portal-access-workflow.yml
-      name: Svix Provision Application and Open App Portal
-      summary: Create an application and mint a magic-link URL into its embedded App Portal.
-    - url: arazzo/svix-create-integration-and-key-workflow.yml
-      name: Svix Create Integration and Retrieve Key
-      summary: Create an integration on an application and read back its API key.
-    - url: arazzo/svix-decommission-application-workflow.yml
-      name: Svix Decommission an Application
-      summary: List an application's endpoints, branch on whether one exists, delete it, then delete the application.
-    - url: arazzo/svix-endpoint-health-check-workflow.yml
-      name: Svix Endpoint Health Check
-      summary: Send an example message to an endpoint and read its delivery statistics.
-    - url: arazzo/svix-ingest-source-and-endpoint-workflow.yml
-      name: Svix Create Ingest Source and Endpoint
-      summary: Create an ingest source, attach an ingest endpoint, and read back the source's ingest URL.
-    - url: arazzo/svix-operational-webhook-setup-workflow.yml
-      name: Svix Set Up Operational Webhook Endpoint
-      summary: Register an operational webhook endpoint and retrieve its signing secret.
-    - url: arazzo/svix-provision-and-send-message-workflow.yml
-      name: Svix Provision Application and Send First Message
-      summary: Create an application, register a webhook endpoint, send a message, and inspect the delivery attempts.
-    - url: arazzo/svix-recover-failed-webhooks-workflow.yml
-      name: Svix Recover Failed Webhooks
-      summary: Trigger recovery of an endpoint's failed messages and poll the background task to completion.
-    - url: arazzo/svix-register-event-type-and-send-workflow.yml
-      name: Svix Register Event Type and Send Example
-      summary: Create an event type, subscribe an endpoint to it, and send the event type's example message.
-    - url: arazzo/svix-resend-failed-attempt-workflow.yml
-      name: Svix Resend a Failed Message Attempt
-      summary: Find a failing delivery attempt for a message and resend it to its endpoint.
-    - url: arazzo/svix-rotate-endpoint-secret-workflow.yml
-      name: Svix Rotate Endpoint Signing Secret
-      summary: Rotate a webhook endpoint's signing secret and read back the new secret value.
-    - url: arazzo/svix-rotate-ingest-source-token-workflow.yml
-      name: Svix Rotate Ingest Source Token
-      summary: Rotate an ingest source's token and return its refreshed ingest URL.
-    - url: arazzo/svix-rotate-integration-key-workflow.yml
-      name: Svix Rotate Integration Key
-      summary: Rotate an integration's API key and read back the new key value.
-    - url: arazzo/svix-send-message-and-confirm-delivery-workflow.yml
-      name: Svix Send Message and Confirm Delivery
-      summary: Send a message to an existing application and poll its attempts until delivery succeeds.
-    - url: arazzo/svix-stream-sink-and-poll-events-workflow.yml
-      name: Svix Create Stream with Poller Sink and Send Events
-      summary: Create a stream, attach a poller sink, publish events, and poll the sink for them.
+  - type: Arazzo
+    url: arazzo/svix-create-app-portal-access-workflow.yml
+    name: Svix Provision Application and Open App Portal
+  - type: Arazzo
+    url: arazzo/svix-create-integration-and-key-workflow.yml
+    name: Svix Create Integration and Retrieve Key
+  - type: Arazzo
+    url: arazzo/svix-decommission-application-workflow.yml
+    name: Svix Decommission an Application
+  - type: Arazzo
+    url: arazzo/svix-endpoint-health-check-workflow.yml
+    name: Svix Endpoint Health Check
+  - type: Arazzo
+    url: arazzo/svix-ingest-source-and-endpoint-workflow.yml
+    name: Svix Create Ingest Source and Endpoint
+  - type: Arazzo
+    url: arazzo/svix-operational-webhook-setup-workflow.yml
+    name: Svix Set Up Operational Webhook Endpoint
+  - type: Arazzo
+    url: arazzo/svix-provision-and-send-message-workflow.yml
+    name: Svix Provision Application and Send First Message
+  - type: Arazzo
+    url: arazzo/svix-recover-failed-webhooks-workflow.yml
+    name: Svix Recover Failed Webhooks
+  - type: Arazzo
+    url: arazzo/svix-register-event-type-and-send-workflow.yml
+    name: Svix Register Event Type and Send Example
+  - type: Arazzo
+    url: arazzo/svix-resend-failed-attempt-workflow.yml
+    name: Svix Resend a Failed Message Attempt
+  - type: Arazzo
+    url: arazzo/svix-rotate-endpoint-secret-workflow.yml
+    name: Svix Rotate Endpoint Signing Secret
+  - type: Arazzo
+    url: arazzo/svix-rotate-ingest-source-token-workflow.yml
+    name: Svix Rotate Ingest Source Token
+  - type: Arazzo
+    url: arazzo/svix-rotate-integration-key-workflow.yml
+    name: Svix Rotate Integration Key
+  - type: Arazzo
+    url: arazzo/svix-send-message-and-confirm-delivery-workflow.yml
+    name: Svix Send Message and Confirm Delivery
+  - type: Arazzo
+    url: arazzo/svix-stream-sink-and-poll-events-workflow.yml
+    name: Svix Create Stream with Poller Sink and Send Events
   - type: Portal
     url: https://www.svix.com
   - type: DeveloperPortal
@@ -220,11 +217,11 @@ common:
     url: https://api.svix.com/docs
   - type: GettingStarted
     url: https://docs.svix.com/quickstart
-  - type: Quickstart
+  - type: GettingStarted
     url: https://docs.svix.com/quickstart
   - type: Tutorials
     url: https://docs.svix.com/tutorials
-  - type: SignUp
+  - type: Signup
     url: https://dashboard.svix.com
   - type: Login
     url: https://dashboard.svix.com
@@ -273,31 +270,31 @@ common:
   - type: CLI
     name: Svix CLI
     url: https://github.com/svix/svix-webhooks/tree/main/svix-cli
-  - type: SDK
+  - type: SDKs
     name: Python SDK
     url: https://pypi.org/project/svix/
-  - type: SDK
+  - type: SDKs
     name: JavaScript / TypeScript SDK
     url: https://www.npmjs.com/package/svix
-  - type: SDK
+  - type: SDKs
     name: Go SDK
     url: https://github.com/svix/svix-webhooks/tree/main/go
-  - type: SDK
+  - type: SDKs
     name: Java SDK
     url: https://central.sonatype.com/artifact/com.svix/svix
-  - type: SDK
+  - type: SDKs
     name: Kotlin SDK
     url: https://github.com/svix/svix-webhooks/tree/main/kotlin
-  - type: SDK
+  - type: SDKs
     name: Ruby SDK
     url: https://rubygems.org/gems/svix
-  - type: SDK
+  - type: SDKs
     name: C# / .NET SDK
     url: https://www.nuget.org/packages/Svix
-  - type: SDK
+  - type: SDKs
     name: PHP SDK
     url: https://packagist.org/packages/svix/svix
-  - type: SDK
+  - type: SDKs
     name: Rust SDK
     url: https://crates.io/crates/svix
   - type: Integrations
@@ -324,7 +321,7 @@ common:
   - type: Vocabulary
     url: vocabulary/svix-vocabulary.yml
 
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.svix.com/llms.txt
 maintainers:
   - FN: Kin Lane
