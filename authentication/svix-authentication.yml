@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/svix-openapi.json
+summary:
+  types:
+  - http
+schemes:
+- name: HTTPBearer
+  type: http
+  scheme: bearer
+  description: HTTP Bearer token passed in the `Authorization` header
+  sources:
+  - openapi/svix-openapi.json

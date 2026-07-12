@@ -160,6 +160,14 @@ apis:
         url: https://docs.svix.com/
 
 common:
+  - type: TrustCenter
+    url: security/svix-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/svix-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/svix-domain-security.yml
+  - type: Authentication
+    url: authentication/svix-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/svix/overview
   - type: Arazzo
