@@ -160,6 +160,8 @@ apis:
         url: https://docs.svix.com/
 
 common:
+  - type: AgenticAccess
+    url: agentic-access/svix-agentic-access.yml
   - type: TrustCenter
     url: security/svix-trust-center.yml
   - type: VulnerabilityDisclosure
