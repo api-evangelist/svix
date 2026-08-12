@@ -578,6 +578,9 @@ apis:
   - type: Documentation
     url: https://www.svix.com/stream/
 common:
+  - type: License
+    name: MIT
+    url: https://github.com/svix/svix-webhooks/blob/main/LICENSE
   - type: AgenticAccess
     url: agentic-access/svix-agentic-access.yml
   - type: TrustCenter
@@ -738,8 +741,6 @@ common:
     url: https://twitter.com/SvixHQ
   - type: LinkedIn
     url: https://www.linkedin.com/company/svix
-  - type: Capabilities
-    url: capabilities/
   - type: Rules
     url: rules/svix-rules.yml
   - type: JSONSchema
