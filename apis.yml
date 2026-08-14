@@ -24,7 +24,7 @@ accessModel:
   method: derived
 image: https://www.svix.com/static/img/brand-padded.svg
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-08-13'
 specificationVersion: '0.20'
 type: Index
 aid: svix
@@ -100,6 +100,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-application-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-application-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -124,6 +126,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-authentication-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-authentication-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -148,6 +152,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-background-task-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-background-task-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -172,6 +178,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-connector-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-connector-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -199,6 +207,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-endpoint-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-endpoint-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -223,6 +233,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-environment-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-environment-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -247,6 +259,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-event-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-event-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -273,6 +287,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-event-type-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-event-type-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -297,6 +313,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-health-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-health-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -321,6 +339,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-ingest-endpoint-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-ingest-endpoint-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -345,6 +365,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-ingest-source-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-ingest-source-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -371,6 +393,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-integration-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-integration-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -395,6 +419,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-message-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-message-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -419,6 +445,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-message-attempt-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-message-attempt-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -443,6 +471,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-sink-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-sink-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -467,6 +497,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-statistics-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-statistics-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -491,6 +523,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-stream-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-stream-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -515,6 +549,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-stream-authentication-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-stream-authentication-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -539,6 +575,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-stream-event-type-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-stream-event-type-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -563,6 +601,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-webhook-endpoint-api-openapi.yml
+  - type: Overlay
+    url: overlays/svix-webhook-endpoint-api-overlay.yaml
   - type: Documentation
     url: https://docs.svix.com
   - type: APIReference
@@ -646,8 +686,6 @@ common:
     url: https://docs.svix.com
   - type: APIReference
     url: https://api.svix.com/docs
-  - type: GettingStarted
-    url: https://docs.svix.com/quickstart
   - type: GettingStarted
     url: https://docs.svix.com/quickstart
   - type: Tutorials
@@ -752,7 +790,58 @@ common:
 
   - type: LlmsText
     url: https://docs.svix.com/llms.txt
+  - type: Packages
+    url: packages/svix-packages.yml
+  - type: SDKs
+    name: Svix polyglot SDK set (9 languages, one release train)
+    url: packages/svix-packages.yml
+  - type: WellKnown
+    url: well-known/svix-well-known.yml
+  - type: SecurityTxt
+    url: well-known/svix-security.txt
+  - type: MCPServer
+    name: Consumer App Portal MCP (remote, hosted)
+    url: mcp/svix-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/svix-tool-crosswalk.yml
+  - type: AgentSkill
+    name: Svix Agent Skills (provider-published)
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/svix-llms.txt
+  - type: Webhooks
+    name: Svix operational webhooks (14 events)
+    url: asyncapi/svix-operational-webhooks.yml
+  - type: Conventions
+    url: conventions/svix-conventions.yml
+  - type: Idempotency
+    name: Idempotency-Key header, POST only, 12h result retention
+    url: conventions/svix-conventions.yml
+  - type: ErrorCatalog
+    url: errors/svix-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/svix-lifecycle.yml
+  - type: Conformance
+    url: conformance/svix-conformance.yml
+  - type: DataModel
+    url: data-model/svix-data-model.yml
+  - type: ChangeLog
+    url: changelog/svix-changelog.yml
+  - type: CLI
+    name: Svix CLI command surface
+    url: cli/svix-cli.yml
+  - type: Components
+    url: components/svix-components.yml
+  - type: Sandbox
+    name: Svix Play + environment isolation
+    url: sandbox/svix-sandbox.yml
 maintainers:
   - FN: Kin Lane
     url: https://apievangelist.com
     email: info@apievangelist.com
+
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 50
+  pass: local-v1
