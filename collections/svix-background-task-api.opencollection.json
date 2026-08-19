@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Background Task API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Background Task",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Background Tasks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/background-task",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter the response based on the status."
+              },
+              {
+                "name": "task",
+                "value": "",
+                "type": "query",
+                "description": "Filter the response based on the type."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List background tasks executed in the past 90 days."
+        },
+        {
+          "info": {
+            "name": "Get Background Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/background-task/:task_id",
+            "params": [
+              {
+                "name": "task_id",
+                "value": "",
+                "type": "path",
+                "description": "The QueueBackgroundTask's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a background task by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

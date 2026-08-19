@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Connector API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Connector",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Connectors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/connector",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              },
+              {
+                "name": "product_type",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all connectors for an application."
+        },
+        {
+          "info": {
+            "name": "Create Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/connector",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new connector."
+        },
+        {
+          "info": {
+            "name": "Get Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a connector."
+        },
+        {
+          "info": {
+            "name": "Update Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a connector."
+        },
+        {
+          "info": {
+            "name": "Patch Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a connector."
+        },
+        {
+          "info": {
+            "name": "Delete Connector",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/connector/:connector_id",
+            "params": [
+              {
+                "name": "connector_id",
+                "value": "",
+                "type": "path",
+                "description": "The Connector's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a connector."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

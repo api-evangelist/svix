@@ -1,0 +1,257 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Webhook Endpoint API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhook Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Operational Webhook Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List operational webhook endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Operational Webhook Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an operational webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the operational webhook."
+        },
+        {
+          "info": {
+            "name": "Update Operational Webhook Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent with the operational webhook."
+        },
+        {
+          "info": {
+            "name": "Get Operational Webhook Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an operational webhook endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Operational Webhook Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/operational-webhook/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates an operational webhook endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

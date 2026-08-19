@@ -1,0 +1,195 @@
+generated: '2026-08-13'
+method: searched
+source: |
+  Registry metadata endpoints queried unauthenticated on 2026-08-13
+  (registry.npmjs.org, pypi.org, rubygems.org, crates.io, azuresearch-usnc.nuget.org,
+  repo1.maven.org, repo.packagist.org, proxy.golang.org), cross-checked against
+  https://github.com/svix/svix-webhooks (the monorepo every SDK is generated from)
+  and https://docs.svix.com/.
+note: |
+  Svix generates every server SDK from one OpenAPI document in the svix-webhooks
+  monorepo, so the whole polyglot set moves together on a single release train —
+  v1.99.1 shipped to npm, PyPI, RubyGems, NuGet, Maven Central and the Go proxy on
+  the same day (2026-07-23). A v2.0.0 release candidate line (2.0.0-rc.2, 2026-07-28)
+  is published ahead of the stable channel on crates.io, Packagist and Maven Central;
+  those two registries currently resolve "latest" to the RC rather than to 1.99.1.
+  No SDK in this set is stale relative to the API: the live contract at
+  api.svix.com/api/v1/openapi.json reports info.version 1.922.0 and the SDK train
+  is 3 weeks old at time of writing.
+release_train:
+  monorepo: https://github.com/svix/svix-webhooks
+  stable: 1.99.1
+  stable_published: '2026-07-23'
+  prerelease: 2.0.0-rc.2
+  prerelease_published: '2026-07-28'
+  changelog: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+
+packages:
+  - language: javascript
+    registry: npm
+    name: svix
+    url: https://www.npmjs.com/package/svix
+    install: npm install svix
+    official: true
+    version: 1.99.1
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+
+  - language: python
+    registry: pypi
+    name: svix
+    url: https://pypi.org/project/svix/
+    install: pip install svix
+    official: true
+    version: 1.99.1
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+
+  - language: ruby
+    registry: rubygems
+    name: svix
+    url: https://rubygems.org/gems/svix
+    install: gem install svix
+    official: true
+    version: 1.99.1
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+
+  - language: csharp
+    registry: nuget
+    name: Svix
+    url: https://www.nuget.org/packages/Svix
+    install: dotnet add package Svix
+    official: true
+    version: 1.99.1
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+
+  - language: go
+    registry: go-modules
+    name: github.com/svix/svix-webhooks
+    url: https://pkg.go.dev/github.com/svix/svix-webhooks/go
+    install: go get github.com/svix/svix-webhooks/go
+    official: true
+    version: v1.99.1
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+    note: |
+      proxy.golang.org resolves the module at the repository root
+      (github.com/svix/svix-webhooks@v1.99.1); the importable package is the
+      /go subdirectory, which has no separate module version of its own.
+
+  - language: java
+    registry: maven-central
+    name: com.svix:svix
+    url: https://central.sonatype.com/artifact/com.svix/svix
+    install: 'implementation "com.svix:svix:1.99.1"'
+    official: true
+    version: 2.0.0-rc.2
+    published: '2026-07-28'
+    latest_stable: 1.99.1
+    note: |
+      maven-metadata.xml lists 132 versions; the newest is the 2.0.0 release
+      candidate. 1.99.1 is the newest stable.
+
+  - language: kotlin
+    registry: maven-central
+    name: com.svix.kotlin:svix-kotlin
+    url: https://central.sonatype.com/artifact/com.svix.kotlin/svix-kotlin
+    install: 'implementation "com.svix.kotlin:svix-kotlin:1.99.1"'
+    official: true
+    version: 2.0.0-rc.2
+    published: '2026-07-28'
+    latest_stable: 1.99.1
+
+  - language: php
+    registry: packagist
+    name: svix/svix
+    url: https://packagist.org/packages/svix/svix
+    install: composer require svix/svix
+    official: true
+    version: 2.0.0-rc.2
+    published: '2026-07-28'
+    latest_stable: 1.99.1
+    note: Packagist resolves the newest tag, which is currently the 2.0.0 RC.
+
+  - language: rust
+    registry: crates.io
+    name: svix
+    url: https://crates.io/crates/svix
+    install: cargo add svix
+    official: true
+    version: 2.0.0-rc.2
+    published: '2026-07-28'
+    latest_stable: 1.99.1
+    note: |
+      Svix's server and CLI are written in Rust; crates.io carries the client
+      library. max_version is the 2.0.0 release candidate.
+
+  - language: javascript
+    registry: npm
+    name: svix-cli
+    kind: cli
+    url: https://www.npmjs.com/package/svix-cli
+    install: npx svix-cli
+    official: true
+    version: 1.99.0
+    published: '2026-07-23'
+    source_repo: https://github.com/svix/svix-webhooks
+    note: |
+      npm distribution of the Go-built Svix CLI; see cli/svix-cli.yml for the
+      command surface and the non-npm install channels (Homebrew, Scoop, AUR,
+      deb/rpm, GitHub releases).
+
+  - language: javascript
+    registry: npm
+    name: svix-react
+    kind: ui-component
+    url: https://www.npmjs.com/package/svix-react
+    install: npm install svix-react
+    official: true
+    version: 1.13.9
+    published: '2026-03-10'
+    note: |
+      React components for embedding the Consumer App Portal in your own
+      dashboard. Published by the svixdev/tasn npm maintainers (same accounts
+      that publish `svix`), but on its own release cadence — 5 months behind the
+      server-SDK train, which is expected for a UI wrapper rather than an
+      abandonment signal. See components/svix-components.yml.
+
+  - language: multi
+    registry: null
+    name: standardwebhooks
+    kind: specification-library
+    url: https://www.standardwebhooks.com
+    official: false
+    version: null
+    published: null
+    note: |
+      Standard Webhooks is the open specification Svix co-authored and its
+      libraries are the recommended receiver-side dependency, but they are
+      published by the Standard Webhooks project rather than by Svix, so they
+      are recorded here as related-not-first-party. version/published left null
+      deliberately: this row names an ecosystem, not one registry artifact.
+
+related_repositories:
+  - name: svix/terraform-provider-svix
+    url: https://github.com/svix/terraform-provider-svix
+    kind: terraform-provider
+    official: true
+    note: Registry listing not confirmed in this pass; source repo verified.
+  - name: svix/homebrew-svix
+    url: https://github.com/svix/homebrew-svix
+    kind: homebrew-tap
+    official: true
+  - name: svix/scoop-svix
+    url: https://github.com/svix/scoop-svix
+    kind: scoop-bucket
+    official: true
+  - name: svix/ai
+    url: https://github.com/svix/ai
+    kind: agent-skills-plugin
+    official: true
+    note: |
+      Agent Skills + agent-runtime plugins, installable with `npx skills add svix/ai`.
+      Not published to a package registry; see skills/_index.yml.

@@ -1,0 +1,638 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Endpoint API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the application's endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new endpoint for the application.\n\nWhen `secret` is `null` the secret is automatically generated (recommended)."
+        },
+        {
+          "info": {
+            "name": "Get Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an endpoint."
+        },
+        {
+          "info": {
+            "name": "Bulk Replay Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/bulk-replay",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Bulk replay messages sent to the endpoint.\n\nOnly messages that were created after `since` will be sent.\nThis will replay both successful, and failed messages\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.bulk-replay\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Update Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially set the additional headers to be sent with the webhook."
+        },
+        {
+          "info": {
+            "name": "Recover Failed Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/recover",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend all failed messages since a given time.\n\nMessages that were sent successfully, even if failed initially, are not resent.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.recover\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Replay Missing Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/replay-missing",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replays messages to the endpoint.\n\nOnly messages that were created after `since` will be sent.\nMessages that were previously sent to the endpoint are not resent.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"endpoint.replay\",\n  \"data\": {\n    \"messagesSent\": 2\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates the endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        },
+        {
+          "info": {
+            "name": "Send Event Type Example Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/send-example",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Send an example message for an event."
+        },
+        {
+          "info": {
+            "name": "Endpoint Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/stats",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Filter the range to data starting from this date."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Filter the range to data ending by this date."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get basic statistics for the endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

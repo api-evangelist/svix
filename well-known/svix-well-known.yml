@@ -1,0 +1,181 @@
+generated: '2026-08-13'
+method: probed
+source: |
+  Direct unauthenticated GETs on 2026-08-13 against every host named in apis.yml
+  (baseURL, Portal, DeveloperPortal, Documentation, Sandbox) plus every
+  servers[] host in openapi/_original/svix-openapi.json and the MCP host from
+  mcp/svix-mcp.yml.
+summary:
+  hosts_probed: 6
+  paths_probed_per_host: 8
+  real_documents_found: 1
+  note: |
+    Exactly one real /.well-known/ document is served: an RFC 9116 security.txt
+    on www.svix.com. Every other path 404s on the hosts that answer honestly.
+    Two hosts (dashboard.svix.com and play.svix.com) are single-page apps whose
+    catch-all route answers HTTP 200 with an HTML shell for arbitrary
+    /.well-known/* paths — those 200s are recorded below as false positives and
+    are NOT counted as documents, per the pipeline's no-soft-200 rule.
+
+hosts:
+  - host: https://www.svix.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain; charset=utf-8
+        file: svix-security.txt
+        real: true
+        note: RFC 9116. Contact + Preferred-Languages + Canonical. No Expires field.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+
+  - host: https://api.svix.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+
+  - host: https://docs.svix.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+
+  - host: https://mcp.us.svix.com
+    note: |
+      The hosted MCP server. It authenticates with a bearer token issued from the
+      Consumer App Portal rather than OAuth, so neither RFC 8414 nor RFC 9728
+      discovery document is served — consistent with the 401 challenge it returns
+      (`WWW-Authenticate: Bearer realm="svix-mcp"`), which is a plain bearer realm,
+      not an OAuth resource-metadata pointer.
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+
+  - host: https://dashboard.svix.com
+    spa_catch_all: true
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        real: false
+        note: SPA shell, not a document. Rejected.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        real: false
+        note: SPA shell, not a document. Rejected.
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: text/html
+        real: false
+        note: SPA shell, not a document. Rejected.
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        real: false
+        note: SPA shell, not a document. Rejected.
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+
+  - host: https://play.svix.com
+    spa_catch_all: true
+    note: |
+      Svix Play (the throwaway webhook-inspection sandbox) answers 200 with an
+      HTML shell on EVERY /.well-known/* path probed, including
+      /.well-known/agent-card.json and /.well-known/agent.json. Every one of
+      these is a false positive; none is a document. Recorded so a later pass
+      does not re-credit them.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/agent.json
+        status: 200
+        content_type: text/html
+        real: false
+
+gaps:
+  - id: security-txt-no-expires
+    detail: |
+      www.svix.com/.well-known/security.txt omits the `Expires:` field, which
+      RFC 9116 section 2.5.5 makes REQUIRED. Adding it (and a `Policy:` URL) is
+      a one-line fix on Svix's side.
+  - id: no-api-catalog
+    detail: |
+      No RFC 9727 /.well-known/api-catalog on any host, despite Svix publishing
+      a complete OpenAPI at api.svix.com/api/v1/openapi.json. A catalog document
+      pointing at that spec would make the contract discoverable without docs.

@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Statistics API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Statistics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Aggregate App Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stats/usage/app",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a background task to calculate the number of message attempts (`messageDestinations`) made for all applications in the environment.\n\nNote that this endpoint is asynchronous. You will need to poll the `Get Background Task` endpoint to\nretrieve the results of the operation.\n\nThe completed background task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qe39Stble9Rn3ZxFrqL5ZSsjT\",\n  \"status\": \"finished\",\n  \"task\": \"application.stats\",\n  \"data\": {\n    \"appStats\": [\n      "
+        },
+        {
+          "info": {
+            "name": "Aggregate Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stats/usage/event-types",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a background task to calculate the listed event types for all apps in the organization.\n\nNote that this endpoint is asynchronous. You will need to poll the `Get Background Task` endpoint to\nretrieve the results of the operation.\n\nThe completed background task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qe39Stble9Rn3ZxFrqL5ZSsjT\",\n  \"status\": \"finished\",\n  \"task\": \"event-type.aggregate\",\n  \"data\": {\n    \"event_types\": [\n      {\n        \"appId\": \"app_33W1An2Zz5cO9S"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

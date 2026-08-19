@@ -1,0 +1,247 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Integration API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List the application's integrations."
+        },
+        {
+          "info": {
+            "name": "Create Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an integration."
+        },
+        {
+          "info": {
+            "name": "Get Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an integration."
+        },
+        {
+          "info": {
+            "name": "Update Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an integration."
+        },
+        {
+          "info": {
+            "name": "Delete Integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an integration."
+        },
+        {
+          "info": {
+            "name": "Get Integration Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id/key",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an integration's key."
+        },
+        {
+          "info": {
+            "name": "Rotate Integration Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/integration/:integ_id/key/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "integ_id",
+                "value": "",
+                "type": "path",
+                "description": "The Integration's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate the integration's key. The previous key will be immediately revoked."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

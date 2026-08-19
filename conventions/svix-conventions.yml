@@ -1,0 +1,227 @@
+generated: '2026-08-13'
+method: searched
+source: |
+  https://docs.svix.com/idempotency, https://docs.svix.com/api-keys,
+  https://docs.svix.com/retries, https://docs.svix.com/throttling,
+  https://docs.svix.com/multi-region, the info.description of
+  https://api.svix.com/api/v1/openapi.json, and the parameter/response shapes in
+  openapi/_original/svix-openapi.json (Svix API v1.922.0).
+docs: https://docs.svix.com/
+
+authentication:
+  style: bearer
+  scheme_name: HTTPBearer
+  header: 'Authorization: Bearer <AUTH_TOKEN>'
+  credential: API key ("auth token"), per environment
+  scoping: |
+    Keys are scoped to an ENVIRONMENT, not to an organization. Every organization
+    starts with a development environment and its own key; that key is explicitly
+    not intended for production. This is the most common source of a 401 — a
+    development key used against production data.
+  rotation: |
+    Multiple keys per environment are supported specifically to enable zero-downtime
+    rotation: create a new key, swap all callers, then expire the old key either
+    immediately or at a scheduled future time.
+  oauth2: false
+  scopes: false
+  scopes_note: |
+    No OAuth2 anywhere in the contract — one securityScheme (HTTPBearer) across all
+    230 operations. There is therefore no scope surface and no scopes/ artifact;
+    authorization is expressed by which token you hold, not by a scope string.
+  derived_token_types:
+    - name: App Portal access token
+      operation: v1.authentication.app-portal-access
+      note: Short-lived, single-application, used to embed the Consumer App Portal.
+    - name: Message token
+      operation: v1.authentication.create-message-token
+      note: Scoped token for polling messages for one application.
+    - name: MCP token
+      issuer: Consumer App Portal
+      ttl_days: 7
+      note: |
+        Application-scoped, expressly not usable as an organization API key.
+        See mcp/svix-mcp.yml.
+  docs: https://docs.svix.com/api-keys
+
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  methods: [POST]
+  methods_note: |
+    Idempotency is POST-only. PUT/PATCH/DELETE are not covered — Svix's position is
+    that those are already idempotent by shape, but it does mean an interrupted
+    PATCH has no replay-safe retry contract.
+  retention: PT12H
+  retention_note: |
+    Svix stores the status code and body of the first successful request for a given
+    key and returns that same result for subsequent requests with the same key for
+    up to 12 hours.
+  key_format: |
+    Client-generated, any string with enough entropy. Svix recommends UUID v4.
+  reserved_prefix: auto_
+  reserved_prefix_note: |
+    Keys must NOT begin with `auto_` — that prefix is reserved for the official
+    client libraries, which set an idempotency key automatically when you do not.
+  spec_evidence:
+    parameter: idempotency-key
+    location: header
+    operations_declaring: 70
+    source: openapi/_original/svix-openapi.json
+  sdk_support: |
+    First-class in every SDK: `idempotencyKey` / `idempotency_key` on the post
+    options object (JavaScript, Python, Rust, Go, Java, Kotlin, Ruby, C#, PHP).
+  docs: https://docs.svix.com/idempotency
+
+pagination:
+  style: cursor
+  params:
+    - name: iterator
+      in: query
+      note: Opaque cursor. Pass the `iterator` from the previous page.
+    - name: limit
+      in: query
+      note: Page size.
+    - name: order
+      in: query
+      values: [ascending, descending]
+      schema: Ordering
+  response_fields: [data, iterator, prevIterator, done]
+  bidirectional: true
+  bidirectional_note: |
+    `prevIterator` alongside `iterator` means paging backwards is a first-class
+    operation, not a client-side reconstruction. `done` is an explicit terminator,
+    so a client never has to infer the end from an empty page.
+  time_filters: [before, after, since, until]
+  operations_with_pagination: 31
+  offset_pagination: false
+
+filtering:
+  message_filters: [event_types, channel, tag, before, after, with_content]
+  attempt_filters: [status, status_code_class, event_types, channel, before, after]
+  note: |
+    `channel` is the multi-tenancy primitive INSIDE a consumer application — Svix's
+    own agent skill is explicit that channels, not event types, are the right tool
+    for routing to sub-tenants of one customer.
+
+content_control:
+  param: with_content
+  note: |
+    A breaking change in the 2.0.0 line: `with_content` now defaults to FALSE on
+    message and attempt list/create operations, so create-message no longer mirrors
+    the payload back and attempt listings omit response bodies unless asked. Clients
+    written against 1.x that read the echoed payload will get nothing back.
+
+metadata:
+  supported: true
+  field: metadata
+  type: object
+  entities: [Application, Endpoint, Message (via tags), IngestSource, IngestEndpoint, StreamSink]
+  note: Free-form key/value store attached to most top-level entities.
+
+customer_supplied_ids:
+  supported: true
+  field: uid
+  note: |
+    A distinguishing convention. Most top-level entities accept a customer-supplied
+    `uid` and that uid is interchangeable with the Svix `id` in the URL path, so a
+    Svix customer can address an Application by their OWN tenant identifier without
+    keeping a mapping table. Svix's agent skill instructs agents to always pass
+    `--data-uid` on create for exactly this reason. Consequence for error handling:
+    a 404 frequently means "the uid was never set" rather than "the entity is gone",
+    and a 409 on create usually means a duplicate uid.
+
+request_tracing:
+  request_id_header: null
+  note: |
+    No request-id / correlation-id header is documented or declared in the contract.
+    This is a real gap for debugging: a customer reporting a failed API call has no
+    identifier to hand to support. (Message and attempt IDs cover the DELIVERY side;
+    this is about the API call itself.)
+
+versioning:
+  scheme: uri-path
+  current: v1
+  path_prefix: /api/v1
+  ingest_prefix: /ingest/api/v1
+  spec_version: 1.922.0
+  spec_version_note: |
+    info.version moves with the server build (1.922.0 at harvest) while the URL stays
+    at v1. The SDK release train is versioned separately (1.99.1 / 2.0.0-rc.2), so
+    three version numbers coexist and none of them is the URL version.
+  breaking_change_channel: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+  see_also: lifecycle/svix-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  schema: HttpErrorOut
+  fields: [code, detail]
+  rfc9457: false
+  validation_exception:
+    status: 422
+    schema: HTTPValidationError
+    note: '`detail` is an ARRAY of {loc, msg, type} at 422 and a STRING everywhere else.'
+  see_also: errors/svix-problem-types.yml
+
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  declared_on_all_operations: true
+  response_headers: []
+  response_headers_note: |
+    No X-RateLimit-* / RateLimit-* / Retry-After headers are declared anywhere in the
+    contract — the OpenAPI defines zero response headers on any of its 230
+    operations. A 429 therefore tells an agent it was throttled but not how long to
+    wait or how much budget remains. Endpoint-side throttling has a dedicated
+    read operation instead (v1.endpoint.get-throttling-status).
+  see_also: rate-limits/svix-rate-limits.yml
+
+delivery_semantics:
+  note: |
+    Distinct from API conventions and easy to conflate. These govern the webhooks
+    Svix DELIVERS on the customer's behalf, not calls to the Svix API.
+  success_definition: 'HTTP 2xx (200-299) within ~15s. Anything else, including 3xx redirects, is a failure.'
+  receiver_timeout_seconds: 15
+  retry_schedule: [immediate, 5s, 5m, 30m, 2h, 5h, 10h, 10h]
+  retry_total_attempts: 8
+  abort_header: 'webhook-delivery: abort-message'
+  abort_note: |
+    A receiver can stop the retry sequence for a message by returning that header —
+    a receiver-side kill switch, which is unusual and worth an agent knowing about.
+  endpoint_auto_disable: |
+    An endpoint failing continuously for 5 days is disabled and an
+    EndpointDisabledEvent operational webhook fires. The 5-day clock only starts
+    after multiple failures inside a 24-hour span with >=12 hours between the first
+    and last. Disableable per environment.
+  exhaustion_event: message.attempt.exhausted
+  signing: Standard Webhooks (svix-id / svix-timestamp / svix-signature)
+  replay_window_minutes: 5
+  docs: https://docs.svix.com/retries
+
+cors:
+  enabled: true
+  policy: 'Wildcard same-origin on all responses (W3C CORS).'
+  source: info.description of the published OpenAPI
+
+multi_region:
+  regions: [us, eu, ca, au, in]
+  bases:
+    - https://api.us.svix.com
+    - https://api.eu.svix.com
+    - https://api.ca.svix.com
+    - https://api.au.svix.com
+    - https://api.in.svix.com
+  default_base: https://api.svix.com
+  note: |
+    api.svix.com is the documented default and serves the OpenAPI; the five regional
+    hosts are the data-residency bases and are what servers[] declares. An account
+    lives in exactly one region. The MCP server follows the same pattern
+    (mcp.{region}.svix.com) but only for us/eu/ca/au — India has no MCP host.
+  docs: https://docs.svix.com/multi-region
+
+cross_links:
+  authentication: authentication/svix-authentication.yml
+  errors: errors/svix-problem-types.yml
+  lifecycle: lifecycle/svix-lifecycle.yml
+  rate_limits: rate-limits/svix-rate-limits.yml
+  data_model: data-model/svix-data-model.yml
+  webhooks: asyncapi/svix-operational-webhooks.yml
+  sandbox: sandbox/svix-sandbox.yml

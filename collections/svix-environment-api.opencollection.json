@@ -1,0 +1,64 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Environment API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export Environment Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/environment/export",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download a JSON file containing all org-settings and event types.\n\nNote that the schema for [`EnvironmentOut`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs."
+        },
+        {
+          "info": {
+            "name": "Import Environment Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/environment/import",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Import a configuration into the active organization.\n\nIt doesn't delete anything, only adds / updates what was passed to it.\n\nNote that the schema for [`EnvironmentIn`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

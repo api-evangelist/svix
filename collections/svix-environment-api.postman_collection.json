@@ -1,0 +1,1148 @@
+{
+  "item": [
+    {
+      "id": "941ae4b2-18de-4fe8-9fd7-00c1b5b2f7c5",
+      "name": "Environment",
+      "description": {
+        "content": "Manage your environments like development, staging and production.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "24cd8c28-97dc-499a-bca5-126b5cf9e9be",
+          "name": "Export Environment Configuration",
+          "request": {
+            "name": "Export Environment Configuration",
+            "description": {
+              "content": "Download a JSON file containing all org-settings and event types.\n\nNote that the schema for [`EnvironmentOut`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "environment",
+                "export"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "206c9675-287e-43ed-b468-b0e2b48799a2",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"connectors\": [\n    {\n      \"createdAt\": \"1990-06-06T03:34:08.717Z\",\n      \"description\": \"string\",\n      \"id\": \"trtmpl_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n      \"instructions\": \"string\",\n      \"kind\": \"Segment\",\n      \"name\": \"string\",\n      \"orgId\": \"org_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n      \"productType\": \"Stream\",\n      \"transformation\": \"string\",\n      \"transformationUpdatedAt\": \"1982-10-25T10:05:17.674Z\",\n      \"updatedAt\": \"1962-10-06T01:55:39.579Z\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"logo\": \"https://tQORWZ.gkoinK6jmdRXRbhXn5\",\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"createdAt\": \"2018-12-31T20:03:00.286Z\",\n      \"description\": \"string\",\n      \"id\": \"trtmpl_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n      \"instructions\": \"string\",\n      \"kind\": \"CustomerIO\",\n      \"name\": \"string\",\n      \"orgId\": \"org_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n      \"productType\": \"Dispatch\",\n      \"transformation\": \"string\",\n      \"transformationUpdatedAt\": \"2004-10-27T06:11:12.826Z\",\n      \"updatedAt\": \"2010-01-28T21:23:53.830Z\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"logo\": \"https://EprIFF.bwghr8InjeKZF7WAc5WQj\",\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"createdAt\": \"1984-02-14T07:49:02.286Z\",\n  \"eventTypes\": [\n    {\n      \"createdAt\": \"2024-04-26T00:14:38.473Z\",\n      \"deprecated\": false,\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"updatedAt\": \"2017-07-03T12:38:33.475Z\",\n      \"archived\": false,\n      \"featureFlag\": \"0\",\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"createdAt\": \"1960-07-10T17:26:49.875Z\",\n      \"deprecated\": true,\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"updatedAt\": \"1985-03-31T00:45:31.507Z\",\n      \"archived\": false,\n      \"featureFlag\": \"DVJIL8FPLij\",\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": {},\n  \"version\": 1\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b27526d3-2300-4b2e-ad55-59191697959b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f27a0070-eaf0-4437-8146-cc22bf0a041f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f15d508c-293f-4228-a4ed-0df35a28928e",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dae48854-d886-40e3-90e9-01ab19b535e3",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48f20d5d-8828-415d-9e5f-b07a3e4653f4",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8296e772-18ec-4070-84fd-4972055b79de",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aec13e54-1ce4-4a54-b6c3-2787a50992cb",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "export"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "572eae05-a3ff-4186-8f92-a475913b0c98",
+          "name": "Import Environment Configuration",
+          "request": {
+            "name": "Import Environment Configuration",
+            "description": {
+              "content": "Import a configuration into the active organization.\n\nIt doesn't delete anything, only adds / updates what was passed to it.\n\nNote that the schema for [`EnvironmentIn`] is subject to change. The fields\nherein are provided for convenience but should be treated as JSON blobs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "environment",
+                "import"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"<string>\",\n      \"transformation\": \"<string>\",\n      \"allowedEventTypes\": [\n        \"<string>\"\n      ],\n      \"description\": \"\",\n      \"featureFlags\": null,\n      \"instructions\": \"\",\n      \"kind\": \"Custom\",\n      \"logo\": \"<uri>\",\n      \"productType\": null,\n      \"uid\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"transformation\": \"<string>\",\n      \"allowedEventTypes\": [\n        \"<string>\"\n      ],\n      \"description\": \"\",\n      \"featureFlags\": null,\n      \"instructions\": \"\",\n      \"kind\": \"Custom\",\n      \"logo\": \"<uri>\",\n      \"productType\": null,\n      \"uid\": \"<string>\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"<string>\",\n      \"name\": \"<string>\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": null,\n      \"groupName\": \"<string>\",\n      \"schemas\": \"<object>\"\n    },\n    {\n      \"description\": \"<string>\",\n      \"name\": \"<string>\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": null,\n      \"groupName\": \"<string>\",\n      \"schemas\": \"<object>\"\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "811782af-a10f-4d8c-8ec0-6abc6025e77b",
+              "name": "no content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "75eea7e2-d442-4eb4-8b37-8ae8414564ed",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a569293-b51c-4f02-82e0-7d4e1463d3e6",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea54b58c-62a1-4909-818c-9c6ffe5e07b5",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b2de8b5-281f-4901-a435-e21ed4d4dbb8",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f386449-2c44-4a97-8a65-5473eb5889b5",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "76d5eb57-5ef5-4d43-a056-75809d0cffac",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c42aa5a9-3e02-4ea3-b5f3-f8f89250ecca",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "environment",
+                    "import"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"connectors\": [\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    },\n    {\n      \"name\": \"My first connector\",\n      \"transformation\": \"function handler(webhook) { /* ... */ }\",\n      \"allowedEventTypes\": [\n        \"user.signup\",\n        \"user.deleted\"\n      ],\n      \"description\": \"Example connector description\",\n      \"featureFlags\": null,\n      \"instructions\": \"Markdown-formatted instructions\",\n      \"kind\": \"Slack\",\n      \"logo\": \"https://example.com/logo.png\",\n      \"productType\": null,\n      \"uid\": \"unique-identifier\"\n    }\n  ],\n  \"eventTypes\": [\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"archived\": false,\n      \"deprecated\": false,\n      \"featureFlag\": null,\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"settings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.eu.svix.com/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bb46b128-f6c1-43da-8ade-9c6a1b95ded6",
+    "name": "Svix Application Environment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to the Svix API documentation!\n\nUseful links: [Homepage](https://www.svix.com) | [Support email](mailto:support+docs@svix.com) | [Blog](https://www.svix.com/blog/) | [Slack Community](https://www.svix.com/slack/)\n\n# Introduction\n\nThis is the reference documentation and schemas for the [Svix webhook service](https://www.svix.com) API. For tutorials and other documentation please refer to [the documentation](https://docs.svix.com).\n\n## Main concepts\n\nIn Svix you have four important entities you will be interacting with:\n\n- `messages`: these are the webhooks being sent. They can have contents and a few other properties.\n- `application`: this is where `messages` are sent to. Usually you want to create one application for each user on your platform.\n- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent event type).\n- `event-type`: event types are identifiers denoting the type of the message being sent. Event types are primarily used to decide which events are sent to which endpoint.\n\n\n## Authentication\n\nGet your authentication token (`AUTH_TOKEN`) from the [Svix dashboard](https://dashboard.svix.com) and use it as part of the `Authorization` header as such: `Authorization: Bearer ${AUTH_TOKEN}`. For more information on authentication, please refer to the [authentication token docs](https://docs.svix.com/api-keys).\n\n<SecurityDefinitions />\n\n\n## Code samples\n\nThe code samples assume you already have the respective libraries installed and you know how to use them. For the latest information on how to do that, please refer to [the documentation](https://docs.svix.com/).\n\n\n## Idempotency\n\nSvix supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for safely retrying requests without accidentally performing the same operation twice. This is useful when an API call is disrupted in transit and you do not receive a response.\n\nTo perform an idempotent request, pass the idempotency key in the `Idempotency-Key` header to the request. The idempotency key should be a unique value generated by the client. You can create the key in however way you like, though we suggest using UUID v4, or any other string with enough entropy to avoid collisions. Your idempotency key should not begin with the string `auto_`, which is reserved for internal use by the client libraries.\n\nSvix's idempotency works by saving the resulting status code and body of the first request made for any given idempotency key for any successful request. Subsequent requests with the same key return the same result for a period of up to 12 hours.\n\nPlease note that idempotency is only supported for `POST` requests.\n\n\n## Cross-Origin Resource Sharing\n\nThis API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\n",
+      "type": "text/plain"
+    }
+  }
+}

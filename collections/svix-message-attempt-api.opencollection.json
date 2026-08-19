@@ -1,0 +1,467 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Message Attempt API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Message Attempt",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Attempts By Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/attempt/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "status_code_class",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the HTTP status code"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the tag"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` attempt content is included in the response"
+              },
+              {
+                "name": "with_msg",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, the message information is included in the response\n\nNote that message payloads are never included in the response, regardless of this flag."
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List attempts by endpoint id\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the `before` or `after` parameter as appropriate.\n"
+        },
+        {
+          "info": {
+            "name": "List Attempts By Msg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/attempt/msg/:msg_id",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "status_code_class",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the HTTP status code"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the tag"
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter the attempts based on the attempted endpoint"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` attempt content is included in the response"
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List attempts by message ID.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the `before` or `after` parameter as appropriate."
+        },
+        {
+          "info": {
+            "name": "List Attempted Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/endpoint/:endpoint_id/msg",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel"
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the message tags"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)"
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date"
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response"
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List messages for a particular endpoint.\n\nAdditionally includes metadata about the latest message attempt.\nThe `before` parameter lets you filter all items created before a certain date and is ignored if an iterator is passed.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nset the"
+        },
+        {
+          "info": {
+            "name": "Get Attempt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/attempt/:attempt_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "attempt_id",
+                "value": "",
+                "type": "path",
+                "description": "The MessageAttempt's ID."
+              },
+              {
+                "name": "expanded_statuses",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "`msg_id`: Use a message id or a message `eventId`"
+        },
+        {
+          "info": {
+            "name": "Delete attempt response body",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/attempt/:attempt_id/content",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "attempt_id",
+                "value": "",
+                "type": "path",
+                "description": "The MessageAttempt's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes the given attempt's response body.\n\nUseful when an endpoint accidentally returned sensitive content.\nThe message can't be replayed or resent once its payload has been deleted or expired."
+        },
+        {
+          "info": {
+            "name": "List Attempted Destinations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/endpoint",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List endpoints attempted by a given message.\n\nAdditionally includes metadata about the latest message attempt.\nBy default, endpoints are listed in ascending order by ID."
+        },
+        {
+          "info": {
+            "name": "Resend Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/endpoint/:endpoint_id/resend",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Resend a message to the specified endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

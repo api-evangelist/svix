@@ -1,0 +1,135 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.svix.com/app-portal
+sources:
+  - https://docs.svix.com/app-portal
+  - https://docs.svix.com/app-portal/oss
+  - https://docs.svix.com/consumer-app-portal
+  - https://docs.svix.com/stream/portal
+  - https://www.npmjs.com/package/svix-react
+  - https://example.svix.com/
+
+note: |
+  Svix's client-side surface is unusually central to the product rather than a
+  convenience layer. The Consumer App Portal is a white-labelled application a Svix
+  customer hands to THEIR customers, and it is the thing most Svix buyers are
+  actually buying — the endpoints, logs, replay and testing UI they would otherwise
+  have to build. It is distinct from the server SDKs in packages/.
+
+families:
+  - id: consumer-app-portal
+    name: Consumer App Portal
+    kind: hosted-embeddable-surface
+    docs: https://docs.svix.com/app-portal
+    live_demo: https://example.svix.com/
+    description: |
+      A white-labelled portal where a Svix customer's own users manage their webhook
+      endpoints, browse the event catalog, inspect delivery logs, replay messages,
+      send test events, use polling endpoints, and (when enabled) connect a coding
+      agent over MCP.
+    delivery_modes:
+      - id: standalone
+        description: Redirect the user to a Svix-hosted portal URL.
+      - id: embedded
+        description: Embed the portal inside the customer's own dashboard.
+    access_model:
+      mechanism: short-lived magic-link sessions
+      operation: v1.authentication.app-portal-access
+      description: |
+        The customer's backend calls the app-portal-access operation with an app_id
+        and receives a single-use URL plus a token. The end user is redirected into
+        it and stays logged in for a few days or until they log out.
+      security_note: |
+        Docs are explicit that the call must be made from the BACKEND because the
+        Svix API key must never reach the frontend; only the returned URL and token
+        are safe to pass forward.
+      no_svix_account_required: true
+      no_svix_account_note: |
+        "Your customers don't need a Svix account, and they don't even need to know
+        that Svix exists." — docs.svix.com/app-portal. That is the white-label
+        premise stated plainly.
+    features:
+      - Add and configure endpoints
+      - Browse the event catalog
+      - Filter and search delivery logs
+      - Replay and recover messages
+      - Send test events (Testing tab)
+      - Configure transformations
+      - Polling endpoints
+      - Connect a coding agent over MCP (opt-in, per environment)
+    mcp_tab:
+      available: true
+      default_enabled: false
+      artifact: mcp/svix-mcp.yml
+      note: |
+        The App Portal is where an end user generates the MCP token. The embedded UI
+        component and the agent surface are the same product feature seen from two
+        sides.
+
+  - id: svix-react
+    name: svix-react
+    kind: react-hook-library
+    registry: npm
+    package: svix-react
+    url: https://www.npmjs.com/package/svix-react
+    version: 1.13.9
+    published: '2026-03-10'
+    official: true
+    install: npm install svix-react
+    docs: https://docs.svix.com/app-portal/oss
+    description: |
+      React hooks for building your OWN portal against the Svix API — the documented
+      path for self-hosted / open-source deployments, where the hosted Consumer App
+      Portal is not included.
+    api_shape:
+      provider: SvixProvider
+      provider_props: [token, appId]
+      hooks_documented: [useEndpoints]
+      hook_return_fields: [data, loading, error, hasNextPage, hasPrevPage, nextPage, prevPage]
+      note: |
+        The hook return shape wraps the API's cursor pagination directly —
+        nextPage/prevPage map onto `iterator`/`prevIterator`, which is why the
+        library can offer bidirectional paging without extra bookkeeping.
+    caveat: |
+      This is a UI toolkit, not the portal. Svix states that the Consumer App Portal
+      is currently hosted-only and that OSS users "can just build your own", with
+      svix-react as the recommended starting point. So the single biggest piece of
+      product value is on the hosted side of the open-core line.
+
+  - id: stream-portal
+    name: Stream Portal
+    kind: hosted-embeddable-surface
+    docs: https://docs.svix.com/stream/portal
+    description: |
+      The equivalent embedded surface for Svix Stream — where sinks (poller, S3,
+      Google Cloud Pub/Sub, ClickHouse, …) are created and managed.
+
+  - id: svix-example
+    name: svix-example
+    kind: reference-implementation
+    url: https://github.com/svix/svix-example
+    official: true
+    description: |
+      An example Svix integration in Next.js (TypeScript + React) — the runnable
+      reference for wiring the portal and the SDK together.
+
+not_components:
+  - name: Svix Play
+    reason: |
+      A standalone hosted debugger, not an embeddable component. Catalogued in
+      sandbox/svix-sandbox.yml.
+  - name: Server SDKs
+    reason: Catalogued in packages/svix-packages.yml.
+
+gaps:
+  - id: svix-react-undocumented-surface
+    detail: |
+      Only one hook (useEndpoints) is shown in the docs, and svix-react publishes no
+      repository field on npm and has no dedicated documentation section — so the
+      library Svix recommends for building your own portal has no published API
+      reference. It is also 5 months behind the server-SDK train.
+  - id: portal-is-hosted-only
+    detail: |
+      The Consumer App Portal is not in the open-source server. Svix says this "is
+      probably going to change in the future", but as of this pass a self-hosted
+      deployment gets the delivery engine without the consumer-facing UI.

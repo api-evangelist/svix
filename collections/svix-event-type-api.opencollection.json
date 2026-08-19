@@ -1,0 +1,221 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Event Type API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event Type",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/event-type",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              },
+              {
+                "name": "include_archived",
+                "value": "",
+                "type": "query",
+                "description": "When `true` archived (deleted but not expunged) items are included in the response."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` the full item (including the schema) is included in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Return the list of event types."
+        },
+        {
+          "info": {
+            "name": "Create Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/event-type",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create new or unarchive existing event type.\n\nUnarchiving an event type will allow endpoints to filter on it and messages to be sent with it.\nEndpoints filtering on the event type before archival will continue to filter on it.\nThis operation does not preserve the description and schemas."
+        },
+        {
+          "info": {
+            "name": "Event Type Import From Openapi",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/event-type/import/openapi",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Given an OpenAPI spec, create new or update existing event types.\n\nIf an existing `archived` event type is updated, it will be unarchived.\nThe importer will convert all webhooks found in the either the `webhooks` or `x-webhooks`\ntop-level."
+        },
+        {
+          "info": {
+            "name": "Get Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an event type."
+        },
+        {
+          "info": {
+            "name": "Update Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an event type."
+        },
+        {
+          "info": {
+            "name": "Patch Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update an event type."
+        },
+        {
+          "info": {
+            "name": "Delete Event Type",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/event-type/:event_type_name",
+            "params": [
+              {
+                "name": "event_type_name",
+                "value": "",
+                "type": "path",
+                "description": "The event type's name"
+              },
+              {
+                "name": "expunge",
+                "value": "",
+                "type": "query",
+                "description": "By default event types are archived when \"deleted\". Passing this to `true` deletes them entirely."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Archive an event type.\n\nEndpoints already configured to filter on an event type will continue to do so after archival.\nHowever, new messages can not be sent with it and endpoints can not filter on it.\nAn event type can be unarchived with the\n[create operation](#operation/create_event_type_api_v1_event_type__post)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

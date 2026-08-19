@@ -1,0 +1,279 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/svix-openapi.json (Svix API v1.922.0, 153 paths / 230 operations / 369 component
+  schemas)
+docs: https://docs.svix.com/entities-overview
+note: 'Derived from the OpenAPI harvest two ways: schema $ref/id-reference fields, and — the stronger
+  signal in this contract — PATH NESTING. Svix expresses ownership in the URL (/api/v1/app/{app_id}/endpoint/{endpoint_id}/...),
+  so containment is readable straight off the path tree rather than inferred from field names. The four
+  entities Svix''s own docs call the core model (Application, Endpoint, Message, EventType) are marked
+  core: true below; the other ten are the surface the API adds around them.'
+id_convention:
+  style: prefixed KSUID
+  note: Ids are a short type prefix plus a K-sortable unique id, e.g. app_1srOrx2ZWZBpBUvZwXKQmoEYga2.
+    Svix open-sourced its KSUID implementations (svix/rust-ksuid, svix/python-ksuid).
+  prefixes_observed_in_spec_examples:
+  - app_
+  - atmpt_
+  - env_
+  - ep_
+  - integ_
+  - msg_
+  - sink_
+  - src_
+  - strm_
+uid_convention:
+  note: Most top-level entities accept a customer-supplied `uid` alongside the Svix `id`, and the uid
+    is usable interchangeably in the path. This is how a Svix customer addresses an Application by their
+    OWN tenant id without storing a mapping.
+  entities_with_uid:
+  - Application
+  - Endpoint
+  - Connector
+  - IngestSource
+  - IngestEndpoint
+  - Stream
+  - StreamSink
+  - OperationalWebhookEndpoint
+core_entities:
+- Application
+- Endpoint
+- Message
+- EventType
+entities:
+- name: Application
+  schema: ApplicationOut
+  id_prefix: app_
+  description: Where messages are sent to. One per tenant/customer of the Svix customer.
+  fields: 8
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Endpoint
+  schema: EndpointOut
+  id_prefix: ep_
+  description: A URL a message is delivered to. Belongs to exactly one Application.
+  fields: 13
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Message
+  schema: MessageOut
+  id_prefix: msg_
+  description: A webhook event being sent. Belongs to exactly one Application.
+  fields: 8
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - timestamp
+- name: MessageAttempt
+  schema: MessageAttemptOut
+  id_prefix: atmpt_
+  description: One delivery attempt of one Message against one Endpoint.
+  fields: 12
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - timestamp
+- name: EventType
+  schema: EventTypeOut
+  id_prefix: null
+  description: Organization-wide identifier for a kind of message. Keyed by name, not by an id.
+  fields: 10
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Integration
+  schema: IntegrationOut
+  id_prefix: integ_
+  description: A service connected to an Application, holding its own key.
+  fields: 5
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Connector
+  schema: ConnectorOut
+  id_prefix: null
+  description: A pre-built transformation/destination template applied to an Endpoint.
+  fields: 15
+  has_metadata: false
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Environment
+  schema: EnvironmentOut
+  id_prefix: env_
+  description: Isolation boundary (development, staging, production). Owns its own API keys.
+  fields: 5
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - createdAt
+- name: IngestSource
+  schema: IngestSourceOut
+  id_prefix: src_
+  description: An inbound third-party webhook source (Svix Ingest).
+  fields: 7
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: IngestEndpoint
+  schema: IngestEndpointOut
+  id_prefix: ep_
+  description: Where an IngestSource fans its received messages out to.
+  fields: 10
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: Stream
+  schema: StreamOut
+  id_prefix: strm_
+  description: An event stream (Svix Stream).
+  fields: 6
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: StreamSink
+  schema: StreamSinkOut
+  id_prefix: sink_
+  description: A destination a Stream is drained to (poller, S3, Pub/Sub, ...).
+  fields: 12
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+- name: BackgroundTask
+  schema: BackgroundTaskOut
+  id_prefix: null
+  description: An async job (expunge, replay, recover) with a terminal status.
+  fields: 5
+  has_metadata: false
+  has_uid: false
+  timestamps:
+  - updatedAt
+- name: OperationalWebhookEndpoint
+  schema: OperationalWebhookEndpointOut
+  id_prefix: ep_
+  description: Where Svix sends the customer its own operational events.
+  fields: 11
+  has_metadata: true
+  has_uid: true
+  timestamps:
+  - createdAt
+  - updatedAt
+relationships:
+- from: Application
+  kind: has_many
+  to: Endpoint
+  via: app_id
+  evidence: 'Path-scoped: /api/v1/app/{app_id}/endpoint'
+- from: Application
+  kind: has_many
+  to: Message
+  via: app_id
+  evidence: 'Path-scoped: /api/v1/app/{app_id}/msg'
+- from: Application
+  kind: has_many
+  to: Integration
+  via: app_id
+  evidence: 'Path-scoped: /api/v1/app/{app_id}/integration'
+- from: Application
+  kind: has_many
+  to: StreamSink
+  via: app_id
+  evidence: 'Path-scoped: /api/v1/app/{app_id}/stream/sink'
+- from: Endpoint
+  kind: belongs_to
+  to: Application
+  via: app_id
+  evidence: Every endpoint operation is nested under an app_id.
+- from: Endpoint
+  kind: has_many
+  to: MessageAttempt
+  via: endpointId
+  evidence: MessageAttemptOut.endpointId
+- from: Endpoint
+  kind: has_one
+  to: Connector
+  via: connector
+  evidence: v1.endpoint.get_connector
+- from: Message
+  kind: belongs_to
+  to: Application
+  via: app_id
+  evidence: Every message operation is nested under an app_id.
+- from: Message
+  kind: has_many
+  to: MessageAttempt
+  via: msgId
+  evidence: MessageAttemptOut.msgId
+- from: Message
+  kind: belongs_to
+  to: EventType
+  via: eventType
+  evidence: MessageOut.eventType is the EventType name, not an id.
+- from: MessageAttempt
+  kind: belongs_to
+  to: Message
+  via: msgId
+  evidence: MessageAttemptOut.msgId
+- from: MessageAttempt
+  kind: belongs_to
+  to: Endpoint
+  via: endpointId
+  evidence: MessageAttemptOut.endpointId
+- from: MessageAttempt
+  kind: has_one
+  to: Message
+  via: msg
+  evidence: MessageAttemptOut.msg embeds the full MessageOut when expanded.
+- from: Integration
+  kind: belongs_to
+  to: Application
+  via: app_id
+  evidence: Path-scoped.
+- from: IngestSource
+  kind: has_many
+  to: IngestEndpoint
+  via: source_id
+  evidence: 'Path-scoped: /ingest/api/v1/source/{source_id}/endpoint'
+- from: IngestEndpoint
+  kind: belongs_to
+  to: IngestSource
+  via: source_id
+  evidence: Path-scoped.
+- from: Stream
+  kind: has_many
+  to: StreamSink
+  via: stream_id
+  evidence: 'Path-scoped: /api/v1/stream/{stream_id}/sink'
+- from: StreamSink
+  kind: belongs_to
+  to: Stream
+  via: stream_id
+  evidence: Path-scoped.
+- from: Environment
+  kind: has_many
+  to: Application
+  via: env_id
+  evidence: Environments are the top isolation boundary; everything else lives inside one.
+summary:
+  entities: 14
+  relationships: 19
+  component_schemas_total: 369

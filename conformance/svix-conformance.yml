@@ -1,0 +1,184 @@
+generated: '2026-08-13'
+method: searched
+source: |
+  Derived from openapi/_original/svix-openapi.json (Svix API v1.922.0) and
+  security/svix-trust-center.yml, and searched against https://www.svix.com/security/,
+  https://www.standardwebhooks.com and https://docs.svix.com/.
+
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: |
+      openapi: "3.1.0" served anonymously at https://api.svix.com/api/v1/openapi.json
+      (2.4 MB, 153 paths, 230 operations, 369 component schemas). Uses the 3.1-only
+      `webhooks` top-level keyword for its 14 operational events, which is a genuine
+      3.1 feature rather than a version bump on a 3.0 document.
+
+  - id: standard-webhooks
+    conforms: true
+    role: co-author
+    evidence: |
+      Svix co-authored the Standard Webhooks specification
+      (https://www.standardwebhooks.com) and its delivery signature scheme
+      (svix-id / svix-timestamp / svix-signature headers, HMAC-SHA256 over
+      {id}.{timestamp}.{body}, whsec_-prefixed base64 secret, 5-minute replay window)
+      is the reference implementation. Svix's own published agent skill instructs
+      agents to prefer the `standardwebhooks` library for receivers.
+    note: |
+      This is the strongest conformance claim in the profile and it runs the unusual
+      direction: Svix does not adopt someone else's standard here, it wrote the one
+      the rest of the market adopts.
+
+  - id: oauth2
+    conforms: false
+    evidence: |
+      Zero oauth2 securitySchemes in the contract. The single scheme is HTTPBearer
+      (an API key in an Authorization header), applied across all 230 operations.
+    note: |
+      Svix CONSUMES OAuth on the delivery side — v1.endpoint.set-oauth-config lets a
+      customer's endpoint be authenticated with OAuth, and there is a HubSpot OAuth
+      connector operation — but it does not offer OAuth for access to its own API.
+
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration 404s on api.svix.com, www.svix.com and docs.svix.com.
+
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: |
+      `application/problem+json` appears zero times in the contract. Errors use a
+      proprietary `{code, detail}` envelope (schema HttpErrorOut) served as
+      application/json. See errors/svix-problem-types.yml.
+
+  - id: rfc9116-security-txt
+    conforms: partial
+    evidence: |
+      https://www.svix.com/.well-known/security.txt returns 200 text/plain with
+      Contact, Preferred-Languages and Canonical fields.
+    deviation: |
+      Missing the REQUIRED `Expires:` field (RFC 9116 §2.5.5), and no `Policy:` URL.
+      Present and parseable, but not a conformant document.
+
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: |
+      No response headers of any kind are declared on any of the 230 operations, so
+      neither Sunset nor Deprecation is emitted. Deprecation is expressed in-spec
+      (one operation, several fields) and in the changelog instead.
+
+  - id: rfc9727-api-catalog
+    conforms: false
+    evidence: /.well-known/api-catalog 404s on every host probed.
+
+  - id: rfc8414-oauth-server-metadata
+    conforms: false
+    evidence: |
+      404 on api.svix.com and on the MCP host mcp.us.svix.com. The MCP server
+      authenticates with a plain bearer realm (WWW-Authenticate: Bearer
+      realm="svix-mcp"), not with OAuth, so no authorization-server metadata exists
+      to publish.
+
+  - id: mcp
+    conforms: true
+    evidence: |
+      A hosted, remote MCP server at https://mcp.{region}.svix.com/app/{app_id},
+      verified live on 2026-08-13 (HTTP 401 + WWW-Authenticate: Bearer
+      realm="svix-mcp" on an anonymous JSON-RPC tools/list). 13 published tools.
+      See mcp/svix-mcp.yml.
+    note: |
+      Conforms as a deployed MCP server. It does not implement the MCP OAuth
+      authorization profile — tokens are issued out-of-band from the Consumer App
+      Portal — so protocol-level auth discovery is absent.
+
+  - id: agent-skills
+    conforms: true
+    evidence: |
+      Two Agent Skills published at https://github.com/svix/ai in the agentskills.io
+      format (frontmatter name/description + progressive-disclosure references/),
+      packaged as an Agent Plugins v1.0.0 manifest
+      (https://agent-plugins.org/schemas/1.0.0/plugin.schema.json) and installable
+      with `npx skills add svix/ai`. See skills/_index.yml.
+
+  - id: a2a
+    conforms: false
+    evidence: |
+      /.well-known/agent-card.json and /.well-known/agent.json 404 on api.svix.com,
+      www.svix.com, docs.svix.com and mcp.us.svix.com. The 200s returned by
+      dashboard.svix.com and play.svix.com are SPA catch-all HTML shells, not agent
+      cards, and are recorded as false positives in well-known/svix-well-known.yml.
+
+  - id: asyncapi
+    conforms: false
+    evidence: |
+      No AsyncAPI document at any probed location. The event surface is described in
+      the OpenAPI 3.1 `webhooks` block instead — 14 events, each with a named schema
+      and an example. See asyncapi/svix-operational-webhooks.yml.
+
+  - id: cloudevents
+    conforms: false
+    evidence: |
+      Event envelope is `{type, data}` with Svix-specific delivery headers, not the
+      CloudEvents binding.
+
+  - id: json-schema-2020-12
+    conforms: true
+    evidence: |
+      OpenAPI 3.1 schemas are JSON Schema 2020-12 by definition, and Svix goes
+      further: EventTypeOut.schemas holds per-version JSON Schema for a customer's
+      own event types, and v1.event-type.import-openapi / export-openapi round-trip
+      a customer's event catalog through OpenAPI.
+
+  - id: idempotency-key
+    conforms: partial
+    evidence: |
+      `Idempotency-Key` request header declared on 70 operations, 12-hour result
+      retention, POST-only, documented at https://docs.svix.com/idempotency.
+    deviation: |
+      Follows the de-facto Stripe-style convention rather than the IETF
+      draft-ietf-httpapi-idempotency-key-header. Not applied to PUT/PATCH/DELETE.
+
+  - id: cursor-pagination
+    conforms: true
+    evidence: |
+      Uniform opaque-cursor pagination on 31 list operations: `iterator` + `limit`
+      query params, `order` (ascending/descending), and a response carrying
+      `data`, `iterator`, `prevIterator` and an explicit `done` terminator.
+      Bidirectional and self-terminating.
+
+  - id: cors
+    conforms: true
+    evidence: |
+      info.description states CORS is implemented per the W3C spec with a wildcard
+      same-origin on all responses.
+
+  - id: rate-limit-headers
+    conforms: false
+    evidence: |
+      429 is declared on all 230 operations but no RateLimit-* / X-RateLimit-* /
+      Retry-After response header is declared anywhere. See
+      rate-limits/svix-rate-limits.yml.
+
+compliance_program:
+  published: true
+  url: https://www.svix.com/security/
+  certifications:
+    - SOC 2 Type II
+    - PCI DSS
+    - HIPAA
+    - GDPR
+  source: security/svix-trust-center.yml
+  note: |
+    Verified by probe against https://www.svix.com/security/ on 2026-08-13. The
+    apis.yml description also records ISO-style multi-region residency (US, EU, CA,
+    AU, IN), which is the operational half of the same story.
+
+data_residency:
+  regions: [us, eu, ca, au, in]
+  mechanism: separate regional API hosts, one region per account
+  docs: https://docs.svix.com/multi-region
+
+summary:
+  standards_evaluated: 18
+  conforms: 8
+  partial: 2
+  does_not_conform: 8

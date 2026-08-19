@@ -1,0 +1,41 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Svix Application Integration API
+  version: 1.0.0
+extends: openapi/svix-integration-api-openapi.yml
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: |
+    Generated from openapi/svix-integration-api-openapi.yml (split by tag from the verbatim Svix harvest) plus the
+    artifacts derived alongside it in this repo. Captures API Evangelist
+    annotations only; the underlying OpenAPI is never mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: svix
+      x-apievangelist-artifacts:
+        authentication: authentication/svix-authentication.yml
+        conventions: conventions/svix-conventions.yml
+        errors: errors/svix-problem-types.yml
+        lifecycle: lifecycle/svix-lifecycle.yml
+        rate-limits: rate-limits/svix-rate-limits.yml
+        data-model: data-model/svix-data-model.yml
+        agentic-access: agentic-access/svix-agentic-access.yml
+      x-apievangelist-idempotency:
+        supported: true
+        header: Idempotency-Key
+        methods: [POST]
+        retention: PT12H
+        docs: https://docs.svix.com/idempotency
+      x-apievangelist-pagination:
+        style: cursor
+        params: [iterator, limit]
+        ordering_param: order
+        response_fields: [data, iterator, prevIterator, done]
+      x-apievangelist-error-envelope:
+        schema: HttpErrorOut
+        fields: [code, detail]
+        media_type: application/json
+        rfc9457: false
+      x-apievangelist-operations-in-file: 7

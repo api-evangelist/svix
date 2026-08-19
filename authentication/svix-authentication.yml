@@ -1,6 +1,10 @@
-generated: '2026-07-11'
+generated: '2026-08-13'
 method: derived
-source: openapi/svix-openapi.json
+source: openapi/svix-application-api-openapi.yml, openapi/svix-authentication-api-openapi.yml,
+  openapi/svix-background-task-api-openapi.yml, openapi/svix-connector-api-openapi.yml, openapi/svix-endpoint-api-openapi.yml,
+  openapi/svix-environment-api-openapi.yml, openapi/svix-event-api-openapi.yml, openapi/svix-event-type-api-openapi.yml,
+  openapi/svix-health-api-openapi.yml, openapi/svix-ingest-endpoint-api-openapi.yml, openapi/svix-ingest-source-api-openapi.yml,
+  openapi/svix-integration-api-openapi.yml ...
 summary:
   types:
   - http
@@ -10,4 +14,23 @@ schemes:
   scheme: bearer
   description: HTTP Bearer token passed in the `Authorization` header
   sources:
-  - openapi/svix-openapi.json
+  - openapi/svix-application-api-openapi.yml
+  - openapi/svix-authentication-api-openapi.yml
+  - openapi/svix-background-task-api-openapi.yml
+  - openapi/svix-connector-api-openapi.yml
+  - openapi/svix-endpoint-api-openapi.yml
+  - openapi/svix-environment-api-openapi.yml
+  - openapi/svix-event-api-openapi.yml
+  - openapi/svix-event-type-api-openapi.yml
+  - openapi/svix-health-api-openapi.yml
+  - openapi/svix-ingest-endpoint-api-openapi.yml
+  - openapi/svix-ingest-source-api-openapi.yml
+  - openapi/svix-integration-api-openapi.yml
+  - openapi/svix-message-api-openapi.yml
+  - openapi/svix-message-attempt-api-openapi.yml
+  - openapi/svix-sink-api-openapi.yml
+  - openapi/svix-statistics-api-openapi.yml
+  - openapi/svix-stream-api-openapi.yml
+  - openapi/svix-stream-authentication-api-openapi.yml
+  - openapi/svix-stream-event-type-api-openapi.yml
+  - openapi/svix-webhook-endpoint-api-openapi.yml

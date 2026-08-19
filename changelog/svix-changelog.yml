@@ -1,0 +1,140 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+sources:
+  - https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+  - https://github.com/svix/svix-webhooks/blob/main/server/ChangeLog.md
+  - https://github.com/svix/svix-webhooks/blob/main/bridge/ChangeLog.md
+  - https://github.com/svix/svix-webhooks/releases
+
+scheme: semver
+current_version: 1.99.1
+current_prerelease: 2.0.0-rc.2
+window: 2026-05-28 to 2026-08-04
+
+structure:
+  note: |
+    Svix keeps THREE changelogs in one monorepo, and conflating them is the easy
+    mistake. The root ChangeLog.md covers the client SDKs and the CLI;
+    server/ChangeLog.md covers the self-hostable open-source server;
+    bridge/ChangeLog.md covers Svix Bridge. None of them tracks the hosted API build
+    number (info.version 1.922.0), which has no public changelog at all.
+  streams:
+    - id: sdks-and-cli
+      file: ChangeLog.md
+      versions_as_of_harvest: [2.0.0-rc.2, 2.0.0-rc.1, 1.99.1, 1.99.0, 1.98.0, 1.97.0]
+    - id: open-source-server
+      file: server/ChangeLog.md
+      latest: server-v1.100.0
+      released: '2026-08-03'
+    - id: bridge
+      file: bridge/ChangeLog.md
+      latest: bridge-v1.100.0
+      released: '2026-08-04'
+    - id: hosted-api
+      file: null
+      note: |
+        No changelog. The hosted contract advertises info.version 1.922.0 and moves
+        continuously; an integrator watching for API-surface change has only the SDK
+        changelog and the live OpenAPI to diff.
+
+entries:
+  - version: bridge-v1.100.0
+    date: '2026-08-04'
+    stream: bridge
+    breaking: false
+    highlights:
+      - Svix Bridge release.
+
+  - version: server-v1.100.0
+    date: '2026-08-03'
+    stream: open-source-server
+    breaking: false
+    highlights:
+      - Open-source (self-hosted) Svix server release.
+
+  - version: 2.0.0-rc.2
+    date: '2026-07-28'
+    stream: sdks-and-cli
+    breaking: false
+    highlights:
+      - 'Libs/JS: fix a publishing issue.'
+
+  - version: 2.0.0-rc.1
+    date: '2026-07-24'
+    stream: sdks-and-cli
+    breaking: true
+    highlights:
+      - Remove deprecated operations and most deprecated fields.
+      - '`with_content` now defaults to false on several message/attempt operations — create-message no longer mirrors back the payload, and list-attempts-by-endpoint no longer returns response payloads by default.'
+      - 'Rename `filterTypes` to `eventTypes` on endpoint and related models.'
+      - 'Rename every `update` operation to `upsert` (Applications, Endpoints, Event Types, Connectors, Ingest Sources, Streams, Sinks) — they were always create-or-update.'
+      - 'Rename `ingest.dashboard` to `ingest.authentication.consumer-portal-access`.'
+      - 'Rename `endpoint.update-headers` to `endpoint.set-headers` (and the ingest equivalents).'
+      - 'Remove `svix.operationalWebhookEndpoint` in favour of `svix.operationalWebhook.endpoint`; remove operational-webhook model types.'
+      - 'Libs/JavaScript: drop CommonJS; snake_case resource accessors become camelCase.'
+      - 'Libs/Python: stop returning parsed JSON from `Webhook.verify`.'
+      - 'Libs/Kotlin: upgrade to Kotlin 2.3.20; timestamps become kotlin.time.Instant.'
+      - 'Libs/Go: resource accessors become methods (`svix.Ingest().Endpoint()`).'
+      - 'Libs/Rust: timestamps become chrono::DateTime<Utc>; constructor parameter order normalised.'
+      - 'Libs/Java: `throttleRate` narrows from Long to Short.'
+    note: |
+      The breaking change with the widest blast radius is the `with_content` default
+      flip — it changes what a working 1.x client RECEIVES without changing what it
+      sends, so it fails silently rather than loudly.
+
+  - version: 1.99.1
+    date: '2026-07-23'
+    stream: sdks-and-cli
+    breaking: false
+    highlights:
+      - Current stable across npm, PyPI, RubyGems, NuGet, Maven Central and the Go proxy.
+
+  - version: 1.99.0
+    date: '2026-07-23'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.98.0
+    date: '2026-07-17'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.97.0
+    date: '2026-07-15'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.96.1
+    date: '2026-06-25'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.96.0
+    date: '2026-06-18'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.95.2
+    date: '2026-06-08'
+    stream: sdks-and-cli
+    breaking: false
+
+  - version: 1.95.1
+    date: '2026-05-28'
+    stream: sdks-and-cli
+    breaking: false
+
+unreleased:
+  breaking: true
+  highlights:
+    - '`PatchConfig`-suffixed types become `ConfigPatch`-suffixed, so SDKs can distinguish "keep as-is" from "unset".'
+    - 'Non-patch `Config` types (S3Config, GoogleCloudPubSubConfig, …) split into `*ConfigIn` / `*ConfigOut`, fixing response deserialization.'
+    - 'Rename `SinkOtelTracingConfig*` to `OtelTracingConfig*`.'
+    - Many sink config fields become optional ahead of future auth changes.
+    - 'Libs/Kotlin: add the missing background-task, connector, environment and health APIs.'
+    - 'Libs/Ruby, Libs/PHP: webhook verification timestamp tolerance is now configurable (defaults to the previously hardcoded five minutes).'
+
+cadence:
+  observed: weekly to fortnightly on the SDK train
+  releases_in_window: 12

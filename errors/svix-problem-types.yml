@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/svix-openapi.json (4xx/5xx responses across all 230 operations), enriched from
+  https://docs.svix.com/
+format: proprietary
+rfc9457: false
+rfc9457_note: Svix does NOT use RFC 9457 problem+json — `application/problem+json` appears zero times
+  in the contract. Errors are a plain JSON object with `code` (a machine-readable string) and `detail`
+  (a human string). That is a well-formed envelope with a stable machine field, so an agent can branch
+  on it; it simply is not the IETF standard, and there is no `type` URI to dereference.
+envelope:
+  schema: HttpErrorOut
+  fields:
+  - name: code
+    type: string
+    required: true
+    note: Machine-readable error identifier. Branch on this, not on `detail`.
+  - name: detail
+    type: string
+    required: true
+    note: Human-readable explanation.
+  media_type: application/json
+validation_envelope:
+  schema: HTTPValidationError
+  status: 422
+  fields:
+  - name: detail
+    type: array<ValidationError>
+    required: true
+  item_schema: ValidationError
+  item_fields:
+  - loc
+  - msg
+  - type
+  note: ValidationError.loc is an arbitrarily deep array of strings, usually ["body","field_name"] or
+    ["query","field_name"]. There may be any number per 422.
+consistency:
+  note: 'Unusually uniform: 400, 401, 403, 404, 409, 422 and 429 are declared on ALL 230 operations. 413
+    is declared on exactly one. No operation declares a 5xx, so server-side failure modes are undocumented
+    in the contract.'
+  declared_on_all_operations:
+  - '400'
+  - '401'
+  - '403'
+  - '404'
+  - '409'
+  - '422'
+  - '429'
+  five_xx_documented: false
+problems:
+- status: 400
+  title: Bad request
+  remediation: The request body or query could not be understood. Check the `detail` field for the specific
+    field or value at fault.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+- status: 401
+  title: Unauthorized
+  remediation: No token, an expired token, or a token from a different environment. Tokens are per-environment
+    — a development key will 401 against production.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+- status: 403
+  title: Forbidden
+  remediation: The token is valid but not permitted to act on this resource. App Portal and MCP tokens
+    are scoped to one application and 403 outside it.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+- status: 404
+  title: Not found
+  remediation: No such resource in this environment. Because `uid` is interchangeable with `id` in the
+    path, a 404 here often means the uid was never set rather than that the entity was deleted.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+- status: 409
+  title: Conflict
+  remediation: The write collides with existing state — most often a duplicate `uid` on create.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+- status: 413
+  title: Payload too large
+  remediation: The message payload exceeds the size limit for the plan.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 1
+- status: 422
+  title: Unprocessable entity
+  remediation: 'Validation failed. This is the ONE status with a different envelope: `detail` is an ARRAY
+    of {loc, msg, type} items rather than a string, so a client that assumes a string breaks here.'
+  schema: HTTPValidationError
+  media_type: application/json
+  operations_declaring: 230
+- status: 429
+  title: Too many requests
+  remediation: Rate limited. Back off and retry; see rate-limits/svix-rate-limits.yml.
+  schema: HttpErrorOut
+  media_type: application/json
+  operations_declaring: 230
+docs:
+- https://docs.svix.com/retries
+- https://docs.svix.com/retry-schedule

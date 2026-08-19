@@ -1,0 +1,408 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Sink API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sink",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sinks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the stream's sinks."
+        },
+        {
+          "info": {
+            "name": "Create Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new sink."
+        },
+        {
+          "info": {
+            "name": "Get Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a sink by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a sink."
+        },
+        {
+          "info": {
+            "name": "Patch Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a sink."
+        },
+        {
+          "info": {
+            "name": "Delete Sink",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a sink."
+        },
+        {
+          "info": {
+            "name": "Get Sink Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/headers",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the HTTP sink headers.\n\nOnly valid for `http` or `otelTracing` sinks."
+        },
+        {
+          "info": {
+            "name": "Patch Sink Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/headers",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates the Sink's headers.\n\nOnly valid for `http` or `otelTracing` sinks."
+        },
+        {
+          "info": {
+            "name": "Get Sink Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/secret",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the sink's signing secret (only supported for http sinks)\n\nThis is used to verify the authenticity of the delivery.\n\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Sink Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates the signing secret (only supported for http sinks)."
+        },
+        {
+          "info": {
+            "name": "Get Sink Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/transformation",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this sink."
+        },
+        {
+          "info": {
+            "name": "Set Sink Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/transformation",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this sink."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

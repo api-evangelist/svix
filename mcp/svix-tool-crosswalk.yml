@@ -1,0 +1,239 @@
+generated: '2026-08-13'
+method: derived
+source: |
+  Bound the 13 tools published at https://docs.svix.com/ai/app-portal-mcp to the
+  operationIds in openapi/_original/svix-openapi.json (Svix API v1.922.0, 230
+  operations, harvested verbatim from https://api.svix.com/api/v1/openapi.json on
+  2026-08-13). Every operationId below was grepped out of that document; none was
+  invented.
+
+surfaces:
+  openapi:
+    file: openapi/_original/svix-openapi.json
+    version: 1.922.0
+    operations: 230
+    gated: false
+    note: |
+      Served anonymously at https://api.svix.com/api/v1/openapi.json. The refined
+      per-tag specs under openapi/ were split from an earlier 1.84.0 harvest and
+      cover 128 of these operations; the _original is the full contract.
+  mcp:
+    endpoint: https://mcp.{region}.svix.com/app/{app_id}
+    gated: true
+    gate: |
+      HTTP 401, WWW-Authenticate: Bearer realm="svix-mcp". tools/list requires an
+      application-scoped token issued from the Consumer App Portal, so live
+      inputSchema introspection was not possible anonymously. Tool names and
+      descriptions are provider-published; the real parameter contract for each
+      tool is the bound operation's parameters + requestBody in the OpenAPI.
+  graphql:
+    present: false
+
+scope_note: |
+  The MCP server is deliberately a NARROW projection of the REST API, not a
+  mirror of it. Its token is scoped to one application inside one customer's
+  environment and it is issued to that customer's END USER through the Consumer
+  App Portal. So every tool binds to an operation that is already
+  application-scoped (`/api/v1/app/{app_id}/...`), and the 217 operations with no
+  tool are not an oversight — they are organization-level, cross-application, or
+  provisioning operations that an end-user token must not reach. Read `rest_only`
+  below as a security boundary, not as a coverage gap.
+
+crosswalk:
+  - tool: get_application
+    category: application
+    rest: [v1.application.get]
+    binding: rest
+    confidence: high
+    note: GET /api/v1/app/{app_id} — app_id is fixed by the token, not a tool parameter.
+
+  - tool: list_endpoints
+    category: endpoint
+    rest: [v1.endpoint.list]
+    binding: rest
+    confidence: high
+    note: GET /api/v1/app/{app_id}/endpoint. Cursor pagination via iterator + limit.
+
+  - tool: get_endpoint
+    category: endpoint
+    rest: [v1.endpoint.get]
+    binding: rest
+    confidence: high
+
+  - tool: get_endpoint_stats
+    category: endpoint
+    rest: [v1.endpoint.get-stats]
+    binding: rest
+    confidence: high
+    note: |
+      GET /api/v1/app/{app_id}/endpoint/{endpoint_id}/stats — returns success /
+      fail / pending / sending counts over a since/until window, exactly the
+      shape the tool description promises.
+
+  - tool: get_transformation
+    category: transformation
+    rest: [v1.endpoint.transformation-get]
+    binding: rest
+    confidence: high
+
+  - tool: update_transformation
+    category: transformation
+    rest: [v1.endpoint.patch-transformation]
+    binding: rest
+    confidence: high
+    mutating: true
+    note: |
+      PATCH .../transformation is the only write path for transformation code
+      and its enabled flag. v1.endpoint.transformation-simulate exists in REST
+      but is NOT exposed as a tool, so an agent can change a live transformation
+      without a dry-run tool to check it first — see gaps.
+
+  - tool: list_messages
+    category: message
+    rest: [v1.message.list]
+    binding: rest
+    confidence: high
+    note: |
+      GET /api/v1/app/{app_id}/msg supports event_types, channel, before/after,
+      with_content and tag filters — the "filter by event type, channel, time"
+      in the tool description maps to those query parameters.
+
+  - tool: list_attempts_by_endpoint
+    category: message-attempt
+    rest: [v1.message-attempt.list-by-endpoint]
+    binding: rest
+    confidence: high
+    note: status + status_code_class query params are what make "only failures" possible.
+
+  - tool: list_attempts_by_message
+    category: message-attempt
+    rest: [v1.message-attempt.list-by-msg]
+    binding: rest
+    confidence: high
+    alternates: [v1.message-attempt.list-attempted-destinations]
+    alternates_note: |
+      list-attempted-destinations answers the same question ("which endpoints did
+      this message go to") but returns endpoints rather than attempts. The tool
+      description says "and how each responded", which is attempt data, so
+      list-by-msg is the primary binding.
+
+  - tool: get_message
+    category: message
+    rest: [v1.message.get]
+    binding: rest
+    confidence: high
+
+  - tool: get_attempt
+    category: message-attempt
+    rest: [v1.message-attempt.get]
+    binding: rest
+    confidence: high
+    note: Returns response status code and body, matching the tool description.
+
+  - tool: resend_message
+    category: message-attempt
+    rest: [v1.message-attempt.resend]
+    binding: rest
+    confidence: high
+    mutating: true
+    consequence: performs a real webhook delivery to a customer endpoint
+
+  - tool: recover_endpoint
+    category: endpoint
+    rest: [v1.endpoint.recover]
+    binding: rest
+    confidence: high
+    mutating: true
+    consequence: replays every failed message since a given timestamp — bulk real deliveries
+    note: |
+      REST also has v1.endpoint.replay-missing and v1.endpoint.bulk-replay, which
+      are adjacent but distinct operations; the tool description ("replay all
+      failed messages for an endpoint since a given date") is v1.endpoint.recover.
+
+mcp_only: []
+mcp_only_note: |
+  None. Every published tool binds to a public REST operation. There is no
+  server-side composite and no GraphQL surface, so the MCP server adds no
+  capability the REST contract lacks — its value is scoping and packaging, not
+  new function.
+
+rest_only:
+  - capability: Application lifecycle (organization scope)
+    operations: [v1.application.list, v1.application.create, v1.application.update, v1.application.patch, v1.application.delete, v1.application.patch-alert-email, v1.application.count-active]
+    reason: Cross-application and provisioning; out of bounds for an application-scoped token.
+  - capability: Endpoint lifecycle and security configuration
+    operations: [v1.endpoint.create, v1.endpoint.update, v1.endpoint.patch, v1.endpoint.delete, v1.endpoint.get-secret, v1.endpoint.rotate-secret, v1.endpoint.get-headers, v1.endpoint.update-headers, v1.endpoint.patch-headers, v1.endpoint.get-oauth, v1.endpoint.set-oauth-config, v1.endpoint.delete-oauth-config, v1.endpoint.get-mtls, v1.endpoint.set-mtls-config, v1.endpoint.delete-mtls-config, v1.endpoint.get-server-ca, v1.endpoint.set-server-ca]
+    reason: |
+      Signing secrets, mTLS material and OAuth client configuration. Deliberately
+      absent from the tool set — an agent that could read an endpoint secret could
+      forge signed webhooks.
+  - capability: Event type catalog
+    operations: [v1.event-type.list, v1.event-type.create, v1.event-type.get, v1.event-type.update, v1.event-type.patch, v1.event-type.delete, v1.event-type.import-openapi, v1.event-type.export-openapi, v1.event-type.get-retry-schedule, v1.event-type.set-retry-schedule]
+    reason: |
+      Organization-level catalog owned by the Svix customer, not by the consumer
+      the MCP token belongs to. The MCP token can READ event types per the docs,
+      but no tool surfaces them directly.
+  - capability: Message sending and content lifecycle
+    operations: [v1.message.create, v1.message.broadcast, v1.message.precheck, v1.message.search, v1.message.events, v1.message.get-raw-payload, v1.message.expunge-content, v1.message.expunge-all-contents, v1.message.test-attempt]
+    reason: |
+      Sending is the Svix customer's job, not the consumer's. Note the token
+      permission list does allow creating messages — the capability exists behind
+      the token but no tool exposes it.
+  - capability: Ingest (inbound third-party webhooks)
+    operations: [v1.ingest.endpoint.list, v1.ingest.endpoint.create, v1.ingest.endpoint.get, v1.ingest.endpoint.update, v1.ingest.endpoint.delete, v1.ingest.endpoint.get-secret, v1.ingest.endpoint.rotate-secret, v1.ingest.endpoint.get-headers, v1.ingest.endpoint.update-headers, v1.ingest.endpoint.get-transformation, v1.ingest.endpoint.set-transformation]
+    reason: A separate product with no MCP surface at all.
+  - capability: Stream and Sink (event streaming)
+    operations: [v1.app.stream.sink.list, v1.app.stream.sink.create, v1.app.stream.sink.get, v1.app.stream.sink.upsert, v1.app.stream.sink.delete, v1.app.stream.sink.patch, v1.app.stream.sink.force-retry, v1.app.stream.sink.skip, v1.app.stream.sink.next-event, v1.app.stream.sink.get-last-acked-event, v1.streaming.event-type.list, v1.streaming.simulate-transformation]
+    reason: A separate product with no MCP surface at all.
+  - capability: Polling endpoints
+    operations: [v1.message.poller.poll, v1.message.poller.consumer-poll, v1.message.poller.consumer-seek, v1.message.pollerv2.consumer-poll, v1.message.pollerv2.consumer-commit]
+    reason: |
+      The consumer-facing alternative to webhooks, and arguably the biggest
+      omission — a consumer debugging deliveries through an agent cannot use the
+      poller through that agent.
+  - capability: Integrations
+    operations: [v1.integration.list, v1.integration.create, v1.integration.get, v1.integration.update, v1.integration.delete, v1.integration.rotate-key, v1.integration.get-key]
+    reason: |
+      Key-bearing. v1.integration.get-key is the one deprecated operation in the
+      whole contract.
+  - capability: Operational webhooks
+    operations: [v1.operational-webhook.endpoint.list, v1.operational-webhook.endpoint.create, v1.operational-webhook.endpoint.get, v1.operational-webhook.endpoint.update, v1.operational-webhook.endpoint.delete, v1.operational-webhook.endpoint.get-secret, v1.operational-webhook.endpoint.rotate-secret]
+    reason: Svix-customer infrastructure monitoring, not consumer-visible.
+  - capability: Authentication and portal access
+    operations: [v1.authentication.app-portal-access, v1.authentication.create-message-token]
+    reason: Token minting. Correctly unreachable from a token.
+  - capability: Statistics, background tasks, environment, connectors, health
+    operations: [v1.statistics.aggregate-app-stats, v1.statistics.aggregate-event-types, v1.statistics.endpoint-count, v1.stats.app-attempts, v1.application.stats.attempts]
+    reason: Organization-level reporting and administration.
+
+coverage:
+  tools_named: 13
+  tools_bound: 13
+  tools_unbound: 0
+  mcp_only: 0
+  rest_operations_total: 230
+  rest_operations_with_tool: 13
+  rest_operations_without_tool: 217
+  binding_rate_tools: 1.0
+  binding_rate_rest: 0.057
+  confidence_high: 13
+  confidence_medium: 0
+  confidence_low: 0
+
+gaps:
+  - id: no-transformation-dry-run-tool
+    detail: |
+      update_transformation (write, live config) is exposed but
+      v1.endpoint.transformation-simulate is not, so an agent can push
+      transformation code to a live endpoint with no tool to test it first. The
+      REST operation to do it safely exists; only the tool is missing.
+  - id: no-poller-tools
+    detail: |
+      Polling endpoints are the documented consumer-side alternative to webhooks
+      and are entirely absent from the tool set, so a consumer using polling gets
+      no agent surface at all.
+  - id: schemas-require-auth
+    detail: |
+      tools/list is 401 anonymously, so no published inputSchema exists for these
+      13 tools outside an authenticated session. The bindings above are the only
+      machine-readable route from a tool name to a real parameter contract.

@@ -1,0 +1,4 @@
+Contact: responsible.disclosure@svix.com
+Preferred-Languages: en
+Canonical: https://www.svix.com/.well-known/security.txt
+

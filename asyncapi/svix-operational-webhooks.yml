@@ -1,0 +1,340 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/svix-openapi.json (OpenAPI 3.1 `webhooks` block, Svix API v1.922.0)
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_probe:
+- url: https://docs.svix.com/asyncapi.yaml
+  status: 404
+- url: https://api.svix.com/asyncapi.yaml
+  status: 404
+- url: https://www.svix.com/asyncapi.yaml
+  status: 404
+- url: https://raw.githubusercontent.com/svix/svix-webhooks/main/asyncapi.yaml
+  status: 404
+note: 'Svix publishes NO AsyncAPI document — all four probes above 404 on 2026-08-13 — so none is recorded
+  here and none was manufactured. What Svix does publish is better than most webhook catalogs: 14 OPERATIONAL
+  WEBHOOKS defined as first-class `webhooks` entries inside the OpenAPI 3.1 contract itself, each with
+  a named JSON Schema and a concrete example. This artifact transcribes that catalog. There is a second-order
+  irony worth recording: Svix is the webhooks-as-a-service company, and its own event surface is the one
+  thing it describes in OpenAPI rather than AsyncAPI.'
+delivery:
+  signing: Standard Webhooks (svix-id / svix-timestamp / svix-signature headers)
+  signing_docs: https://docs.svix.com/receiving/verifying-webhooks/how
+  ack_contract: Return any 2XX to indicate the payload was received successfully.
+  retry_schedule_docs: https://docs.svix.com/retry-schedule
+  configuration: Operational webhook endpoints are managed via the v1.operational-webhook.endpoint.* operations.
+  management_docs: https://docs.svix.com/operational-webhooks
+envelope:
+  fields:
+  - type
+  - data
+  note: 'Every event is {type: "<event.type>", data: {...}} — `type` repeats the event type name.'
+summary:
+  event_count: 14
+  products:
+  - Background Tasks
+  - Dispatch
+  - Ingest
+  schemas_defined: 14
+  all_have_examples: true
+events:
+- type: endpoint.created
+  summary: Sent when an endpoint is created.
+  schema: EndpointCreatedEvent
+  payload_schema: EndpointCreatedEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - endpointUid
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+    type: endpoint.created
+- type: endpoint.deleted
+  summary: Sent when an endpoint is deleted.
+  schema: EndpointDeletedEvent
+  payload_schema: EndpointDeletedEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - endpointUid
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+    type: endpoint.deleted
+- type: endpoint.disabled
+  summary: Sent when an endpoint has been automatically disabled after continuous failures, or manually
+    via an API call.
+  schema: EndpointDisabledEvent
+  payload_schema: EndpointDisabledEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - endpointUid
+  - failSince
+  - trigger
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+      failSince: '2022-11-06T15:04:05Z'
+      trigger: automatic
+    type: endpoint.disabled
+- type: endpoint.enabled
+  summary: Sent when an endpoint has been enabled.
+  schema: EndpointEnabledEvent
+  payload_schema: EndpointEnabledEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - endpointUid
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+    type: endpoint.enabled
+- type: endpoint.updated
+  summary: Sent when an endpoint is updated.
+  schema: EndpointUpdatedEvent
+  payload_schema: EndpointUpdatedEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - endpointUid
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+    type: endpoint.updated
+- type: message.attempt.exhausted
+  summary: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+  schema: MessageAttemptExhaustedEvent
+  payload_schema: MessageAttemptExhaustedEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 500
+        timestamp: '2022-11-06T15:04:05Z'
+    type: message.attempt.exhausted
+- type: message.attempt.failing
+  summary: 'Sent after a message has been failing for a few times.
+
+    It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the
+    last failure.'
+  schema: MessageAttemptFailingEvent
+  payload_schema: MessageAttemptFailingEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 500
+        timestamp: '2022-11-06T15:04:05Z'
+    type: message.attempt.failing
+- type: message.attempt.recovered
+  summary: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+  schema: MessageAttemptRecoveredEvent
+  payload_schema: MessageAttemptRecoveredEventData
+  payload_fields:
+  - appId
+  - appUid
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  product: Dispatch
+  example:
+    data:
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 200
+        timestamp: '2022-11-06T15:04:05Z'
+    type: message.attempt.recovered
+- type: background_task.finished
+  summary: Sent when a background task is finished.
+  schema: BackgroundTaskFinishedEvent
+  payload_schema: BackgroundTaskFinishedEvent2
+  payload_fields:
+  - data
+  - status
+  - task
+  - taskId
+  product: Background Tasks
+  example:
+    data:
+      taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      task: application.stats
+      status: finished
+      data:
+        appStats:
+        - messageDestinations: 343
+          appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+          appUid: null
+    type: background_task.finished
+- type: ingest.endpoint.disabled
+  summary: Sent when an ingest endpoint has been automatically disabled after continuous failures, or
+    manually via an API call.
+  schema: IngestEndpointDisabledEvent
+  payload_schema: IngestEndpointDisabledEventData
+  payload_fields:
+  - endpointId
+  - endpointUid
+  - failSince
+  - sourceId
+  - trigger
+  product: Ingest
+  example:
+    data:
+      sourceId: src_30HT9jb8WZXKVWIO44ZDr
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      endpointUid: unique-endpoint-identifier
+      failSince: '2022-11-06T15:04:05Z'
+      trigger: automatic
+    type: ingest.endpoint.disabled
+- type: ingest.message.attempt.exhausted
+  summary: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+  schema: IngestMessageAttemptExhaustedEvent
+  payload_schema: IngestMessageAttemptExhaustedEventData
+  payload_fields:
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  - sourceId
+  product: Ingest
+  example:
+    data:
+      sourceId: src_30HT9jb8WZXKVWIO44ZDr
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 500
+        timestamp: '2022-11-06T15:04:05Z'
+    type: ingest.message.attempt.exhausted
+- type: ingest.message.attempt.failing
+  summary: 'Sent after a message has been failing for a few times.
+
+    It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent
+    after the last failure.'
+  schema: IngestMessageAttemptFailingEvent
+  payload_schema: IngestMessageAttemptFailingEventData
+  payload_fields:
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  - sourceId
+  product: Ingest
+  example:
+    data:
+      sourceId: src_30HT9jb8WZXKVWIO44ZDr
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 500
+        timestamp: '2022-11-06T15:04:05Z'
+    type: ingest.message.attempt.failing
+- type: ingest.message.attempt.recovered
+  summary: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+  schema: IngestMessageAttemptRecoveredEvent
+  payload_schema: IngestMessageAttemptRecoveredEventData
+  payload_fields:
+  - endpointId
+  - lastAttempt
+  - msgEventId
+  - msgId
+  - sourceId
+  product: Ingest
+  example:
+    data:
+      sourceId: src_30HT9jb8WZXKVWIO44ZDr
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      lastAttempt:
+        id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        responseStatusCode: 200
+        timestamp: '2022-11-06T15:04:05Z'
+    type: ingest.message.attempt.recovered
+- type: message.attempt.log
+  summary: Sent after message attempts are made. Contains metadata about message attempts and their results.
+    In order to reduce the frequency of webhooks, these are sent in batches periodically.
+  schema: MessageAttemptLogEvent
+  payload_schema: null
+  payload_fields: []
+  product: Dispatch
+  example:
+    data:
+    - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      appUid: unique-app-identifier
+      endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      msgEventId: unique-msg-identifier
+      msgCreated: '2022-11-06T15:04:05Z'
+      attemptStart: '2022-11-06T15:04:06Z'
+      attemptEnd: '2022-11-06T15:04:07Z'
+      attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      responseStatusCode: 200
+      attemptCount: 1
+      status: 0
+      eventType: user.signup
+    type: message.attempt.log

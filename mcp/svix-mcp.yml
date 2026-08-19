@@ -1,0 +1,173 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://docs.svix.com/ai/app-portal-mcp
+sources:
+  - https://docs.svix.com/ai/app-portal-mcp
+  - https://docs.svix.com/receiving/using-app-portal/connecting-your-coding-agent
+  - https://github.com/svix/ai
+
+deployment:
+  mode: remote
+  endpoint: https://mcp.us.svix.com/app/{app_id}
+  auth: api-key
+  verified: probed
+  note: |
+    Verified live on 2026-08-13 by POSTing an anonymous JSON-RPC tools/list to
+    https://mcp.us.svix.com/app/app_test. The server answered HTTP 401 with
+    `WWW-Authenticate: Bearer realm="svix-mcp"` and the body
+    `missing Svix token: pass it as ` + "`Authorization: Bearer <token>`" + `.
+    That is a real MCP endpoint refusing an unauthenticated caller, not a 404 or
+    an SPA shell. No stdio/npx package is shipped for this server — it is
+    remote-only, so an agent can reach it over HTTPS with no local install.
+
+server:
+  name: Consumer App Portal MCP
+  transport: http
+  url_template: https://mcp.{region}.svix.com/app/{app_id}
+  regions: [us, eu, ca, au]
+  example_url: https://mcp.us.svix.com/app/app_2ErlDgQ1QzKvSAqxdMQnjHNL
+  client_name_convention: "<app-portal-slug>-webhooks"
+  enabled_by_default: false
+  enablement: |
+    Off by default for existing accounts. The Svix customer enables it per
+    environment in Dashboard -> Settings -> General -> "Enable App Portal MCP".
+    Once on, an MCP tab appears under Settings in the Consumer App Portal.
+
+authentication:
+  scheme: bearer
+  header: 'Authorization: Bearer <token>'
+  token_issuer: Consumer App Portal (Settings -> MCP -> Connect to MCP)
+  token_scope: single application
+  token_ttl_days: 7
+  revocable: true
+  revocation: MCP tab -> token menu -> Expire (immediate)
+  not_an_api_key: |
+    Docs are explicit that an MCP token is NOT usable as a Svix API key for the
+    organization. It encodes the one application it was issued for and cannot
+    read or write anything outside it.
+  permissions:
+    read:
+      - application
+      - endpoints
+      - event types
+      - integrations
+      - messages
+      - message attempts
+    write:
+      - endpoint transformations (update)
+      - messages (create)
+      - message attempts (create — this is what powers resend/recover)
+
+audience: |
+  This is a two-sided product and the distinction matters for agent readiness.
+  The MCP server is not aimed at the Svix customer operating their own account;
+  it is aimed at THAT customer's END USERS — the developers consuming their
+  webhooks through the Consumer App Portal. The Svix customer turns it on; the
+  consumer generates the token and points Claude Code / Cursor / VSCode / Codex
+  at their own application's webhook traffic. It is an embedded agent surface a
+  provider ships to its own downstream integrators.
+
+tools:
+  - name: get_application
+    description: The application this session is scoped to (name, UID, metadata).
+    mutating: false
+  - name: list_endpoints
+    description: List the application's endpoints (URL, enabled state, filtered event types).
+    mutating: false
+  - name: get_endpoint
+    description: Full configuration of one endpoint.
+    mutating: false
+  - name: get_endpoint_stats
+    description: Success / fail / pending / sending counts over a time window.
+    mutating: false
+  - name: get_transformation
+    description: An endpoint's transformation code, enabled state, and variables.
+    mutating: false
+  - name: update_transformation
+    description: Set an endpoint's transformation code and/or toggle it on or off.
+    mutating: true
+    consequence: changes live endpoint configuration
+  - name: list_messages
+    description: List messages sent to the application (filter by event type, channel, time).
+    mutating: false
+  - name: list_attempts_by_endpoint
+    description: Delivery attempts for an endpoint (e.g. only failures), with response bodies.
+    mutating: false
+  - name: list_attempts_by_message
+    description: Every endpoint a single message was attempted against, and how each responded.
+    mutating: false
+  - name: get_message
+    description: A message's event type, channels, and JSON payload.
+    mutating: false
+  - name: get_attempt
+    description: One attempt in full, including the response status code and body.
+    mutating: false
+  - name: resend_message
+    description: Resend one message to an endpoint.
+    mutating: true
+    consequence: performs a real webhook delivery
+  - name: recover_endpoint
+    description: Replay all failed messages for an endpoint since a given date.
+    mutating: true
+    consequence: performs real webhook deliveries in bulk
+
+tool_schemas:
+  available: false
+  reason: |
+    The live tools/list is auth-gated (401 without an application-scoped bearer
+    token), so the real inputSchema per tool could not be introspected
+    anonymously. The 13 tool names and descriptions above are transcribed
+    verbatim from the provider's own docs table at
+    https://docs.svix.com/ai/app-portal-mcp — names and semantics are provider-
+    published, input schemas require an authenticated introspection pass.
+    mcp/svix-tool-crosswalk.yml binds each tool to its backing OpenAPI
+    operationId, which is where the real parameter contract lives.
+
+safety:
+  provider_guidance: |
+    "Most of these are read-only. Three of them are not: resend_message and
+    recover_endpoint perform real deliveries, and update_transformation changes
+    live endpoint configuration. The server instructs agents to only use them
+    when explicitly asked, and most agents will ask for confirmation before
+    running a tool, but as with any agent, your users should review those calls
+    before approving them." — docs.svix.com/ai/app-portal-mcp
+  data_exposure_warning: |
+    Provider states plainly that message payloads the agent reads are sent to
+    whichever model provider backs the coding agent. Recorded because it is an
+    unusually honest disclosure and it is the correct governance input for
+    agentic-access/svix-agentic-access.yml.
+  mutating_tool_count: 3
+  read_only_tool_count: 10
+
+related_agent_surfaces:
+  - kind: AgentSkill
+    url: https://github.com/svix/ai
+    detail: Two provider-published Agent Skills; see skills/_index.yml.
+  - kind: agent-runtime-plugin
+    name: svix-openclaw
+    url: https://github.com/svix/ai/tree/main/svix-openclaw
+    detail: |
+      Polls a Svix sink and hands each message to the OpenClaw runtime as if it
+      were an inbound POST — webhook delivery into an agent with no public URL.
+  - kind: agent-runtime-plugin
+    name: svix-hermes
+    url: https://github.com/svix/ai/tree/main/svix-hermes
+    detail: Same inversion for the Hermes Agent gateway.
+
+gaps:
+  - id: docs-ai-index-404
+    detail: |
+      github.com/svix/ai and its plugin.json both point at https://docs.svix.com/ai
+      as the homepage, and the repo README links "our docs" at
+      https://docs.svix.com/ai/mcp. Both 404 as of 2026-08-13, and neither /ai/
+      page appears in docs.svix.com/llms.txt. The MCP documentation is only
+      reachable at https://docs.svix.com/ai/app-portal-mcp, which is discoverable
+      solely through llms-full.txt. A real agent surface is effectively
+      undiscoverable from the docs index.
+  - id: no-organization-scoped-mcp
+    detail: |
+      The only MCP server Svix ships is application-scoped and consumer-facing.
+      There is no MCP surface over the 230-operation organization API that a Svix
+      customer's own agent could call, so the sending side of the product has no
+      agent surface beyond the REST contract and the Agent Skills.

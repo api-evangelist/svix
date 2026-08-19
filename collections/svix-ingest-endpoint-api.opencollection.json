@@ -1,0 +1,375 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Ingest Endpoint API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ingest Endpoint",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Ingest Endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List ingest endpoints."
+        },
+        {
+          "info": {
+            "name": "Create Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Update Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Delete Ingest Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the additional headers to be sent with the ingest."
+        },
+        {
+          "info": {
+            "name": "Update Ingest Endpoint Headers",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/headers",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set the additional headers to be sent to the endpoint."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/secret",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an ingest endpoint's signing secret.\n\nThis is used to verify the authenticity of the webhook.\nFor more information please refer to [the consuming webhooks docs](https://docs.svix.com/consuming-webhooks/)."
+        },
+        {
+          "info": {
+            "name": "Rotate Ingest Endpoint Secret",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/secret/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotates an ingest endpoint's signing secret.\n\nThe previous secret will remain valid for the next 24 hours."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the transformation code associated with this ingest endpoint."
+        },
+        {
+          "info": {
+            "name": "Patch Ingest Endpoint Transformation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/endpoint/:endpoint_id/transformation",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set or unset the transformation code associated with this ingest endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

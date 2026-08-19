@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Event API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/events",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates events on the Stream."
+        },
+        {
+          "info": {
+            "name": "Poller Sink Stream Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id/sink/:sink_id/events",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Iterate over a stream of events.\n\nThe sink must be of type `poller` to use the poller endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

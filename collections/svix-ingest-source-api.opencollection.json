@@ -1,0 +1,213 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Ingest Source API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Ingest Source",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Ingest Sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's Ingest Sources."
+        },
+        {
+          "info": {
+            "name": "Create Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Get Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an Ingest Source by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Delete Ingest Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an Ingest Source."
+        },
+        {
+          "info": {
+            "name": "Ingest Source Consumer Portal",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/dashboard",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get access to the Ingest Source Consumer Portal."
+        },
+        {
+          "info": {
+            "name": "Rotate Ingest Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/ingest/api/v1/source/:source_id/token/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The Source's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate the Ingest Source's Url Token.\n\nThis will rotate the ingest source's token, which is used to\nconstruct the unique `ingestUrl` for the source. Previous tokens\nwill remain valid for 48 hours after rotation. The token can be\nrotated a maximum of three times within the 48-hour period."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

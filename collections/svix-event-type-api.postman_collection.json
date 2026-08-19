@@ -1,0 +1,4030 @@
+{
+  "item": [
+    {
+      "id": "f75edc6d-c3b9-4264-881a-5f744039b665",
+      "name": "Event Type",
+      "description": {
+        "content": "Event types are identifiers denoting the type of message being sent. Event types are primarily used to decide which events are sent to which endpoint.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bcb8bbfc-4bea-47ae-8a64-4f60cfb2cf05",
+          "name": "List Event Types",
+          "request": {
+            "name": "List Event Types",
+            "description": {
+              "content": "Return the list of event types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<uint64>",
+                  "description": "Limit the number of returned items"
+                },
+                {
+                  "disabled": false,
+                  "key": "iterator",
+                  "value": "<string>",
+                  "description": "The iterator returned from a prior invocation"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "<string>",
+                  "description": "The sorting order of the returned items"
+                },
+                {
+                  "disabled": false,
+                  "key": "include_archived",
+                  "value": "false",
+                  "description": "When `true` archived (deleted but not expunged) items are included in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "with_content",
+                  "value": "false",
+                  "description": "When `true` the full item (including the schema) is included in the response."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a75e3fa5-ca15-4180-8e0d-e62209053c85",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"createdAt\": \"2020-06-23T16:37:31.102Z\",\n      \"deprecated\": false,\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"updatedAt\": \"2017-08-10T12:40:57.492Z\",\n      \"archived\": false,\n      \"featureFlag\": \"gLiIH6IgsvN\",\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    },\n    {\n      \"createdAt\": \"1964-08-01T21:12:50.104Z\",\n      \"deprecated\": true,\n      \"description\": \"A user has signed up\",\n      \"name\": \"user.signup\",\n      \"updatedAt\": \"1981-12-13T21:20:33.439Z\",\n      \"archived\": false,\n      \"featureFlag\": \"YtWLV3dg0W\",\n      \"featureFlags\": [\n        \"cool-new-feature\"\n      ],\n      \"groupName\": \"user\",\n      \"schemas\": {\n        \"1\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    }\n  ],\n  \"done\": true,\n  \"iterator\": \"iterator\",\n  \"prevIterator\": \"-iterator\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a60e8fd9-0453-4115-9d43-3e16abc9820e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12836478-74f0-42ed-b451-55138f4d372e",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc806bb0-c0f6-4735-a9be-d692fcaa7541",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9b27ece5-beba-4d80-82ff-143823e5cade",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e37d28be-a09b-48fd-973b-1f05cfea58a0",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03ef93ab-ded0-44f1-b235-52a946c86edd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "134a6d95-97d8-49f0-a97f-87ed8ededa83",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "<uint64>"
+                    },
+                    {
+                      "key": "iterator",
+                      "value": "user.signup"
+                    },
+                    {
+                      "key": "order",
+                      "value": "descending"
+                    },
+                    {
+                      "key": "include_archived",
+                      "value": "false"
+                    },
+                    {
+                      "key": "with_content",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "95e48d23-8507-402d-9347-d860a812f262",
+          "name": "Create Event Type",
+          "request": {
+            "name": "Create Event Type",
+            "description": {
+              "content": "Create new or unarchive existing event type.\n\nUnarchiving an event type will allow endpoints to filter on it and messages to be sent with it.\nEndpoints filtering on the event type before archival will continue to filter on it.\nThis operation does not preserve the description and schemas.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"name\": \"<string>\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": null,\n  \"groupName\": \"<string>\",\n  \"schemas\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "76b73b01-1c6e-4fa2-839b-d4348f4ee202",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2011-09-12T17:17:21.721Z\",\n  \"deprecated\": false,\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"updatedAt\": \"2005-01-01T16:40:09.189Z\",\n  \"archived\": false,\n  \"featureFlag\": \"4MsDjr2b\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "040bfe74-03e5-4463-942f-3d3dcefaedb3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "78d4d989-14ce-4946-909f-5392eac51bad",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bce7a0d7-cc2c-48cd-96ab-576d63c992bb",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8579e520-269e-4c6b-b8cc-994e6def6f2e",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f58a643e-b7eb-4e4a-a2cd-06a4139e8b24",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19720967-4cec-41b8-8bb6-1be59713baed",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac377399-cb0a-4cfb-9cd3-b3392ee08e5c",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "abcaa5c6-f0ae-4ffa-b017-81e4a04f1735",
+          "name": "Event Type Import From Openapi",
+          "request": {
+            "name": "Event Type Import From Openapi",
+            "description": {
+              "content": "Given an OpenAPI spec, create new or update existing event types.\n\nIf an existing `archived` event type is updated, it will be unarchived.\nThe importer will convert all webhooks found in the either the `webhooks` or `x-webhooks`\ntop-level.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type",
+                "import",
+                "openapi"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "The request's idempotency key",
+                "key": "idempotency-key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": \"<object>\",\n  \"specRaw\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "79dc19ef-38f7-457c-bdcb-659f219c896b",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"modified\": [\n      \"user.signup\",\n      \"user.signup\"\n    ],\n    \"to_modify\": [\n      {\n        \"deprecated\": false,\n        \"description\": \"string\",\n        \"name\": \"user.signup\",\n        \"featureFlag\": \"d4\",\n        \"featureFlags\": [\n          \"4M\",\n          \"XfbRjdgfTJ\"\n        ],\n        \"groupName\": \"user\",\n        \"schemas\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      },\n      {\n        \"deprecated\": true,\n        \"description\": \"string\",\n        \"name\": \"user.signup\",\n        \"featureFlag\": \"m5LYrv\",\n        \"featureFlags\": [\n          \"joVyO\",\n          \"gOekbQ\"\n        ],\n        \"groupName\": \"user\",\n        \"schemas\": {\n          \"description\": \"An invoice was paid by a user\",\n          \"properties\": {\n            \"invoiceId\": {\n              \"description\": \"The invoice id\",\n              \"type\": \"string\"\n            },\n            \"userId\": {\n              \"description\": \"The user id\",\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"invoiceId\",\n            \"userId\"\n          ],\n          \"title\": \"Invoice Paid Event\",\n          \"type\": \"object\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09d57f5d-0a30-496d-9032-d19aa49032a7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f749ade5-8f8e-4120-befb-b6bcfa1fecd8",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b44203be-68f2-477a-982c-35c9b31c4cab",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59c35f53-4aad-4e7d-8419-2b4fb85106b9",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a988ac9c-2cf2-4887-8a68-9be82e77513c",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33597f12-7e63-4d29-b29d-9eb241afe1cc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3bde10d8-37b2-4bf6-a3c1-44b39a40946a",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    "import",
+                    "openapi"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "The request's idempotency key",
+                    "key": "idempotency-key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dryRun\": false,\n  \"replaceAll\": false,\n  \"spec\": {\n    \"info\": {\n      \"title\": \"Webhook Example\",\n      \"version\": \"1.0.0\"\n    },\n    \"openapi\": \"3.1.0\",\n    \"webhooks\": {\n      \"pet.new\": {\n        \"post\": {\n          \"requestBody\": {\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"properties\": {\n                    \"id\": {\n                      \"format\": \"int64\",\n                      \"type\": \"integer\"\n                    },\n                    \"name\": {\n                      \"type\": \"string\"\n                    },\n                    \"tag\": {\n                      \"type\": \"string\"\n                    }\n                  },\n                  \"required\": [\n                    \"id\",\n                    \"name\"\n                  ]\n                }\n              }\n            },\n            \"description\": \"Information about a new pet in the system\"\n          },\n          \"responses\": {\n            \"200\": {\n              \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n            }\n          }\n        }\n      }\n    }\n  },\n  \"specRaw\": \"\\n# Both YAML and JSON are supported\\nopenapi: 3.1.0\\ninfo:\\n  title: Webhook Example\\n  version: 1.0.0\\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\\nwebhooks:\\n  # Each webhook needs a name\\n  \\\"pet.new\\\":\\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\\n    post:\\n      requestBody:\\n        description: Information about a new pet in the system\\n        content:\\n          application/json:\\n            schema:\\n              $ref: \\\"#/components/schemas/Pet\\\"\\n      responses:\\n        \\\"200\\\":\\n          description: Return a 200 status to indicate that the data was received successfully\\n\\ncomponents:\\n  schemas:\\n    Pet:\\n      required:\\n        - id\\n        - name\\n      properties:\\n        id:\\n          type: integer\\n          format: int64\\n        name:\\n          type: string\\n        tag:\\n          type: string\\n\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd834ada-4795-409b-9380-d8747f009a68",
+          "name": "Get Event Type",
+          "request": {
+            "name": "Get Event Type",
+            "description": {
+              "content": "Get an event type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type",
+                ":event_type_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_type_name",
+                  "description": "(Required) The event type's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ec1107d6-89bd-4dfe-8c54-cbdb1a370f45",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2011-09-12T17:17:21.721Z\",\n  \"deprecated\": false,\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"updatedAt\": \"2005-01-01T16:40:09.189Z\",\n  \"archived\": false,\n  \"featureFlag\": \"4MsDjr2b\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "82f05bb2-db53-4904-8534-c685d74036d3",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7476e828-6ea8-4d7f-9a21-a8aa2de1258f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e444462a-c8f8-4f66-bf00-245b4d666add",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d99d7843-a219-44a0-9462-907fb1c8b644",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9322b0f-6de2-4c3e-b471-7d635ae5c492",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "625537d8-1d74-4dfc-bfa8-5355a9de9324",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d40378b-786b-407f-b6a8-9b7c68146a1f",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a746d97-f817-400f-9498-ce4cf3c1d105",
+          "name": "Update Event Type",
+          "request": {
+            "name": "Update Event Type",
+            "description": {
+              "content": "Update an event type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type",
+                ":event_type_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_type_name",
+                  "description": "(Required) The event type's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"<string>\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"<string>\"\n  ],\n  \"groupName\": null,\n  \"schemas\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "811f3bf5-afde-4466-9563-4dac755159a4",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2011-09-12T17:17:21.721Z\",\n  \"deprecated\": false,\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"updatedAt\": \"2005-01-01T16:40:09.189Z\",\n  \"archived\": false,\n  \"featureFlag\": \"4MsDjr2b\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4552746-6cc7-4c31-b22f-2f83ef9dc533",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2011-09-12T17:17:21.721Z\",\n  \"deprecated\": false,\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"updatedAt\": \"2005-01-01T16:40:09.189Z\",\n  \"archived\": false,\n  \"featureFlag\": \"4MsDjr2b\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58c0e47e-3233-4c93-bd04-f1e589f5b339",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b5fe756-b7c0-4a76-8807-dfcd23affc7e",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c351a19-c0dd-4eb7-aacf-e9b3d3593ba8",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b198907-73d1-4dd7-adaa-7066ad2fd991",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6b319b63-fe25-4f91-a9ee-479d3bd98da2",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d20ba5f1-fff1-49ee-8a51-ab1bdb0672df",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89faedd9-564c-4b05-9608-6dc923096752",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"description\": \"A user has signed up\",\n  \"archived\": false,\n  \"deprecated\": false,\n  \"featureFlag\": null,\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "794f8c24-c088-441f-90bc-5c3702f170df",
+          "name": "Delete Event Type",
+          "request": {
+            "name": "Delete Event Type",
+            "description": {
+              "content": "Archive an event type.\n\nEndpoints already configured to filter on an event type will continue to do so after archival.\nHowever, new messages can not be sent with it and endpoints can not filter on it.\nAn event type can be unarchived with the\n[create operation](#operation/create_event_type_api_v1_event_type__post).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type",
+                ":event_type_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "expunge",
+                  "value": "false",
+                  "description": "By default event types are archived when \"deleted\". Passing this to `true` deletes them entirely."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_type_name",
+                  "description": "(Required) The event type's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "35a4f692-551a-4a96-9541-6925dbcf9c07",
+              "name": "no content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ea11da21-29a5-44a9-9a25-04b772a59248",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b9f7258f-29e3-4341-90f0-5d742be368b3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a344f3e5-191e-48a9-92a3-c517428ec426",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9967b222-4084-40b8-9161-06b850b38b0a",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7d9c89c-e011-409c-9244-2eb8613d7ac4",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f86dd158-405d-4da0-8f27-23a439061e2f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "105543c2-2109-45a8-bbd2-be51a925b3ef",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "expunge",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17034b6f-84fe-4191-9e35-e861c1877880",
+          "name": "Patch Event Type",
+          "request": {
+            "name": "Patch Event Type",
+            "description": {
+              "content": "Partially update an event type.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "event-type",
+                ":event_type_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_type_name",
+                  "description": "(Required) The event type's name"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"<string>\"\n  ],\n  \"groupName\": \"<string>\",\n  \"schemas\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0b2e18ad-69de-4dfd-85c3-a2402b527ce2",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2011-09-12T17:17:21.721Z\",\n  \"deprecated\": false,\n  \"description\": \"A user has signed up\",\n  \"name\": \"user.signup\",\n  \"updatedAt\": \"2005-01-01T16:40:09.189Z\",\n  \"archived\": false,\n  \"featureFlag\": \"4MsDjr2b\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"1\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a7d11f2-b1fe-4684-953c-df4bd6606fbb",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f795359-aae3-4185-8b57-cfdf46077358",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d09ab06-ca36-4391-b8e3-f40cb4592628",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0603e0cd-317e-4baa-b04c-11e0419b30fd",
+              "name": "Not Found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a8c9ad98-15ef-4074-a54c-adba92268cb2",
+              "name": "Conflict",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f4c6c376-4786-46e2-8468-ea59b1876685",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b20d42d6-c53d-4ed6-bb26-71eb7f8ac409",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "event-type",
+                    ":event_type_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_type_name",
+                      "description": "(Required) The event type's name"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"archived\": \"<boolean>\",\n  \"deprecated\": \"<boolean>\",\n  \"description\": \"<string>\",\n  \"featureFlag\": \"<string>\",\n  \"featureFlags\": [\n    \"cool-new-feature\"\n  ],\n  \"groupName\": \"user\",\n  \"schemas\": {\n    \"description\": \"An invoice was paid by a user\",\n    \"properties\": {\n      \"invoiceId\": {\n        \"description\": \"The invoice id\",\n        \"type\": \"string\"\n      },\n      \"userId\": {\n        \"description\": \"The user id\",\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"invoiceId\",\n      \"userId\"\n    ],\n    \"title\": \"Invoice Paid Event\",\n    \"type\": \"object\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"detail\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.eu.svix.com/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1371c328-cbf4-40e9-9af6-f3e6bfcbe1d8",
+    "name": "Svix Application Event Type API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Welcome to the Svix API documentation!\n\nUseful links: [Homepage](https://www.svix.com) | [Support email](mailto:support+docs@svix.com) | [Blog](https://www.svix.com/blog/) | [Slack Community](https://www.svix.com/slack/)\n\n# Introduction\n\nThis is the reference documentation and schemas for the [Svix webhook service](https://www.svix.com) API. For tutorials and other documentation please refer to [the documentation](https://docs.svix.com).\n\n## Main concepts\n\nIn Svix you have four important entities you will be interacting with:\n\n- `messages`: these are the webhooks being sent. They can have contents and a few other properties.\n- `application`: this is where `messages` are sent to. Usually you want to create one application for each user on your platform.\n- `endpoint`: endpoints are the URLs messages will be sent to. Each application can have multiple `endpoints` and each message sent to that application will be sent to all of them (unless they are not subscribed to the sent event type).\n- `event-type`: event types are identifiers denoting the type of the message being sent. Event types are primarily used to decide which events are sent to which endpoint.\n\n\n## Authentication\n\nGet your authentication token (`AUTH_TOKEN`) from the [Svix dashboard](https://dashboard.svix.com) and use it as part of the `Authorization` header as such: `Authorization: Bearer ${AUTH_TOKEN}`. For more information on authentication, please refer to the [authentication token docs](https://docs.svix.com/api-keys).\n\n<SecurityDefinitions />\n\n\n## Code samples\n\nThe code samples assume you already have the respective libraries installed and you know how to use them. For the latest information on how to do that, please refer to [the documentation](https://docs.svix.com/).\n\n\n## Idempotency\n\nSvix supports [idempotency](https://en.wikipedia.org/wiki/Idempotence) for safely retrying requests without accidentally performing the same operation twice. This is useful when an API call is disrupted in transit and you do not receive a response.\n\nTo perform an idempotent request, pass the idempotency key in the `Idempotency-Key` header to the request. The idempotency key should be a unique value generated by the client. You can create the key in however way you like, though we suggest using UUID v4, or any other string with enough entropy to avoid collisions. Your idempotency key should not begin with the string `auto_`, which is reserved for internal use by the client libraries.\n\nSvix's idempotency works by saving the resulting status code and body of the first request made for any given idempotency key for any successful request. Subsequent requests with the same key return the same result for a period of up to 12 hours.\n\nPlease note that idempotency is only supported for `POST` requests.\n\n\n## Cross-Origin Resource Sharing\n\nThis API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.\n",
+      "type": "text/plain"
+    }
+  }
+}

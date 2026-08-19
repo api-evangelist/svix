@@ -1,0 +1,137 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.svix.com/tutorials/cli
+sources:
+  - https://docs.svix.com/tutorials/cli
+  - https://docs.svix.com/play
+  - https://github.com/svix/svix-webhooks/tree/main/svix-cli
+  - https://github.com/svix/ai/blob/main/skills/svix-sending-webhooks/references/cli.md
+  - https://www.npmjs.com/package/svix-cli
+
+name: Svix CLI
+binary: svix
+official: true
+language: Go
+version: 1.99.0
+published: '2026-07-23'
+repo: https://github.com/svix/svix-webhooks/tree/main/svix-cli
+legacy_repo: https://github.com/svix/svix-cli
+legacy_repo_note: |
+  github.com/svix/svix-cli is ARCHIVED and marked "[MOVED]" — the CLI now lives in
+  the svix-webhooks monorepo and ships on the same release train as the SDKs. The
+  docs and the CLI installer pages still link to the archived repo's releases page,
+  which is a stale-link gap on Svix's side.
+
+install:
+  - method: npm
+    command: npm install -g svix-cli
+    registry: https://www.npmjs.com/package/svix-cli
+  - method: npx
+    command: npx svix-cli
+    note: The invocation Svix's own agent skill recommends — no global install.
+  - method: homebrew
+    command: brew install svix/svix/svix-cli
+    tap: https://github.com/svix/homebrew-svix
+  - method: scoop
+    command: |
+      scoop bucket add svix https://github.com/svix/scoop-svix.git
+      scoop install svix
+    bucket: https://github.com/svix/scoop-svix
+  - method: aur
+    command: yay -S svix-cli
+  - method: deb
+    note: .deb package from the GitHub releases page.
+  - method: rpm
+    note: .rpm package from the GitHub releases page.
+  - method: binary
+    note: |
+      Pre-built tar.gz for Darwin / Linux / Windows from the releases page; extract,
+      chmod +x, move onto PATH.
+  - method: nix
+    note: Packaged in nixpkgs as svix-cli (community-maintained, not first-party).
+
+authentication:
+  env_var: SVIX_AUTH_TOKEN
+  note: |
+    Every command requires it EXCEPT `svix listen`, which is the one command that
+    works with no Svix account at all.
+
+command_surface:
+  note: |
+    The CLI mirrors the REST resource tree — a command group per entity, with the
+    same verbs as the API. Groups below are the resources the API exposes and the
+    docs/skill reference name; run `svix help` or `svix <command> --help` for the
+    authoritative per-command flags.
+  groups:
+    - group: application
+      purpose: Create, list, get, update and delete consumer applications.
+      key_flag: --data-uid
+      key_flag_note: |
+        Svix's own agent skill states the rule flatly: ALWAYS pass --data-uid on
+        `application create`. Without it you can only ever address the customer by
+        the generated app_… id instead of your own stable tenant id.
+    - group: endpoint
+      purpose: Manage delivery endpoints, secrets, headers and transformations.
+    - group: message
+      purpose: Send messages and inspect payloads.
+    - group: message-attempt
+      purpose: Inspect, resend and recover delivery attempts.
+    - group: event-type
+      purpose: Manage the event type catalog.
+    - group: integration
+      purpose: Manage integrations and rotate their keys.
+    - group: authentication
+      purpose: Mint App Portal access tokens.
+    - group: verify
+      purpose: Validate a webhook payload signature locally.
+    - group: listen
+      purpose: Relay a public URL to a local server (see key_flows).
+    - group: open
+      purpose: Open the Svix docs/dashboard in a browser.
+    - group: version
+      purpose: Print the CLI version.
+
+key_flows:
+  - id: local-relay
+    command: svix listen http://localhost:8080/webhook/
+    description: |
+      Allocates an ephemeral public URL on play.svix.com and forwards every request
+      to a local server. This is the supported answer to "Svix cannot deliver to
+      localhost" — the cloud will not deliver to unroutable addresses, so `svix
+      listen` is the development bridge. Requests are also visible in the Svix Play
+      UI for inspection.
+    no_auth_required: true
+    example_output: |
+      Webhook relay is now listening at
+      https://play.svix.com/in/e_94XdF-OwN3EaTKty4izJDWRAH3V/
+
+      All requests on this endpoint will be forwarded to your local URL:
+      http://localhost:8080/webhook/
+    caveat: |
+      The URL changes on every restart. Svix's agent skill instructs agents never to
+      hardcode it and to use a real development environment for anything long-lived.
+  - id: one-off-provisioning
+    description: |
+      Create an Application, Endpoint or test Message from a terminal rather than
+      writing SDK code — the fastest path through the quickstart.
+  - id: scripting
+    description: |
+      JSON output piped through `jq` for bulk work: resending every failed attempt,
+      counting endpoints per application.
+  - id: payload-verification
+    description: Validate a webhook signature locally without writing receiver code.
+
+usage_rules:
+  source: https://github.com/svix/ai/blob/main/skills/svix-sending-webhooks/references/cli.md
+  note: These are Svix's own published instructions to coding agents.
+  rules:
+    - Do not shell out to `svix` from production code — use the SDK for the language, or call the API directly from Terraform/CI.
+    - Always pass `--data-uid` on `application create`.
+    - Endpoints must be public HTTPS; the cloud cannot deliver to localhost.
+    - Treat `svix listen` URLs as ephemeral.
+    - When porting CLI calls to code, use the right language's quickstart — Python uses snake_case `request={...}`, TS/JS use camelCase.
+
+related:
+  packages: packages/svix-packages.yml
+  sandbox: sandbox/svix-sandbox.yml
+  skills: skills/_index.yml

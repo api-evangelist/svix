@@ -1,0 +1,402 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Message API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Message",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Messages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the channel."
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created before a certain date."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "Only include items created after a certain date."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response."
+              },
+              {
+                "name": "tag",
+                "value": "",
+                "type": "query",
+                "description": "Filter messages matching the provided tag."
+              },
+              {
+                "name": "event_types",
+                "value": "",
+                "type": "query",
+                "description": "Filter response based on the event type"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List all of the application's messages.\n\nThe `before` and `after` parameters let you filter all items created before or after a certain date. These can be\nused alongside an iterator to paginate over results within a certain window.\n\nNote that by default this endpoint is limited to retrieving 90 days' worth of data\nrelative to now or, if an iterator is provided, 90 days before/after the time indicated\nby the iterator ID. If you require data beyond those time ranges, you will need to explicitly\nse"
+        },
+        {
+          "info": {
+            "name": "Create Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, message payloads are included in the response."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new message and dispatches it to all of the application's endpoints.\n\nThe `eventId` is an optional custom unique ID. It's verified to be unique only up to a day, after that no verification will be made.\nIf a message with the same `eventId` already exists for the application, a 409 conflict error will be returned.\n\nThe `eventType` indicates the type and schema of the event. All messages of a certain `eventType` are expected to have the same schema. Endpoints can choose to only listen to"
+        },
+        {
+          "info": {
+            "name": "Expunge all message contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/expunge-all-contents",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete all message payloads for the application.\n\nThis operation is only available in the <a href=\"https://svix.com/pricing\" target=\"_blank\">Enterprise</a> plan.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"application.purge_content\",\n  \"data\": {\n    \"messagesPurged\": 150\n  }\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Create Message Precheck",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/precheck/active",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "A pre-check call for `message.create` that checks whether any active endpoints are\nlistening to this message.\n\nNote: most people shouldn't be using this API. Svix doesn't bill you for\nmessages not actually sent, so using this API doesn't save money.\nIf unsure, please ask Svix support before using this API."
+        },
+        {
+          "info": {
+            "name": "Get Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              },
+              {
+                "name": "with_content",
+                "value": "",
+                "type": "query",
+                "description": "When `true` message payloads are included in the response."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a message by its ID or eventID."
+        },
+        {
+          "info": {
+            "name": "Delete message payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/msg/:msg_id/content",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "msg_id",
+                "value": "",
+                "type": "path",
+                "description": "The Message's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete the given message's payload.\n\nUseful in cases when a message was accidentally sent with sensitive content.\nThe message can't be replayed or resent once its payload has been deleted or expired."
+        },
+        {
+          "info": {
+            "name": "Poller Poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "event_type",
+                "value": "",
+                "type": "query",
+                "description": "Filters messages sent with this event type (optional)."
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Filters messages sent with this channel (optional)."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reads the stream of created messages for an application, filtered on the Sink's event types and Channels."
+        },
+        {
+          "info": {
+            "name": "Poller Consumer Poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id/consumer/:consumer_id",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "consumer_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reads the stream of created messages for an application, filtered on the Sink's event types and\nChannels, using server-managed iterator tracking."
+        },
+        {
+          "info": {
+            "name": "Poller Consumer Seek",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/app/:app_id/poller/:sink_id/consumer/:consumer_id/seek",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The Application's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The Endpoint's ID or UID."
+              },
+              {
+                "name": "consumer_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sets the starting offset for the consumer of a polling endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

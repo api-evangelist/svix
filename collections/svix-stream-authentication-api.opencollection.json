@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Stream Authentication API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stream Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Stream Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream-logout",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Logout a stream token.\n\nTrying to log out other tokens will fail."
+        },
+        {
+          "info": {
+            "name": "Get Stream Portal Access",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream-portal-access/:stream_id",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Use this function to get magic links (and authentication codes) for connecting your users to the Stream Consumer Portal."
+        },
+        {
+          "info": {
+            "name": "Stream Expire All",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/expire-all",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Expire all of the tokens associated with a specific stream."
+        },
+        {
+          "info": {
+            "name": "Get Poller Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/sink/:sink_id/poller/token",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the current auth token for the stream poller."
+        },
+        {
+          "info": {
+            "name": "Rotate Poller Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/auth/stream/:stream_id/sink/:sink_id/poller/token/rotate",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              },
+              {
+                "name": "sink_id",
+                "value": "",
+                "type": "path",
+                "description": "The StreamSink's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new auth token for the stream poller API."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

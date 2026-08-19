@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Svix Application Stream API",
+    "version": "1.84.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stream",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of returned items"
+              },
+              {
+                "name": "iterator",
+                "value": "",
+                "type": "query",
+                "description": "The iterator returned from a prior invocation"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order of the returned items"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List of all the organization's streams."
+        },
+        {
+          "info": {
+            "name": "Create Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.eu.svix.com/api/v1/stream",
+            "headers": [
+              {
+                "name": "idempotency-key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new stream."
+        },
+        {
+          "info": {
+            "name": "Get Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a stream by id or uid."
+        },
+        {
+          "info": {
+            "name": "Update Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a stream."
+        },
+        {
+          "info": {
+            "name": "Patch Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Partially update a stream."
+        },
+        {
+          "info": {
+            "name": "Delete Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.eu.svix.com/api/v1/stream/:stream_id",
+            "params": [
+              {
+                "name": "stream_id",
+                "value": "",
+                "type": "path",
+                "description": "The Stream's ID or UID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a stream."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

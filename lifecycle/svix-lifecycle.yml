@@ -1,0 +1,140 @@
+generated: '2026-08-13'
+method: searched
+source: |
+  https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md,
+  https://github.com/svix/svix-webhooks/releases,
+  https://status.svix.com/api/v2/status.json (probed 200 on 2026-08-13),
+  https://docs.svix.com/retries, and the `deprecated` flags in
+  openapi/_original/svix-openapi.json.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  path_prefix: /api/v1
+  server_build_version: 1.922.0
+  sdk_version: 1.99.1
+  sdk_prerelease: 2.0.0-rc.2
+  docs: https://api.svix.com/docs
+  note: |
+    The URL version has been v1 throughout. Breaking change is managed on the SDK
+    train instead: the 2.0.0 release candidate removes deprecated operations and
+    renames a large set of methods and fields, while the wire API stays at /api/v1.
+    So an integrator's breaking-change surface is the CLIENT LIBRARY, not the URL —
+    an inversion of the usual REST versioning contract, and the reason the changelog
+    is the artifact that matters most here.
+
+deprecation:
+  policy_url: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+  formal_policy_published: false
+  formal_policy_note: |
+    No standalone deprecation or sunset policy page exists on docs.svix.com — no
+    stated notice period, no support window, no end-of-life calendar. What Svix does
+    do is mark deprecations in the contract and in the changelog, then remove them
+    at a major SDK version. That is a real, observable practice; it is just not a
+    published commitment an integrator can plan against.
+  sunset_header: false
+  deprecation_header: false
+  header_note: |
+    RFC 8594 `Sunset` and the `Deprecation` header are not used — no response headers
+    of any kind are declared in the contract.
+  in_spec_deprecation: true
+  deprecated_operations:
+    - operation: v1.integration.get-key
+      path: GET /api/v1/app/{app_id}/integration/{integ_id}/key
+      source: openapi/_original/svix-openapi.json
+      replacement: v1.integration.rotate-key
+      note: |
+        The only operation carrying `deprecated: true` in the entire 230-operation
+        contract. Reading an integration key back is being retired in favour of
+        rotate-only handling, which is the right security posture.
+  deprecated_fields:
+    - field: rateLimit
+      on: [ApplicationOut, EndpointOut, ApplicationIn, EndpointIn]
+      replacement: throttleRate
+      source: openapi/_original/svix-openapi.json
+      note: Field description says "Deprecated, use `throttleRate` instead."
+  removed_in_2_0:
+    note: |
+      The 2.0.0-rc.1 changelog entry states plainly: "Remove deprecated operations
+      and most deprecated fields." Also renames every `update` operation to `upsert`
+      (Applications, Endpoints, Event Types, Connectors, Ingest Sources, Streams,
+      Sinks), renames `filterTypes` to `eventTypes`, `ingest.dashboard` to
+      `ingest.authentication.consumer-portal-access`, and
+      `endpoint.update-headers` to `endpoint.set-headers`.
+    source: https://github.com/svix/svix-webhooks/blob/main/ChangeLog.md
+
+status_page:
+  url: https://status.svix.com
+  provider: Atlassian Statuspage
+  machine_readable: true
+  api:
+    - url: https://status.svix.com/api/v2/status.json
+      status: 200
+    - url: https://status.svix.com/api/v2/summary.json
+      status: 200
+  probed: '2026-08-13'
+  observed_indicator: none
+  observed_description: All Systems Operational
+  note: |
+    Probed live. A machine-readable status endpoint is the part that matters for an
+    agent: an agent can check status.svix.com/api/v2/status.json before deciding a
+    delivery failure is its own fault.
+
+sla:
+  published_url: null
+  note: |
+    No public SLA page — https://www.svix.com/sla/ returns 404. Uptime and support
+    commitments appear to be contractual (Enterprise) rather than published. Recorded
+    as an honest absence: plans/svix-plans-pricing.yml carries the tier structure,
+    but there is no public uptime target to hold against the status page above.
+  probe:
+    - url: https://www.svix.com/sla/
+      status: 404
+
+support_lifecycle:
+  open_source_server:
+    repo: https://github.com/svix/svix-webhooks
+    changelog: https://github.com/svix/svix-webhooks/blob/main/server/ChangeLog.md
+    latest_release: server-v1.100.0
+    latest_release_date: '2026-08-03'
+    license: MIT
+    note: |
+      The self-hostable server is versioned and released separately from the SDK
+      train and from the hosted API build number — a third independent version
+      line. It is a smaller surface than the hosted product (no Stream, no Ingest,
+      no Connectors, no Background Tasks, no multi-region).
+  bridge:
+    changelog: https://github.com/svix/svix-webhooks/blob/main/bridge/ChangeLog.md
+    latest_release: bridge-v1.100.0
+    latest_release_date: '2026-08-04'
+
+release_cadence:
+  observed: |
+    12 tagged releases between 2026-05-28 and 2026-08-04 — roughly weekly to
+    fortnightly on the SDK train, with server and bridge cut on their own tags.
+  source: https://github.com/svix/svix-webhooks/releases
+
+delivery_lifecycle:
+  note: |
+    Svix runs a lifecycle for the webhooks it delivers, distinct from the API's own
+    versioning. Captured here because it is what actually ages out on a customer.
+  retry_schedule: [immediate, 5s, 5m, 30m, 2h, 5h, 10h, 10h]
+  message_failed_after: 8 attempts
+  endpoint_auto_disabled_after: 5 days of continuous failure
+  exhaustion_event: message.attempt.exhausted
+  disable_event: endpoint.disabled
+  docs: https://docs.svix.com/retries
+
+gaps:
+  - id: no-published-deprecation-policy
+    detail: |
+      Deprecations are marked in the spec and announced in the changelog, but there
+      is no page stating how long a deprecated operation survives or what notice an
+      integrator gets. The 2.0.0 RC removes deprecated operations wholesale, so the
+      practice is "removed at the next major", but that is inferred, not committed.
+  - id: no-published-sla
+    detail: /sla/ 404s; no public uptime target to pair with the status page.
+  - id: no-sunset-headers
+    detail: |
+      No Sunset/Deprecation response headers, so a running client cannot learn at
+      runtime that an operation it is calling is on the way out.

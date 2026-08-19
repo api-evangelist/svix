@@ -1,0 +1,144 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.svix.com/play
+sources:
+  - https://docs.svix.com/play
+  - https://play.svix.com
+  - https://docs.svix.com/api-keys
+  - https://docs.svix.com/tutorials/cli
+  - https://docs.svix.com/receiving/using-app-portal/testing-events
+
+shape_note: |
+  Svix has no test-mode key prefix and no magic test values, because it is not a
+  payments API — there is nothing to simulate the way a test card simulates a
+  decline. Its sandbox is shaped instead around ENVIRONMENT ISOLATION plus a public
+  webhook debugger, and one of those pieces is unusual enough to record carefully:
+  Svix Play is open to anyone with no Svix account and no signup at all.
+
+environment_separation:
+  mechanism: environments
+  note: |
+    Isolation is by ENVIRONMENT, not by key prefix. Every organization starts with a
+    development environment carrying its own API key, and the docs state that key
+    "should only be used for development or internal testing and is not intended to
+    be used in any production systems." There is no `sk_test_`-style prefix, so a
+    key does not announce which environment it belongs to — the only signal that you
+    used the wrong one is a 401 or missing data.
+  key_prefix_convention: none
+  environments_are_api_objects: true
+  environment_operations: [v1.environment.export, v1.environment.import]
+  environment_note: |
+    Environments are first-class API objects with export/import operations, so a
+    development environment's configuration can be promoted to production as data
+    rather than reconstructed by hand.
+  docs: https://docs.svix.com/api-keys
+
+playground:
+  name: Svix Play
+  url: https://play.svix.com
+  marketing_url: https://www.svix.com/play/
+  api_base: https://api.play.svix.com
+  signup_required: false
+  svix_account_required: false
+  free: true
+  description: |
+    A public webhook debugger. You are given a unique inbound URL; every request
+    sent to it returns 200 OK and is rendered in the UI for inspection. Explicitly
+    available to everyone, not only Svix customers, and useful to webhook SENDERS
+    and CONSUMERS alike.
+  url_shape: https://play.svix.com/in/<token>/
+  api_url_shape: https://api.play.svix.com/api/v1/in/<token>/
+  modes:
+    - id: echo
+      default: true
+      description: Requests are captured and answered 200 OK with an empty body.
+    - id: relay
+      description: |
+        `svix listen <local-url>` binds a Play URL to a local server, forwarding
+        every request while still recording it in the Play UI. Requires the CLI, not
+        a Svix account.
+  failure_simulation:
+    - param: force_status_code
+      in: query
+      applies_to: the api.play.svix.com /in/ route
+      example: https://api.play.svix.com/api/v1/in/<token>/?force_status_code=404
+      purpose: |
+        Force the endpoint to return an arbitrary status so a sender can test its own
+        retry, alerting and auto-disable behaviour. This is the closest thing Svix
+        has to a decline-code simulator: it exercises the retry ladder
+        (immediate / 5s / 5m / 30m / 2h / 5h / 10h / 10h) and the 5-day auto-disable
+        path against a controlled failure.
+    - param: echo_body
+      in: query
+      values: ['true']
+      purpose: Echo the request body back instead of returning an empty body.
+  note: |
+    Example tokens shown here (e_94XdF-OwN3EaTKty4izJDWRAH3V) come verbatim from the
+    Svix docs and are illustrative — Play tokens are minted per session.
+
+in_product_testing:
+  - id: app-portal-testing-tab
+    surface: Consumer App Portal
+    docs: https://docs.svix.com/receiving/using-app-portal/testing-events
+    description: |
+      A "Testing" tab in the portal a consumer uses, for sending example events to
+      their own endpoint and then drilling into payload, attempts and outcome.
+  - id: send-example
+    operation: v1.endpoint.send-example
+    description: |
+      API operation that sends a generated example message of a given event type to
+      one endpoint — the programmatic equivalent of the Testing tab, and the right
+      smoke test after creating an endpoint.
+  - id: test-attempt
+    operation: v1.message.test-attempt
+    description: Create a test delivery attempt of a message against an endpoint.
+  - id: transformation-simulate
+    operation: v1.endpoint.transformation-simulate
+    description: |
+      Dry-run a transformation against a sample payload and see the output without
+      touching live traffic. The one genuine simulate-before-you-commit operation in
+      the contract.
+  - id: stream-transformation-simulate
+    operation: v1.streaming.simulate-transformation
+    description: Same dry-run for Stream sink transformations.
+  - id: message-precheck
+    operation: v1.message.precheck
+    description: |
+      Check whether an application has any active endpoint that would receive a
+      message before actually sending it.
+
+self_hosted:
+  repo: https://github.com/svix/svix-webhooks
+  default_base: http://localhost:8071
+  license: MIT
+  description: |
+    The fullest "sandbox" Svix offers is the open-source server itself — run the
+    real thing locally under MIT, with an API compatible with the hosted product for
+    the core webhook-sending workflow. Smaller surface: no Stream, no Ingest, no
+    Connectors, no Background Tasks, no multi-region.
+
+test_values:
+  cards: []
+  accounts: []
+  magic_identifiers: []
+  note: |
+    None published, and none invented. There is no category of test value in this
+    product — the analogue is force_status_code on a Play endpoint.
+
+test_clocks:
+  supported: false
+  note: |
+    No time simulation. The retry ladder runs over ~26 hours and auto-disable takes
+    5 days, and there is no documented way to fast-forward either, so validating the
+    tail of the retry schedule against a real account takes real wall-clock time.
+
+gaps:
+  - id: no-key-prefix
+    detail: |
+      Because keys carry no environment prefix, a development key and a production
+      key are indistinguishable in a config file, a log line, or a secret store.
+      A prefix convention would make the most common 401 self-diagnosing.
+  - id: no-time-simulation
+    detail: |
+      No test clock, so the retry ladder and the 5-day auto-disable behaviour cannot
+      be exercised end to end in a test suite.
