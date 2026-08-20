@@ -29,6 +29,40 @@ specificationVersion: '0.23'
 type: Index
 aid: svix
 tags:
+  - Webhook
+  - Webhooks As A Service
+  - Webhook Delivery
+  - Webhook Sending
+  - Event-Driven
+  - Eventing
+  - Messaging
+  - Pub-Sub
+  - Streaming
+  - Ingest
+  - Integration
+  - Reliability
+  - Retries
+  - Deliverability
+  - Signing
+  - Verification
+  - HMAC
+  - Standard Webhooks
+  - Multi-Tenant
+  - Multi-Region
+  - Enterprise
+  - Software-as-a-Service
+  - Developer Platform
+  - REST
+  - SOC 2
+  - HIPAA
+  - PCI DSS
+  - GDPR
+  - Open-Source
+  - Rust
+  - Polyglot SDK
+  - Terraform
+  - CLI
+tags_raw:
   - Webhooks
   - Webhooks As A Service
   - Webhook Delivery
@@ -78,6 +112,12 @@ apis:
   baseURL: http://localhost:8071
   aid: svix:open-source-server
   tags:
+  - Open-Source
+  - Self-Hosted
+  - Webhook Sending
+  - Rust
+  - MIT License
+  tags_raw:
   - Open Source
   - Self Hosted
   - Webhook Sending
@@ -202,7 +242,8 @@ apis:
     to the sent event type).
   humanURL: https://api.svix.com/docs
   baseURL: https://api.svix.com
-  tags:
+  tags: []
+  tags_raw:
   - Endpoint
   properties:
   - type: OpenAPI
