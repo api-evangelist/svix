@@ -658,6 +658,16 @@ apis:
     url: https://www.svix.com/ingest/
   - type: Documentation
     url: https://www.svix.com/stream/
+- aid: svix:svix-webhook-api
+  name: Svix Webhook API
+  description: The Webhook API from Svix — 0 operation(s) for webhook.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-webhook-api-openapi.yml
 common:
   - type: License
     name: MIT
