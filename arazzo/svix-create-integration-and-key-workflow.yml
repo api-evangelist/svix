@@ -11,8 +11,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: applicationApi
+  url: ../openapi/svix-application-api-openapi.yml
+  type: openapi
+- name: integrationApi
+  url: ../openapi/svix-integration-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: create-integration-and-key

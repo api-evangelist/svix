@@ -11,8 +11,11 @@ info:
     and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: backgroundTaskApi
+  url: ../openapi/svix-background-task-api-openapi.yml
+  type: openapi
+- name: endpointApi
+  url: ../openapi/svix-endpoint-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: recover-failed-webhooks

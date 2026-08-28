@@ -11,8 +11,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: endpointApi
+  url: ../openapi/svix-endpoint-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: endpoint-health-check

@@ -11,8 +11,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: ingestSourceApi
+  url: ../openapi/svix-ingest-source-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: rotate-ingest-source-token

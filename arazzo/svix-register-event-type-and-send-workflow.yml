@@ -12,8 +12,11 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: endpointApi
+  url: ../openapi/svix-endpoint-api-openapi.yml
+  type: openapi
+- name: eventTypeApi
+  url: ../openapi/svix-event-type-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: register-event-type-and-send

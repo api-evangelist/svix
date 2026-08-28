@@ -11,8 +11,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: applicationApi
+  url: ../openapi/svix-application-api-openapi.yml
+  type: openapi
+- name: endpointApi
+  url: ../openapi/svix-endpoint-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: decommission-application

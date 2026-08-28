@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: messageApi
+  url: ../openapi/svix-message-api-openapi.yml
+  type: openapi
+- name: messageAttemptApi
+  url: ../openapi/svix-message-attempt-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: send-message-and-confirm-delivery

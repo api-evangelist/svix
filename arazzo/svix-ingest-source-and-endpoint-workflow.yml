@@ -11,8 +11,11 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: ingestEndpointApi
+  url: ../openapi/svix-ingest-endpoint-api-openapi.yml
+  type: openapi
+- name: ingestSourceApi
+  url: ../openapi/svix-ingest-source-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: ingest-source-and-endpoint

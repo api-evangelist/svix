@@ -12,8 +12,17 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: svixApi
-  url: ../openapi/svix-openapi.json
+- name: applicationApi
+  url: ../openapi/svix-application-api-openapi.yml
+  type: openapi
+- name: endpointApi
+  url: ../openapi/svix-endpoint-api-openapi.yml
+  type: openapi
+- name: messageApi
+  url: ../openapi/svix-message-api-openapi.yml
+  type: openapi
+- name: messageAttemptApi
+  url: ../openapi/svix-message-attempt-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-and-send-message
