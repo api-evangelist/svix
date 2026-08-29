@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Svix Health API
+  title: Svix Ingest Logs API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -84,19 +84,64 @@ servers:
 - url: https://api.in.svix.com
   description: The Svix India region
 tags:
-- name: Health
-  description: Health checks for the API.
+- name: Ingest Logs
 paths:
-  /api/v1/health:
+  /ingest/api/v1/source/{source_id}/log:
     get:
       tags:
-      - Health
-      summary: Health
-      description: Verify the API server is up and running.
-      operationId: v1.health.get
+      - Ingest Logs
+      summary: List Logs
+      description: List of all the source's ingest logs.
+      operationId: v1.ingest.log.list
+      parameters:
+      - in: path
+        name: source_id
+        description: The Source's ID or UID.
+        required: true
+        schema:
+          description: The Source's ID or UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          example: unique-identifier
+        style: simple
+      - in: query
+        name: limit
+        description: Limit the number of returned items
+        schema:
+          description: Limit the number of returned items
+          type: integer
+          format: uint64
+          maximum: 250
+          minimum: 1.0
+        style: form
+      - in: query
+        name: iterator
+        description: The iterator returned from a prior invocation
+        schema:
+          description: The iterator returned from a prior invocation
+          type: string
+          maxLength: 25
+          minLength: 24
+          pattern: ^log[A-Za-z0-9]{21,22}$
+          nullable: true
+          example: log2yZwUhtgs5Ai8T9yRQJXA
+        style: form
+      - in: query
+        name: order
+        description: The sorting order of the returned items
+        schema:
+          description: The sorting order of the returned items
+          $ref: '#/components/schemas/Ordering'
+          nullable: true
+        style: form
       responses:
-        '204':
-          description: no content
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_IngestLogOut_'
         '400':
           description: Bad request
           content:
@@ -139,8 +184,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
+    ListResponse_IngestLogOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngestLogOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     HttpErrorOut:
       title: HttpError
       type: object
@@ -152,6 +221,49 @@ components:
       required:
       - code
       - detail
+    IngestLogOut:
+      type: object
+      properties:
+        id:
+          description: The ErrorLog's ID.
+          type: string
+          maxLength: 25
+          minLength: 24
+          pattern: ^log[A-Za-z0-9]{21,22}$
+          example: log2yZwUhtgs5Ai8T9yRQJXA
+        source_id:
+          description: The Source's ID.
+          type: string
+          maxLength: 26
+          minLength: 25
+          pattern: ^src_[A-Za-z0-9]{21,22}$
+          example: src_2yZwUhtgs5Ai8T9yRQJXA
+        status_code:
+          type: integer
+          format: int16
+        error_text:
+          type: string
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+        payload:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+      - created_at
+      - error_text
+      - headers
+      - id
+      - payload
+      - source_id
+      - status_code
+      - updated_at
     HTTPValidationError:
       type: object
       properties:
@@ -180,6 +292,12 @@ components:
       - loc
       - msg
       - type
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
   securitySchemes:
     HTTPBearer:
       type: http

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Svix Stream Authentication API
+  title: Svix Environment Settings API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -84,522 +84,22 @@ servers:
 - url: https://api.in.svix.com
   description: The Svix India region
 tags:
-- name: Stream Authentication
+- name: Environment-Settings
 paths:
-  /api/v1/auth/stream-portal-access/{stream_id}:
-    post:
-      tags:
-      - Stream Authentication
-      summary: Get Stream Portal Access
-      description: Use this function to get magic links (and authentication codes) for connecting your users to the Stream Consumer Portal.
-      operationId: v1.authentication.stream-portal-access
-      parameters:
-      - in: path
-        name: stream_id
-        description: The Stream's ID or UID.
-        required: true
-        schema:
-          description: The Stream's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StreamPortalAccessIn'
-        required: true
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AppPortalAccessOut'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - lang: TypeScript
-        label: JavaScript
-        source: "const response = await svix.authentication.streamPortalAccess(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  {\n    featureFlags: [],\n    expiry: 1,\n    sessionId: \"user_1FB8\",\n  }\n);"
-      - lang: TypeScript
-        label: TypeScript
-        source: "const response = await svix.authentication.streamPortalAccess(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  {\n    featureFlags: [],\n    expiry: 1,\n    sessionId: \"user_1FB8\",\n  }\n);"
-      - lang: Python
-        label: Python
-        source: "response = svix.authentication.stream_portal_access(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamPortalAccessIn(\n        feature_flags=[],\n        expiry=1,\n        session_id=\"user_1FB8\",\n    ),\n)"
-      - lang: Python
-        label: Python (Async)
-        source: "response = await svix.authentication.stream_portal_access(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamPortalAccessIn(\n        feature_flags=[],\n        expiry=1,\n        session_id=\"user_1FB8\",\n    ),\n)"
-      - lang: Go
-        label: Go
-        source: "response, err := svix.Authentication.StreamPortalAccess(\n\tctx,\n\t\"strm_31Dc0DD72P5AddYUguyBd\",\n\tStreamPortalAccessIn{\n\t\tFeatureFlags: []string{},\n\t\tExpiry:       new(uint64(1)),\n\t\tSessionId:    new(\"user_1FB8\"),\n\t},\n\tnil,\n)"
-      - lang: Kotlin
-        label: Kotlin
-        source: "val response =\n    svix.authentication.streamPortalAccess(\n        \"strm_31Dc0DD72P5AddYUguyBd\",\n        StreamPortalAccessIn(featureFlags = setOf(), expiry = 1u, sessionId = \"user_1FB8\"),\n    )"
-      - lang: Java
-        label: Java
-        source: "var response = svix.getAuthentication()\n        .streamPortalAccess(\n            \"strm_31Dc0DD72P5AddYUguyBd\",\n            new StreamPortalAccessIn().featureFlags(Set.of()).expiry(1L).sessionId(\"user_1FB8\"));"
-      - lang: Ruby
-        label: Ruby
-        source: "response = svix\n  .authentication\n  .stream_portal_access(\"strm_31Dc0DD72P5AddYUguyBd\", {featureFlags: [], expiry: 1, sessionId: \"user_1FB8\"})"
-      - lang: Rust
-        label: Rust
-        source: "let response = svix\n    .authentication()\n    .stream_portal_access(\n        \"strm_31Dc0DD72P5AddYUguyBd\".to_string(),\n        StreamPortalAccessIn {\n            feature_flags: Some(vec![]),\n            expiry: Some(1),\n            session_id: Some(\"user_1FB8\".to_string()),\n        },\n        None,\n    )\n    .await?;"
-      - lang: C#
-        label: C#
-        source: "var response = svix.Authentication.StreamPortalAccess(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    new StreamPortalAccessIn\n    {\n        FeatureFlags = [],\n        Expiry = 1,\n        SessionId = \"user_1FB8\",\n    }\n);"
-      - lang: PHP
-        label: PHP
-        source: "$response = $svix->authentication->streamPortalAccess(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamPortalAccessIn::create()\n    ->withFeatureFlags([])\n    ->withExpiry(1)\n    ->withSessionId(\"user_1FB8\")\n);"
-      - lang: Shell
-        label: CLI
-        source: "svix authentication stream-portal-access \"strm_31Dc0DD72P5AddYUguyBd\" '{\n    \"featureFlags\": [],\n    \"expiry\": 1,\n    \"sessionId\": \"user_1FB8\"\n  }'"
-      - lang: Shell
-        label: cURL
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/auth/stream-portal-access/strm_31Dc0DD72P5AddYUguyBd' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"featureFlags\": [],\n    \"expiry\": 1,\n    \"sessionId\": \"user_1FB8\"\n  }'"
-  /api/v1/auth/stream-logout:
-    post:
-      tags:
-      - Stream Authentication
-      summary: Stream Logout
-      description: 'Logout a stream token.
-
-
-        Trying to log out other tokens will fail.'
-      operationId: v1.authentication.stream-logout
-      parameters:
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      responses:
-        '204':
-          description: no content
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - lang: TypeScript
-        label: JavaScript
-        source: await svix.authentication.streamLogout();
-      - lang: TypeScript
-        label: TypeScript
-        source: await svix.authentication.streamLogout();
-      - lang: Python
-        label: Python
-        source: svix.authentication.stream_logout()
-      - lang: Python
-        label: Python (Async)
-        source: await svix.authentication.stream_logout()
-      - lang: Go
-        label: Go
-        source: err := svix.Authentication.StreamLogout(ctx, nil)
-      - lang: Kotlin
-        label: Kotlin
-        source: "svix.authentication\n    .streamLogout()"
-      - lang: Java
-        label: Java
-        source: svix.getAuthentication().streamLogout();
-      - lang: Ruby
-        label: Ruby
-        source: response = svix.authentication.stream_logout
-      - lang: Rust
-        label: Rust
-        source: svix.authentication().stream_logout(None).await?;
-      - lang: C#
-        label: C#
-        source: var response = svix.Authentication.StreamLogout();
-      - lang: PHP
-        label: PHP
-        source: $svix->authentication->streamLogout();
-      - lang: Shell
-        label: CLI
-        source: svix authentication stream-logout
-      - lang: Shell
-        label: cURL
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/auth/stream-logout' \\\n  -H 'Authorization: Bearer AUTH_TOKEN'"
-  /api/v1/auth/stream/{stream_id}/expire-all:
-    post:
-      tags:
-      - Stream Authentication
-      summary: Stream Expire All
-      description: Expire all of the tokens associated with a specific stream.
-      operationId: v1.authentication.stream-expire-all
-      parameters:
-      - in: path
-        name: stream_id
-        description: The Stream's ID or UID.
-        required: true
-        schema:
-          description: The Stream's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StreamTokenExpireIn'
-        required: true
-      responses:
-        '204':
-          description: no content
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - lang: TypeScript
-        label: JavaScript
-        source: "await svix.authentication.streamExpireAll(\"strm_31Dc0DD72P5AddYUguyBd\", {\n  expiry: 60,\n  sessionIds: [],\n});"
-      - lang: TypeScript
-        label: TypeScript
-        source: "await svix.authentication.streamExpireAll(\"strm_31Dc0DD72P5AddYUguyBd\", {\n  expiry: 60,\n  sessionIds: [],\n});"
-      - lang: Python
-        label: Python
-        source: "svix.authentication.stream_expire_all(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamTokenExpireIn(\n        expiry=60,\n        session_ids=[],\n    ),\n)"
-      - lang: Python
-        label: Python (Async)
-        source: "await svix.authentication.stream_expire_all(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamTokenExpireIn(\n        expiry=60,\n        session_ids=[],\n    ),\n)"
-      - lang: Go
-        label: Go
-        source: "err := svix.Authentication.StreamExpireAll(\n\tctx,\n\t\"strm_31Dc0DD72P5AddYUguyBd\",\n\tStreamTokenExpireIn{Expiry: new(int64(60)), SessionIds: []string{}},\n\tnil,\n)"
-      - lang: Kotlin
-        label: Kotlin
-        source: "svix.authentication.streamExpireAll(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamTokenExpireIn(expiry = 60, sessionIds = listOf()),\n)"
-      - lang: Java
-        label: Java
-        source: "svix.getAuthentication()\n        .streamExpireAll(\n            \"strm_31Dc0DD72P5AddYUguyBd\",\n            new StreamTokenExpireIn().expiry(60L).sessionIds(List.of()));"
-      - lang: Ruby
-        label: Ruby
-        source: 'response = svix.authentication.stream_expire_all("strm_31Dc0DD72P5AddYUguyBd", {expiry: 60, sessionIds: []})'
-      - lang: Rust
-        label: Rust
-        source: "svix.authentication()\n    .stream_expire_all(\n        \"strm_31Dc0DD72P5AddYUguyBd\".to_string(),\n        StreamTokenExpireIn {\n            expiry: Some(60),\n            session_ids: Some(vec![]),\n        },\n        None,\n    )\n    .await?;"
-      - lang: C#
-        label: C#
-        source: "var response = svix.Authentication.StreamExpireAll(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    new StreamTokenExpireIn { Expiry = 60, SessionIds = [] }\n);"
-      - lang: PHP
-        label: PHP
-        source: "$svix->authentication->streamExpireAll(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    StreamTokenExpireIn::create()\n    ->withExpiry(60)\n    ->withSessionIds([])\n);"
-      - lang: Shell
-        label: CLI
-        source: "svix authentication stream-expire-all \"strm_31Dc0DD72P5AddYUguyBd\" '{\n    \"expiry\": 60,\n    \"sessionIds\": []\n  }'"
-      - lang: Shell
-        label: cURL
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/auth/stream/strm_31Dc0DD72P5AddYUguyBd/expire-all' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"expiry\": 60,\n    \"sessionIds\": []\n  }'"
-  /api/v1/auth/stream/{stream_id}/sink/{sink_id}/poller/token/rotate:
-    post:
-      tags:
-      - Stream Authentication
-      summary: Rotate Poller Token
-      description: Create a new auth token for the stream poller API.
-      operationId: v1.authentication.rotate-stream-poller-token
-      parameters:
-      - in: path
-        name: stream_id
-        description: The Stream's ID or UID.
-        required: true
-        schema:
-          description: The Stream's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: path
-        name: sink_id
-        description: The StreamSink's ID or UID.
-        required: true
-        schema:
-          description: The StreamSink's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RotatePollerTokenIn'
-        required: true
-      responses:
-        '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiTokenOut'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - lang: TypeScript
-        label: JavaScript
-        source: "const response = await svix.authentication.rotateStreamPollerToken(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\",\n  {\n    expiry: 1,\n    oldTokenExpiry: 1,\n  }\n);"
-      - lang: TypeScript
-        label: TypeScript
-        source: "const response = await svix.authentication.rotateStreamPollerToken(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\",\n  {\n    expiry: 1,\n    oldTokenExpiry: 1,\n  }\n);"
-      - lang: Python
-        label: Python
-        source: "response = svix.authentication.rotate_stream_poller_token(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    RotatePollerTokenIn(\n        expiry=1,\n        old_token_expiry=1,\n    ),\n)"
-      - lang: Python
-        label: Python (Async)
-        source: "response = await svix.authentication.rotate_stream_poller_token(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    RotatePollerTokenIn(\n        expiry=1,\n        old_token_expiry=1,\n    ),\n)"
-      - lang: Go
-        label: Go
-        source: "response, err := svix.Authentication.RotateStreamPollerToken(\n\tctx,\n\t\"strm_31Dc0DD72P5AddYUguyBd\",\n\t\"sink_31Dc11sPYY9aLDkwPuGMa\",\n\tRotatePollerTokenIn{Expiry: new(int64(1)), OldTokenExpiry: new(int64(1))},\n\tnil,\n)"
-      - lang: Kotlin
-        label: Kotlin
-        source: "val response =\n    svix.authentication.rotateStreamPollerToken(\n        \"strm_31Dc0DD72P5AddYUguyBd\",\n        \"sink_31Dc11sPYY9aLDkwPuGMa\",\n        RotatePollerTokenIn(expiry = 1, oldTokenExpiry = 1),\n    )"
-      - lang: Java
-        label: Java
-        source: "var response = svix.getAuthentication()\n        .rotateStreamPollerToken(\n            \"strm_31Dc0DD72P5AddYUguyBd\",\n            \"sink_31Dc11sPYY9aLDkwPuGMa\",\n            new RotatePollerTokenIn().expiry(1L).oldTokenExpiry(1L));"
-      - lang: Ruby
-        label: Ruby
-        source: "response = svix\n  .authentication\n  .rotate_stream_poller_token(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    {expiry: 1, oldTokenExpiry: 1}\n  )"
-      - lang: Rust
-        label: Rust
-        source: "let response = svix\n    .authentication()\n    .rotate_stream_poller_token(\n        \"strm_31Dc0DD72P5AddYUguyBd\".to_string(),\n        \"sink_31Dc11sPYY9aLDkwPuGMa\".to_string(),\n        RotatePollerTokenIn {\n            expiry: Some(1),\n            old_token_expiry: Some(1),\n        },\n        None,\n    )\n    .await?;"
-      - lang: C#
-        label: C#
-        source: "var response = svix.Authentication.RotateStreamPollerToken(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    new RotatePollerTokenIn { Expiry = 1, OldTokenExpiry = 1 }\n);"
-      - lang: PHP
-        label: PHP
-        source: "$response = $svix->authentication->rotateStreamPollerToken(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    RotatePollerTokenIn::create()\n    ->withExpiry(1)\n    ->withOldTokenExpiry(1)\n);"
-      - lang: Shell
-        label: CLI
-        source: "svix authentication rotate-stream-poller-token \"strm_31Dc0DD72P5AddYUguyBd\" \"sink_31Dc11sPYY9aLDkwPuGMa\" '{\n    \"expiry\": 1,\n    \"oldTokenExpiry\": 1\n  }'"
-      - lang: Shell
-        label: cURL
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/auth/stream/strm_31Dc0DD72P5AddYUguyBd/sink/sink_31Dc11sPYY9aLDkwPuGMa/poller/token/rotate' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"expiry\": 1,\n    \"oldTokenExpiry\": 1\n  }'"
-  /api/v1/auth/stream/{stream_id}/sink/{sink_id}/poller/token:
+  /api/v1/environment/settings:
     get:
       tags:
-      - Stream Authentication
-      summary: Get Poller Token
-      description: Get the current auth token for the stream poller.
-      operationId: v1.authentication.get-stream-poller-token
-      parameters:
-      - in: path
-        name: stream_id
-        description: The Stream's ID or UID.
-        required: true
-        schema:
-          description: The Stream's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: path
-        name: sink_id
-        description: The StreamSink's ID or UID.
-        required: true
-        schema:
-          description: The StreamSink's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
+      - Environment-Settings
+      summary: Get Org Settings
+      description: Get the environment's settings.
+      operationId: v1.environment.get-settings
       responses:
         '200':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiTokenOut'
+                $ref: '#/components/schemas/EnvironmentSettingsOut'
         '400':
           description: Bad request
           content:
@@ -644,166 +144,503 @@ paths:
                 $ref: '#/components/schemas/HttpErrorOut'
       security:
       - HTTPBearer: []
-      x-codeSamples:
-      - lang: TypeScript
-        label: JavaScript
-        source: "const response = await svix.authentication.getStreamPollerToken(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - lang: TypeScript
-        label: TypeScript
-        source: "const response = await svix.authentication.getStreamPollerToken(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - lang: Python
-        label: Python
-        source: "response = svix.authentication.get_stream_poller_token(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n)"
-      - lang: Python
-        label: Python (Async)
-        source: "response = await svix.authentication.get_stream_poller_token(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n)"
-      - lang: Go
-        label: Go
-        source: "response, err := svix.Authentication.GetStreamPollerToken(\n\tctx,\n\t\"strm_31Dc0DD72P5AddYUguyBd\",\n\t\"sink_31Dc11sPYY9aLDkwPuGMa\",\n)"
-      - lang: Kotlin
-        label: Kotlin
-        source: "val response =\n    svix.authentication.getStreamPollerToken(\n        \"strm_31Dc0DD72P5AddYUguyBd\",\n        \"sink_31Dc11sPYY9aLDkwPuGMa\",\n    )"
-      - lang: Java
-        label: Java
-        source: "var response = svix.getAuthentication()\n        .getStreamPollerToken(\"strm_31Dc0DD72P5AddYUguyBd\", \"sink_31Dc11sPYY9aLDkwPuGMa\");"
-      - lang: Ruby
-        label: Ruby
-        source: response = svix.authentication.get_stream_poller_token("strm_31Dc0DD72P5AddYUguyBd", "sink_31Dc11sPYY9aLDkwPuGMa")
-      - lang: Rust
-        label: Rust
-        source: "let response = svix\n    .authentication()\n    .get_stream_poller_token(\n        \"strm_31Dc0DD72P5AddYUguyBd\".to_string(),\n        \"sink_31Dc11sPYY9aLDkwPuGMa\".to_string(),\n    )\n    .await?;"
-      - lang: C#
-        label: C#
-        source: "var response = svix.Authentication.GetStreamPollerToken(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - lang: PHP
-        label: PHP
-        source: "$response = $svix->authentication->getStreamPollerToken(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - lang: Shell
-        label: CLI
-        source: svix authentication get-stream-poller-token "strm_31Dc0DD72P5AddYUguyBd" "sink_31Dc11sPYY9aLDkwPuGMa"
-      - lang: Shell
-        label: cURL
-        source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/auth/stream/strm_31Dc0DD72P5AddYUguyBd/sink/sink_31Dc11sPYY9aLDkwPuGMa/poller/token' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+      x-internal: true
+  /api/v1/management/environment-settings:
+    get:
+      tags:
+      - Environment-Settings
+      summary: Get Dashboard Organization Settings
+      description: Get the environments's settings
+      operationId: v1.management.environment-settings.get
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsInternalOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+    put:
+      tags:
+      - Environment-Settings
+      summary: Update Dashboard Organization Settings
+      description: Update the environment's settings
+      operationId: v1.management.environment-settings.update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsInternalIn'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsInternalUpdateOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+    patch:
+      tags:
+      - Environment-Settings
+      summary: Patch Environment Settings
+      description: Patch environment settings
+      operationId: v1.management.environment-settings.patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingsInternalPatch'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingsInternalOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+  /api/v1/management/environment-settings/customer-otel:
+    get:
+      tags:
+      - Environment-Settings
+      summary: Get Otel Config
+      description: Get customer otel config.
+      operationId: v1.management.environment-settings.get-otel-config
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelConfigOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+    put:
+      tags:
+      - Environment-Settings
+      summary: Update Otel Config
+      description: Update customer otel config.
+      operationId: v1.management.environment-settings.update-otel-config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OtelConfig'
+        required: true
+      responses:
+        '204':
+          description: no content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+    delete:
+      tags:
+      - Environment-Settings
+      summary: Delete Otel Config
+      description: Delete customer otel config.
+      operationId: v1.management.environment-settings.delete-otel-config
+      responses:
+        '204':
+          description: no content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
-    AppPortalAccessOut:
+    BorderRadiusConfig:
+      type: object
+      properties:
+        button:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+        card:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+        input:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+    OtelConfig:
       type: object
       properties:
         url:
           type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+        additionalHeaders:
+          type: object
+          default: null
+          additionalProperties:
+            type: string
+          nullable: true
       required:
-      - token
       - url
-    RotatePollerTokenIn:
+    SettingsInternalPatch:
       type: object
       properties:
-        expiry:
-          description: How long the token will be valid for, in seconds. Can be up to 31,536,000 seconds (1 year).
-          type: integer
-          format: int64
-          maximum: 31536000
-          minimum: 1
-          nullable: true
-        oldTokenExpiry:
-          description: 'Updates the previous token''s expiration, in seconds.
-
-
-            If set to 0, the old token will immediately be revoked. Must be between 0 and 86,400 seconds (1 day).
-
-
-            Defaults to 300 seconds (5 minutes).'
-          type: integer
-          format: int64
-          default: 300
-          maximum: 86400
-          minimum: 0.0
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
+        customColor:
           type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    StreamTokenExpireIn:
-      type: object
-      properties:
-        expiry:
-          description: How many seconds until the old key is expired.
-          type: integer
-          format: int64
+          format: color
           nullable: true
-          maximum: 259200
-          minimum: 0
-          example: 60
-        sessionIds:
-          description: 'An optional list of session ids.
-
-
-            If any session ids are specified, only Stream tokens created with that session id will be expired.'
-          type: array
-          items:
-            type: string
-            maxLength: 64
-            minLength: 1
-            pattern: ^[a-zA-Z0-9@_-]+$
-            example: user_1FB8
-          maxItems: 1000
-    StreamPortalAccessIn:
-      type: object
-      properties:
-        featureFlags:
-          description: The set of feature flags the created token will have access to.
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          maxItems: 25
-          minItems: 1
-          example: []
-        expiry:
-          description: 'How long the token will be valid for, in seconds.
-
-
-            Valid values are between 1 hour and 7 days. The default is 7 days.'
-          type: integer
-          format: uint64
-          default: 604800
-          maximum: 604800
-          minimum: 3600
-          nullable: true
-        sessionId:
-          description: 'An optional session ID to attach to the token.
-
-
-            When expiring tokens with "Expire All", you can include the session ID to only expire tokens that were created with that session ID.'
+        customLogoUrl:
           type: string
-          maxLength: 64
+          format: uri
+          maxLength: 65536
           minLength: 1
-          pattern: ^[a-zA-Z0-9@_-]+$
-          example: user_1FB8
           nullable: true
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+        displayName:
+          type: string
+          nullable: true
+        enableChannels:
+          type: boolean
+        enableEndpointMtlsConfig:
+          type: boolean
+        enableEndpointOauthConfig:
+          type: boolean
+        enableIntegrationManagement:
+          type: boolean
+        enableMessageStream:
+          type: boolean
+        enableMsgAtmptLog:
+          type: boolean
+        enableOtlp:
+          type: boolean
+        enableTransformations:
+          type: boolean
+        enforceHttps:
+          type: boolean
+        eventCatalogPublished:
+          type: boolean
+        readOnly:
+          type: boolean
+        requireEndpointChannel:
+          type: boolean
+        requireEndpointFilterTypes:
+          type: boolean
+        retryPolicy:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
+            type: integer
+            format: int32
+          nullable: true
+        whitelabelHeaders:
+          type: boolean
+        sendSvixWebhookHeaders:
+          type: boolean
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+        wipeSuccessfulPayload:
+          type: boolean
+        enableApplicationAlerts:
+          type: boolean
+        applicationAlertEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+        webhooksAutoConfig:
+          type: boolean
+        mcpToken:
+          type: boolean
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -823,32 +660,613 @@ components:
       - loc
       - msg
       - type
-    ApiTokenOut:
+    EnvironmentSettingsOut:
       type: object
       properties:
-        token:
+        customColor:
           type: string
-        id:
+          format: color
+          nullable: true
+        logoUrl:
           type: string
-        name:
+          format: uri
+          nullable: true
+        customLogoUrl:
+          description: Deprecated, use `logoUrl` instead.
+          type: string
+          format: uri
+          deprecated: true
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customFontFamily:
           type: string
           nullable: true
-        createdAt:
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
           type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
+          format: uri
+          maxLength: 65536
+          minLength: 1
           nullable: true
-        scopes:
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        displayName:
+          type: string
+          nullable: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageTags:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        showSvixBrandFooter:
+          type: boolean
+          default: false
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        showFeatureTooltips:
+          type: boolean
+          default: false
+    FontSizeConfig:
+      type: object
+      properties:
+        base:
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    SettingsInternalOut:
+      type: object
+      properties:
+        showSvixBrandFooter:
+          type: boolean
+          default: false
+        whitelabelLogo:
+          type: string
+          format: uri
+          default: null
+          nullable: true
+        retryPolicy:
           type: array
           items:
+            type: integer
+            format: int32
+          nullable: true
+        requireEndpointChannel:
+          type: boolean
+          default: false
+        whitelabelHeaders:
+          type: boolean
+          default: false
+        sendSvixWebhookHeaders:
+          type: boolean
+          default: false
+        enableMsgAtmptLog:
+          type: boolean
+          default: false
+        enableOtlp:
+          type: boolean
+          default: false
+        customColor:
+          type: string
+          format: color
+          nullable: true
+        customLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+          default: true
+        displayName:
+          type: string
+          nullable: true
+        eventCatalogPublished:
+          type: boolean
+          default: false
+        enforceHttps:
+          type: boolean
+          default: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        readOnly:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        requireEndpointFilterTypes:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        enableApplicationAlerts:
+          type: boolean
+          default: false
+        applicationAlertEvents:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+          default: false
+        webhooksAutoConfig:
+          type: boolean
+          default: false
+        mcpToken:
+          type: boolean
+          default: false
+    SettingsInternalIn:
+      type: object
+      properties:
+        retryPolicy:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+        requireEndpointChannel:
+          type: boolean
+          default: false
+        whitelabelHeaders:
+          type: boolean
+          default: false
+        sendSvixWebhookHeaders:
+          type: boolean
+          default: false
+        enableMsgAtmptLog:
+          type: boolean
+          default: false
+        enableOtlp:
+          type: boolean
+          default: false
+        customColor:
+          type: string
+          format: color
+          nullable: true
+        customLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+          default: true
+        displayName:
+          type: string
+          nullable: true
+        eventCatalogPublished:
+          type: boolean
+          default: false
+        enforceHttps:
+          type: boolean
+          default: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        readOnly:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        requireEndpointFilterTypes:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        enableApplicationAlerts:
+          type: boolean
+          default: false
+        applicationAlertEvents:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+          default: false
+        webhooksAutoConfig:
+          type: boolean
+          default: false
+        mcpToken:
+          type: boolean
+          default: false
+    SettingsInternalUpdateOut:
+      type: object
+      properties:
+        retryPolicy:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+        requireEndpointChannel:
+          type: boolean
+          default: false
+        whitelabelHeaders:
+          type: boolean
+          default: false
+        sendSvixWebhookHeaders:
+          type: boolean
+          default: false
+        enableMsgAtmptLog:
+          type: boolean
+          default: false
+        enableOtlp:
+          type: boolean
+          default: false
+        customColor:
+          type: string
+          format: color
+          nullable: true
+        customLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+          default: true
+        displayName:
+          type: string
+          nullable: true
+        eventCatalogPublished:
+          type: boolean
+          default: false
+        enforceHttps:
+          type: boolean
+          default: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        readOnly:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        requireEndpointFilterTypes:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        enableApplicationAlerts:
+          type: boolean
+          default: false
+        applicationAlertEvents:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+          default: false
+        webhooksAutoConfig:
+          type: boolean
+          default: false
+        mcpToken:
+          type: boolean
+          default: false
+    CustomThemeOverride:
+      type: object
+      properties:
+        borderRadius:
+          $ref: '#/components/schemas/BorderRadiusConfig'
+          nullable: true
+        fontSize:
+          $ref: '#/components/schemas/FontSizeConfig'
+          nullable: true
+    ApplicationAlertEvent:
+      type: string
+      enum:
+      - endpoint.disabled
+      - message.attempt.exhausted
+      - stream.sink.disabled
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    BorderRadiusEnum:
+      type: string
+      enum:
+      - none
+      - lg
+      - md
+      - sm
+      - full
+    CustomStringsOverride:
+      type: object
+      properties:
+        channelsOne:
+          type: string
+          nullable: true
+        channelsMany:
+          type: string
+          nullable: true
+        channelsHelp:
+          type: string
+          nullable: true
+    CustomColorPalette:
+      type: object
+      properties:
+        primary:
+          type: string
+          format: color
+          nullable: true
+        backgroundPrimary:
+          type: string
+          format: color
+          nullable: true
+        backgroundSecondary:
+          type: string
+          format: color
+          nullable: true
+        backgroundHover:
+          type: string
+          format: color
+          nullable: true
+        textPrimary:
+          type: string
+          format: color
+          nullable: true
+        textSecondary:
+          type: string
+          format: color
+          nullable: true
+        textDanger:
+          type: string
+          format: color
+          nullable: true
+        interactiveAccent:
+          type: string
+          format: color
+          nullable: true
+        navigationAccent:
+          type: string
+          format: color
+          nullable: true
+        buttonPrimary:
+          type: string
+          format: color
+          nullable: true
+        borderPrimary:
+          type: string
+          format: color
+          nullable: true
+    OtelConfigOut:
+      type: object
+      properties:
+        url:
+          type: string
+          nullable: true
+        additionalHeaders:
+          type: object
+          additionalProperties:
             type: string
           nullable: true
+        svixManaged:
+          type: boolean
       required:
-      - createdAt
-      - id
-      - token
+      - svixManaged
   securitySchemes:
     HTTPBearer:
       type: http

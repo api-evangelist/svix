@@ -682,6 +682,76 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/svix-webhook-api-openapi.yml
+- aid: svix:svix-broadcast-api
+  name: Svix Broadcast API
+  description: The Broadcast API from Svix — 1 operation(s) for broadcast.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Broadcast
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-broadcast-api-openapi.yml
+- aid: svix:svix-environment-settings-api
+  name: Svix Environment Settings API
+  description: The Environment-Settings API from Svix — 3 operation(s) for environment-settings.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Environment-Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-environment-settings-api-openapi.yml
+- aid: svix:svix-events-api
+  name: Svix Events API
+  description: The Events API from Svix — 1 operation(s) for events.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-events-api-openapi.yml
+- aid: svix:svix-inbound-api
+  name: Svix Inbound API
+  description: The Inbound API from Svix — 1 operation(s) for inbound.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Inbound
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-inbound-api-openapi.yml
+- aid: svix:svix-ingest-logs-api
+  name: Svix Ingest Logs API
+  description: The Ingest Logs API from Svix — 1 operation(s) for ingest logs.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Ingest Logs
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-ingest-logs-api-openapi.yml
+- aid: svix:svix-webhook-sink-api
+  name: Svix Webhook Sink API
+  description: The Webhook Sink API from Svix — 10 operation(s) for webhook sink.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Webhook Sink
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-webhook-sink-api-openapi.yml
+- aid: svix:svix-webhooks-autoconfig-api
+  name: Svix Webhooks AutoConfig API
+  description: The Webhooks AutoConfig API from Svix — 3 operation(s) for webhooks autoconfig.
+  humanURL: https://github.com/svix/svix-webhooks
+  baseURL: http://localhost:8071
+  tags:
+  - Webhooks AutoConfig
+  properties:
+  - type: OpenAPI
+    url: openapi/svix-webhooks-autoconfig-api-openapi.yml
 common:
   - type: IssueTracker
     url: https://github.com/svix/svix-webhooks/issues

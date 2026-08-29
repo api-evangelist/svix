@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Svix Application Message Attempt API
+  title: Svix Message Attempt API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -68,20 +68,20 @@ info:
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
 
     '
-  version: 1.84.0
+  version: 1.922.0
   x-logo:
-    altText: Svix Logo
     url: https://www.svix.com/static/img/brand-padded.svg
+    altText: Svix Logo
 servers:
-- url: https://api.eu.svix.com/
+- url: https://api.eu.svix.com
   description: The Svix EU region
-- url: https://api.us.svix.com/
+- url: https://api.us.svix.com
   description: The Svix US region
-- url: https://api.ca.svix.com/
+- url: https://api.ca.svix.com
   description: The Svix Canada region
-- url: https://api.au.svix.com/
+- url: https://api.au.svix.com
   description: The Svix Australia region
-- url: https://api.in.svix.com/
+- url: https://api.in.svix.com
   description: The Svix India region
 tags:
 - name: Message Attempt
@@ -113,7 +113,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -153,7 +153,7 @@ paths:
           description: Filter response based on the channel
           type: string
           maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_.:]+$
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
           nullable: true
           example: project_1337
         style: form
@@ -191,8 +191,8 @@ paths:
         description: When `true` attempt content is included in the response
         schema:
           description: When `true` attempt content is included in the response
-          default: true
           type: boolean
+          default: true
         style: form
       - in: query
         name: with_msg
@@ -205,16 +205,22 @@ paths:
 
 
             Note that message payloads are never included in the response, regardless of this flag.'
-          default: false
           type: boolean
+          default: false
         style: form
       - in: query
         name: expanded_statuses
-        description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
+        description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+          If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
         schema:
-          description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
-          default: false
+          description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+            If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
           type: boolean
+          default: false
         style: form
       - in: query
         name: event_types
@@ -307,45 +313,202 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.messageAttempt.listByEndpoint(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.messageAttempt.listByEndpoint(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.message_attempt.list_by_endpoint(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.message_attempt.list_by_endpoint(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.MessageAttempt.ListByEndpoint(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.messageAttempt.listByEndpoint(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getMessageAttempt()\n        .listByEndpoint(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.message_attempt.list_by_endpoint("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .message_attempt()\n    .list_by_endpoint(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.ListByEndpoint(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->messageAttempt->listByEndpoint(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt list-by-endpoint "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/attempt/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+  /api/v1/app/{app_id}/attempt/endpoint/{endpoint_id}/count:
+    get:
+      tags:
+      - Message Attempt
+      summary: Count Attempts By Endpoint
+      description: Like `v1.message-attempt.list-by-endpoint` but returning a count only.
+      operationId: v1.message-attempt.count-by-endpoint
+      parameters:
+      - in: query
+        name: status
+        description: 'Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)'
+        schema:
+          description: 'Filter response based on the status of the attempt: Success (0), Pending (1), Failed (2), Sending (3), or Canceled (4)'
+          $ref: '#/components/schemas/MessageStatus'
+          nullable: true
+        explode: false
+        style: form
+      - in: query
+        name: status_code_class
+        description: Filter response based on the HTTP status code
+        schema:
+          description: Filter response based on the HTTP status code
+          $ref: '#/components/schemas/StatusCodeClass'
+          nullable: true
+        explode: false
+        style: form
+      - in: query
+        name: channel
+        description: Filter response based on the channel
+        schema:
+          description: Filter response based on the channel
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
+          nullable: true
+          example: project_1337
+        style: form
+      - in: query
+        name: tag
+        description: Filter response based on the tag
+        schema:
+          description: Filter response based on the tag
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_./\\#]+$
+          nullable: true
+          example: project_1337
+        style: form
+      - in: query
+        name: before
+        description: Only include items created before a certain date
+        schema:
+          description: Only include items created before a certain date
+          type: string
+          format: date-time
+          nullable: true
+        style: form
+      - in: query
+        name: after
+        description: Only include items created after a certain date
+        schema:
+          description: Only include items created after a certain date
+          type: string
+          format: date-time
+          nullable: true
+        style: form
+      - in: query
+        name: event_types
+        description: Filter response based on the event type
+        schema:
+          description: Filter response based on the event type
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          uniqueItems: true
+          nullable: true
+        style: form
+      - in: path
+        name: app_id
+        description: The Application's ID or UID.
+        required: true
+        schema:
+          description: The Application's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: path
+        name: endpoint_id
+        description: The Endpoint's ID or UID.
+        required: true
+        schema:
+          description: The Endpoint's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
   /api/v1/app/{app_id}/attempt/msg/{msg_id}:
     get:
       tags:
@@ -370,7 +533,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -410,7 +573,7 @@ paths:
           description: Filter response based on the channel
           type: string
           maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_.:]+$
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
           nullable: true
           example: project_1337
         style: form
@@ -460,16 +623,22 @@ paths:
         description: When `true` attempt content is included in the response
         schema:
           description: When `true` attempt content is included in the response
-          default: true
           type: boolean
+          default: true
         style: form
       - in: query
         name: expanded_statuses
-        description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
+        description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+          If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
         schema:
-          description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
-          default: false
+          description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+            If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
           type: boolean
+          default: false
         style: form
       - in: path
         name: app_id
@@ -562,44 +731,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.messageAttempt.listByMsg(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.messageAttempt.listByMsg(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.message_attempt.list_by_msg(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.message_attempt.list_by_msg(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.MessageAttempt.ListByMsg(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.messageAttempt.listByMsg(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getMessageAttempt()\n        .listByMsg(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.message_attempt.list_by_msg("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .message_attempt()\n    .list_by_msg(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.ListByMsg(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->messageAttempt->listByMsg(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt list-by-msg "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/attempt/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
   /api/v1/app/{app_id}/endpoint/{endpoint_id}/msg:
     get:
@@ -620,9 +789,7 @@ paths:
 
         by the iterator ID. If you require data beyond those time ranges, you will need to explicitly
 
-        set the `before` or `after` parameter as appropriate.
-
-        '
+        set the `before` or `after` parameter as appropriate.'
       operationId: v1.message-attempt.list-attempted-messages
       parameters:
       - in: query
@@ -632,7 +799,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -654,7 +821,7 @@ paths:
           description: Filter response based on the channel
           type: string
           maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_.:]+$
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
           nullable: true
           example: project_1337
         style: form
@@ -701,16 +868,22 @@ paths:
         description: When `true` message payloads are included in the response
         schema:
           description: When `true` message payloads are included in the response
-          default: true
           type: boolean
+          default: true
         style: form
       - in: query
         name: expanded_statuses
-        description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
+        description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+          If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
         schema:
-          description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
-          default: false
+          description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+            If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
           type: boolean
+          default: false
         style: form
       - in: path
         name: app_id
@@ -803,45 +976,291 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.messageAttempt.listAttemptedMessages(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.messageAttempt.listAttemptedMessages(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.message_attempt.list_attempted_messages(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.message_attempt.list_attempted_messages(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.MessageAttempt.ListAttemptedMessages(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.messageAttempt.listAttemptedMessages(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getMessageAttempt()\n        .listAttemptedMessages(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: "response = svix\n  .message_attempt\n  .list_attempted_messages(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\")"
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .message_attempt()\n    .list_attempted_messages(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.ListAttemptedMessages(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->messageAttempt->listAttemptedMessages(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt list-attempted-messages "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/msg' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+  /api/v1/app/{app_id}/msg/{msg_id}/endpoint:
+    get:
+      tags:
+      - Message Attempt
+      summary: List Attempted Destinations
+      description: 'List endpoints attempted by a given message.
+
+
+        Additionally includes metadata about the latest message attempt.
+
+        By default, endpoints are listed in ascending order by ID.'
+      operationId: v1.message-attempt.list-attempted-destinations
+      parameters:
+      - in: query
+        name: limit
+        description: Limit the number of returned items
+        schema:
+          description: Limit the number of returned items
+          type: integer
+          format: uint64
+          maximum: 250
+          minimum: 1.0
+        style: form
+      - in: query
+        name: iterator
+        description: The iterator returned from a prior invocation
+        schema:
+          description: The iterator returned from a prior invocation
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          nullable: true
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        style: form
+      - in: path
+        name: app_id
+        description: The Application's ID or UID.
+        required: true
+        schema:
+          description: The Application's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: path
+        name: msg_id
+        description: The Message's ID or UID.
+        required: true
+        schema:
+          description: The Message's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse_MessageEndpointOut_'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-codeSamples:
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.messageAttempt.listAttemptedDestinations(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.messageAttempt.listAttemptedDestinations(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
+      - lang: Python
+        label: Python
+        source: "response = svix.message_attempt.list_attempted_destinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.message_attempt.list_attempted_destinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.MessageAttempt.ListAttemptedDestinations(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\tnil,\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.messageAttempt.listAttemptedDestinations(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getMessageAttempt()\n        .listAttemptedDestinations(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\");"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .message_attempt\n  .list_attempted_destinations(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\")"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .message_attempt()\n    .list_attempted_destinations(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        None,\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.MessageAttempt.ListAttemptedDestinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->messageAttempt->listAttemptedDestinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
+      - lang: Shell
+        label: CLI
+        source: svix message-attempt list-attempted-destinations "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/endpoint' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+  /api/v1/app/{app_id}/msg/{msg_id}/attempt/{attempt_id}/headers:
+    get:
+      tags:
+      - Message Attempt
+      summary: Get Attempt Headers
+      description: Calculate and return headers used on a given message attempt
+      operationId: v1.message-attempt.get-headers
+      parameters:
+      - in: path
+        name: app_id
+        description: The Application's ID or UID.
+        required: true
+        schema:
+          description: The Application's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: path
+        name: msg_id
+        description: The Message's ID or UID.
+        required: true
+        schema:
+          description: The Message's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: path
+        name: attempt_id
+        description: The MessageAttempt's ID.
+        required: true
+        schema:
+          description: The MessageAttempt's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^atmpt_[A-Za-z0-9]{27}$
+          example: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageAttemptHeadersOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
   /api/v1/app/{app_id}/msg/{msg_id}/attempt/{attempt_id}:
     get:
       tags:
@@ -888,11 +1307,17 @@ paths:
         style: simple
       - in: query
         name: expanded_statuses
-        description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
+        description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+          If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
         schema:
-          description: When `true`, return the Canceled (4) status in attempts. If `false`, canceled attempts are returned as Success (0)
-          default: false
+          description: 'When `true`, return the Canceled (4) status in attempts.
+
+
+            If `false`, canceled attempts are returned as Success (0) for backwards compatibility.'
           type: boolean
+          default: false
         style: form
       responses:
         '200':
@@ -946,44 +1371,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.messageAttempt.get(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.messageAttempt.get(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.message_attempt.get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.message_attempt.get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.MessageAttempt.Get(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\t\"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.messageAttempt.get(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n        \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getMessageAttempt()\n        .get(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n            \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: "response = svix\n  .message_attempt\n  .get(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\", \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\")"
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .message_attempt()\n    .get(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.Get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->messageAttempt->get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt get "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f" "atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/attempt/atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
   /api/v1/app/{app_id}/msg/{msg_id}/attempt/{attempt_id}/content:
     delete:
@@ -1082,195 +1507,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "await svix.messageAttempt.expungeContent(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "await svix.messageAttempt.expungeContent(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "svix.message_attempt.expunge_content(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "await svix.message_attempt.expunge_content(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "err := svix.MessageAttempt.ExpungeContent(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\t\"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "svix.messageAttempt.expungeContent(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "svix.getMessageAttempt()\n        .expungeContent(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n            \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: "response = svix\n  .message_attempt\n  .expunge_content(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n  )"
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "svix.message_attempt()\n    .expunge_content(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.ExpungeContent(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$svix->messageAttempt->expungeContent(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt expunge-content "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f" "atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'DELETE' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/attempt/atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2/content' \\\n  -H 'Authorization: Bearer AUTH_TOKEN'"
-  /api/v1/app/{app_id}/msg/{msg_id}/endpoint:
-    get:
-      tags:
-      - Message Attempt
-      summary: List Attempted Destinations
-      description: 'List endpoints attempted by a given message.
-
-
-        Additionally includes metadata about the latest message attempt.
-
-        By default, endpoints are listed in ascending order by ID.'
-      operationId: v1.message-attempt.list-attempted-destinations
-      parameters:
-      - in: query
-        name: limit
-        description: Limit the number of returned items
-        schema:
-          description: Limit the number of returned items
-          type: integer
-          format: uint64
-          maximum: 250.0
-          minimum: 1.0
-        style: form
-      - in: query
-        name: iterator
-        description: The iterator returned from a prior invocation
-        schema:
-          description: The iterator returned from a prior invocation
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          nullable: true
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        style: form
-      - in: path
-        name: app_id
-        description: The Application's ID or UID.
-        required: true
-        schema:
-          description: The Application's ID or UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-        style: simple
-      - in: path
-        name: msg_id
-        description: The Message's ID or UID.
-        required: true
-        schema:
-          description: The Message's ID or UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-        style: simple
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ListResponse_MessageEndpointOut_'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.messageAttempt.listAttemptedDestinations(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.messageAttempt.listAttemptedDestinations(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: Python
-        lang: Python
-        source: "response = svix.message_attempt.list_attempted_destinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.message_attempt.list_attempted_destinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.MessageAttempt.ListAttemptedDestinations(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.messageAttempt.listAttemptedDestinations(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getMessageAttempt()\n        .listAttemptedDestinations(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\");"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .message_attempt\n  .list_attempted_destinations(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\")"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .message_attempt()\n    .list_attempted_destinations(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.MessageAttempt.ListAttemptedDestinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->messageAttempt->listAttemptedDestinations(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\"\n);"
-      - label: CLI
-        lang: Shell
-        source: svix message-attempt list-attempted-destinations "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/endpoint' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
   /api/v1/app/{app_id}/msg/{msg_id}/endpoint/{endpoint_id}/resend:
     post:
       tags:
@@ -1314,12 +1589,6 @@ paths:
           minLength: 1
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
         style: simple
       - in: header
         name: idempotency-key
@@ -1379,229 +1648,158 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.messageAttempt.resend(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.messageAttempt.resend(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.message_attempt.resend(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.message_attempt.resend(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.MessageAttempt.Resend(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.messageAttempt.resend(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getMessageAttempt()\n        .resend(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: "response = svix\n  .message_attempt\n  .resend(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\", \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\")"
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .message_attempt()\n    .resend(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\".to_string(),\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.MessageAttempt.Resend(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->messageAttempt->resend(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f\",\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix message-attempt resend "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f" "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/resend' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
 components:
   schemas:
+    MessageAttemptOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        response:
+          type: string
+          example: '{}'
+        responseStatusCode:
+          type: integer
+          format: int16
+          example: 200
+        responseDurationMs:
+          description: Response duration in milliseconds.
+          type: integer
+          format: int64
+        status:
+          $ref: '#/components/schemas/MessageStatus'
+        statusText:
+          $ref: '#/components/schemas/MessageStatusText'
+        triggerType:
+          $ref: '#/components/schemas/MessageAttemptTriggerType'
+        msgId:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        endpointId:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        id:
+          description: The MessageAttempt's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^atmpt_[A-Za-z0-9]{27}$
+          example: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
+          type: string
+          format: date-time
+        msg:
+          $ref: '#/components/schemas/MessageOut'
+          nullable: true
+      required:
+      - endpointId
+      - id
+      - msgId
+      - response
+      - responseDurationMs
+      - responseStatusCode
+      - status
+      - statusText
+      - timestamp
+      - triggerType
+      - url
+    ListResponse_MessageEndpointOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageEndpointOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    CountOut:
+      type: object
+      properties:
+        count:
+          description: The count of attempts matching the query.
+          type: integer
+          format: uint64
+          minimum: 0.0
+        approximated:
+          description: There's a ceiling to how many attempts we count. When the limit is reached, this will be `true` to indicate the actual count is higher than given.
+          type: boolean
+      required:
+      - approximated
+      - count
     HttpErrorOut:
       title: HttpError
       type: object
-      required:
-      - code
-      - detail
       properties:
         code:
           type: string
         detail:
           type: string
-    MessageOut:
-      type: object
       required:
-      - eventType
-      - id
-      - payload
-      - timestamp
-      properties:
-        channels:
-          description: List of free-form identifiers that endpoints can filter by
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-          nullable: true
-        deliverAt:
-          type: string
-          format: date-time
-          nullable: true
-        eventId:
-          description: Optional unique identifier for the message
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        id:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        payload:
-          type: object
-          example:
-            email: test@example.com
-            type: user.created
-            username: test_user
-        tags:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_./\\#]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        timestamp:
-          type: string
-          format: date-time
-    HTTPValidationError:
-      type: object
-      required:
+      - code
       - detail
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-    EndpointMessageOut:
-      description: A model containing information on a given message plus additional fields on the last attempt for that message.
-      type: object
-      required:
-      - eventType
-      - id
-      - payload
-      - status
-      - statusText
-      - timestamp
-      properties:
-        channels:
-          description: List of free-form identifiers that endpoints can filter by
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-          nullable: true
-        deliverAt:
-          type: string
-          format: date-time
-          nullable: true
-        eventId:
-          description: Optional unique identifier for the message
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        id:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        nextAttempt:
-          type: string
-          format: date-time
-          nullable: true
-        payload:
-          type: object
-          example:
-            email: test@example.com
-            type: user.created
-            username: test_user
-        status:
-          $ref: '#/components/schemas/MessageStatus'
-        statusText:
-          $ref: '#/components/schemas/MessageStatusText'
-        tags:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_./\\#]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        timestamp:
-          type: string
-          format: date-time
     MessageStatus:
       title: MessageStatus
       description: 'The sending status of the message:
@@ -1629,42 +1827,134 @@ components:
       - Fail
       - Sending
       - Canceled
-    MessageAttemptTriggerType:
-      title: MessageAttemptTriggerType
-      description: 'The reason an attempt was made:
-
-
-        - Scheduled = 0
-
-        - Manual = 1'
-      type: integer
-      enum:
-      - 0
-      - 1
-      x-enum-varnames:
-      - Scheduled
-      - Manual
-    ListResponse_EndpointMessageOut_:
+    MessageEndpointOut:
       type: object
-      required:
-      - data
-      - done
-      - iterator
       properties:
-        data:
+        id:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/MessageStatus'
+        statusText:
+          $ref: '#/components/schemas/MessageStatusText'
+        nextAttempt:
+          type: string
+          format: date-time
+          nullable: true
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        version:
+          type: integer
+          format: int32
+          deprecated: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this endpoint listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - createdAt
+      - description
+      - id
+      - status
+      - statusText
+      - updatedAt
+      - url
+      - version
+    MessageAttemptHeadersOut:
+      type: object
+      properties:
+        sentHeaders:
+          type: object
+          additionalProperties:
+            type: string
+        responseHeaders:
           type: array
           items:
-            $ref: '#/components/schemas/EndpointMessageOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-          example: iterator
+            type: array
+            items:
+              type: string
+            maxItems: 2
+            minItems: 2
           nullable: true
-        prevIterator:
-          type: string
-          example: -iterator
-          nullable: true
+        sensitive:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+      required:
+      - sensitive
+      - sentHeaders
     MessageStatusText:
       type: string
       enum:
@@ -1673,6 +1963,27 @@ components:
       - fail
       - sending
       - canceled
+    ListResponse_EndpointMessageOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EndpointMessageOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     StatusCodeClass:
       title: StatusCodeClass
       description: 'The different classes of HTTP status codes:
@@ -1704,134 +2015,66 @@ components:
       - Code3xx
       - Code4xx
       - Code5xx
-    ListResponse_MessageAttemptOut_:
+    HTTPValidationError:
       type: object
-      required:
-      - data
-      - done
-      - iterator
       properties:
-        data:
+        detail:
           type: array
           items:
-            $ref: '#/components/schemas/MessageAttemptOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-          example: iterator
-          nullable: true
-        prevIterator:
-          type: string
-          example: -iterator
-          nullable: true
-    MessageAttemptOut:
-      type: object
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - endpointId
-      - id
-      - msgId
-      - response
-      - responseDurationMs
-      - responseStatusCode
-      - status
-      - statusText
-      - timestamp
-      - triggerType
-      - url
-      properties:
-        endpointId:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        id:
-          description: The MessageAttempt's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^atmpt_[A-Za-z0-9]{27}$
-          example: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        msg:
-          $ref: '#/components/schemas/MessageOut'
-          nullable: true
-        msgId:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        response:
-          type: string
-          example: '{}'
-        responseDurationMs:
-          description: Response duration in milliseconds.
-          type: integer
-          format: int64
-        responseStatusCode:
-          type: integer
-          format: int16
-          example: 200
-        status:
-          $ref: '#/components/schemas/MessageStatus'
-        statusText:
-          $ref: '#/components/schemas/MessageStatusText'
-        timestamp:
-          type: string
-          format: date-time
-        triggerType:
-          $ref: '#/components/schemas/MessageAttemptTriggerType'
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          example: https://example.com/webhook/
-    ListResponse_MessageEndpointOut_:
+      - detail
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
-      required:
-      - data
-      - done
-      - iterator
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageEndpointOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-          example: iterator
-          nullable: true
-        prevIterator:
-          type: string
-          example: -iterator
-          nullable: true
-    EmptyResponse:
-      type: object
-    MessageEndpointOut:
-      type: object
-      required:
-      - createdAt
-      - description
-      - id
-      - status
-      - statusText
-      - updatedAt
-      - url
-      - version
-      properties:
-        channels:
-          description: List of message channels this endpoint listens to (omit for all).
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
           items:
             type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    MessageOut:
+      type: object
+      properties:
+        eventId:
+          description: Optional unique identifier for the message
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by
+          type: array
+          nullable: true
+          items:
+            type: string
             maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:]+$
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
             example: project_1337
           maxItems: 10
           minItems: 1
@@ -1839,79 +2082,150 @@ components:
           example:
           - project_123
           - group_2
-          nullable: true
-        createdAt:
+        id:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
           type: string
           format: date-time
-        description:
-          description: An example endpoint name.
-          type: string
-        disabled:
-          default: false
-          type: boolean
-          example: false
-        filterTypes:
+        tags:
           type: array
           items:
-            description: The event type's name
             type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_./\\#]+$
+            example: project_1337
           uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
           nullable: true
-        id:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        nextAttempt:
+        deliverAt:
           type: string
           format: date-time
           nullable: true
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          deprecated: true
-          type: integer
-          format: uint16
-          minimum: 0.0
-          nullable: true
+      required:
+      - eventType
+      - id
+      - payload
+      - timestamp
+    MessageAttemptTriggerType:
+      title: MessageAttemptTriggerType
+      description: 'The reason an attempt was made:
+
+
+        - Scheduled = 0
+
+        - Manual = 1'
+      type: integer
+      enum:
+      - 0
+      - 1
+      x-enum-varnames:
+      - Scheduled
+      - Manual
+    EmptyResponse:
+      type: object
+    EndpointMessageOut:
+      description: A model containing information on a given message plus additional fields on the last attempt for that message.
+      type: object
+      properties:
         status:
           $ref: '#/components/schemas/MessageStatus'
         statusText:
           $ref: '#/components/schemas/MessageStatusText'
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 0.0
+        nextAttempt:
+          type: string
+          format: date-time
           nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
+        eventId:
+          description: Optional unique identifier for the message
           type: string
           maxLength: 256
           minLength: 1
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
           nullable: true
-        updatedAt:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        id:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
           type: string
           format: date-time
-        url:
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_./\\#]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        deliverAt:
           type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          example: https://example.com/webhook/
+          format: date-time
+          nullable: true
+      required:
+      - eventType
+      - id
+      - payload
+      - status
+      - statusText
+      - timestamp
+    ListResponse_MessageAttemptOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageAttemptOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
   securitySchemes:
     HTTPBearer:
       type: http
@@ -1954,39 +2268,18 @@ x-tagGroups:
   tags:
   - Health
 x-webhooks:
-  background_task.finished:
-    post:
-      description: Sent when a background task is finished.
-      operationId: background_task.finished
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                data:
-                  appStats:
-                  - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                    appUid: null
-                    messageDestinations: 343
-                status: finished
-                task: application.stats
-                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-              type: background_task.finished
-            schema:
-              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: background_task.finished
-      tags:
-      - Webhook
   endpoint.created:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.created
       description: Sent when an endpoint is created.
       operationId: endpoint.created
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointCreatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1994,22 +2287,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.created
-            schema:
-              $ref: '#/components/schemas/EndpointCreatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.created
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.deleted:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.deleted
       description: Sent when an endpoint is deleted.
       operationId: endpoint.deleted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDeletedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -2017,22 +2310,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.deleted
-            schema:
-              $ref: '#/components/schemas/EndpointDeletedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.deleted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.disabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.disabled
       description: Sent when an endpoint has been automatically disabled after continuous failures, or manually via an API call.
       operationId: endpoint.disabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDisabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -2042,22 +2335,22 @@ x-webhooks:
                 failSince: '2022-11-06T15:04:05Z'
                 trigger: automatic
               type: endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/EndpointDisabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.disabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.enabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.enabled
       description: Sent when an endpoint has been enabled.
       operationId: endpoint.enabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointEnabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -2065,22 +2358,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.enabled
-            schema:
-              $ref: '#/components/schemas/EndpointEnabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.enabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.updated:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.updated
       description: Sent when an endpoint is updated.
       operationId: endpoint.updated
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointUpdatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -2088,148 +2381,43 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.updated
-            schema:
-              $ref: '#/components/schemas/EndpointUpdatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.updated
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
-  ingest.endpoint.disabled:
-    post:
-      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
-      operationId: ingest.endpoint.disabled
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                endpointUid: unique-endpoint-identifier
-                failSince: '2022-11-06T15:04:05Z'
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-                trigger: automatic
-              type: ingest.endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.endpoint.disabled
-      tags:
-      - Webhook
-  ingest.message.attempt.exhausted:
-    post:
-      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
-      operationId: ingest.message.attempt.exhausted
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.exhausted
-      tags:
-      - Webhook
-  ingest.message.attempt.failing:
-    post:
-      description: 'Sent after a message has been failing for a few times.
-
-        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
-      operationId: ingest.message.attempt.failing
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.failing
-      tags:
-      - Webhook
-  ingest.message.attempt.recovered:
-    post:
-      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
-      operationId: ingest.message.attempt.recovered
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 200
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.recovered
-      tags:
-      - Webhook
   message.attempt.exhausted:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.exhausted
       description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
       operationId: message.attempt.exhausted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.exhausted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   message.attempt.failing:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.failing
       description: 'Sent after a message has been failing for a few times.
 
         It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the last failure.'
@@ -2237,88 +2425,214 @@ x-webhooks:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptFailingEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/MessageAttemptFailingEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.failing
-      tags:
-      - Webhook
-      x-svix-group-name: dispatch
-  message.attempt.log:
-    post:
-      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
-      operationId: message.attempt.log
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-              - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                appUid: unique-app-identifier
-                attemptCount: 1
-                attemptEnd: '2022-11-06T15:04:07Z'
-                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                attemptStart: '2022-11-06T15:04:06Z'
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                eventType: user.signup
-                msgCreated: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                responseStatusCode: 200
-                status: 0
-              type: message.attempt.log
-            schema:
-              $ref: '#/components/schemas/MessageAttemptLogEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.log
-      tags:
-      - Webhook
-      x-internal: true
-      x-svix-feature-flags:
-      - attempt_log
       x-svix-group-name: dispatch
   message.attempt.recovered:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.recovered
       description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
       operationId: message.attempt.recovered
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 200
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.recovered
+      x-svix-group-name: dispatch
+  background_task.finished:
+    post:
       tags:
       - Webhook
+      summary: background_task.finished
+      description: Sent when a background task is finished.
+      operationId: background_task.finished
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
+            example:
+              data:
+                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                task: application.stats
+                status: finished
+                data:
+                  appStats:
+                  - messageDestinations: 343
+                    appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                    appUid: null
+              type: background_task.finished
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.endpoint.disabled:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.endpoint.disabled
+      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
+      operationId: ingest.endpoint.disabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                endpointUid: unique-endpoint-identifier
+                failSince: '2022-11-06T15:04:05Z'
+                trigger: automatic
+              type: ingest.endpoint.disabled
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.exhausted:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.exhausted
+      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+      operationId: ingest.message.attempt.exhausted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.exhausted
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.failing:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.failing
+      description: 'Sent after a message has been failing for a few times.
+
+        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
+      operationId: ingest.message.attempt.failing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.failing
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.recovered:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.recovered
+      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+      operationId: ingest.message.attempt.recovered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 200
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.recovered
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  message.attempt.log:
+    post:
+      tags:
+      - Webhook
+      summary: message.attempt.log
+      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
+      operationId: message.attempt.log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptLogEvent'
+            example:
+              data:
+              - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appUid: unique-app-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                msgCreated: '2022-11-06T15:04:05Z'
+                attemptStart: '2022-11-06T15:04:06Z'
+                attemptEnd: '2022-11-06T15:04:07Z'
+                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                responseStatusCode: 200
+                attemptCount: 1
+                status: 0
+                eventType: user.signup
+              type: message.attempt.log
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
       x-svix-group-name: dispatch
+      x-svix-feature-flags:
+      - attempt_log
+      x-internal: true

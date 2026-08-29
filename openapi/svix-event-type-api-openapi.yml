@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Svix Application Event Type API
+  title: Svix Event Type API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -68,20 +68,20 @@ info:
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
 
     '
-  version: 1.84.0
+  version: 1.922.0
   x-logo:
-    altText: Svix Logo
     url: https://www.svix.com/static/img/brand-padded.svg
+    altText: Svix Logo
 servers:
-- url: https://api.eu.svix.com/
+- url: https://api.eu.svix.com
   description: The Svix EU region
-- url: https://api.us.svix.com/
+- url: https://api.us.svix.com
   description: The Svix US region
-- url: https://api.ca.svix.com/
+- url: https://api.ca.svix.com
   description: The Svix Canada region
-- url: https://api.au.svix.com/
+- url: https://api.au.svix.com
   description: The Svix Australia region
-- url: https://api.in.svix.com/
+- url: https://api.in.svix.com
   description: The Svix India region
 tags:
 - name: Event Type
@@ -102,7 +102,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -129,16 +129,16 @@ paths:
         description: When `true` archived (deleted but not expunged) items are included in the response.
         schema:
           description: When `true` archived (deleted but not expunged) items are included in the response.
-          default: false
           type: boolean
+          default: false
         style: form
       - in: query
         name: with_content
         description: When `true` the full item (including the schema) is included in the response.
         schema:
           description: When `true` the full item (including the schema) is included in the response.
-          default: false
           type: boolean
+          default: false
         style: form
       responses:
         '200':
@@ -192,44 +192,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: const response = await svix.eventType.list();
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: const response = await svix.eventType.list();
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: response = svix.event_type.list()
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: response = await svix.event_type.list()
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: response, err := svix.EventType.List(ctx, nil)
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.eventType.list()
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: var response = svix.getEventType().list();
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.event_type.list
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: let response = svix.event_type().list(None).await?;
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.EventType.List();
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: $response = $svix->eventType->list();
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix event-type list
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/event-type' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     post:
       tags:
@@ -245,12 +245,6 @@ paths:
         This operation does not preserve the description and schemas.'
       operationId: v1.event-type.create
       parameters:
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
       - in: header
         name: idempotency-key
         description: The request's idempotency key
@@ -315,45 +309,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.create({\n  archived: true,\n  deprecated: true,\n  description: \"A user has signed up\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  name: \"user.signup\",\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.create({\n  archived: true,\n  deprecated: true,\n  description: \"A user has signed up\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  name: \"user.signup\",\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n});"
-      - label: Python
-        lang: Python
-        source: "response = svix.event_type.create(\n    EventTypeIn(\n        archived=True,\n        deprecated=True,\n        description=\"A user has signed up\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        name=\"user.signup\",\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.event_type.create(\n    EventTypeIn(\n        archived=True,\n        deprecated=True,\n        description=\"A user has signed up\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        name=\"user.signup\",\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.EventType.Create(\n\tctx,\n\tEventTypeIn{\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tDescription:  \"A user has signed up\",\n\t\tFeatureFlags: []string{\"cool-new-feature\"},\n\t\tGroupName:    new(\"user\"),\n\t\tName:         \"user.signup\",\n\t\tSchemas:      nil,\n\t},\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.eventType.create(\n        EventTypeIn(\n            archived = true,\n            deprecated = true,\n            description = \"A user has signed up\",\n            featureFlags = setOf(\"cool-new-feature\"),\n            groupName = \"user\",\n            name = \"user.signup\",\n            schemas = mapOf(),\n        )\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getEventType()\n        .create(new EventTypeIn()\n            .archived(true)\n            .deprecated(true)\n            .description(\"A user has signed up\")\n            .featureFlags(Set.of(\"cool-new-feature\"))\n            .groupName(\"user\")\n            .name(\"user.signup\")\n            .schemas(Map.of()));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .event_type\n  .create(\n    {\n      archived: true,\n      deprecated: true,\n      description: \"A user has signed up\",\n      featureFlags: [\"cool-new-feature\"],\n      groupName: \"user\",\n      name: \"user.signup\",\n      schemas: {}\n    }\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .event_type()\n    .create(\n        EventTypeIn {\n            archived: Some(true),\n            deprecated: Some(true),\n            description: \"A user has signed up\".to_string(),\n            feature_flags: Some(vec![\"cool-new-feature\".to_string()]),\n            group_name: Some(\"user\".to_string()),\n            name: \"user.signup\".to_string(),\n            schemas: Some(\n                serde_json::json!(\n                    { \"1\" : { \"description\" : \"An invoice was paid by a user\",\n                    \"properties\" : { \"invoiceId\" : { \"description\" :\n                    \"The invoice id\", \"type\" : \"string\" }, \"userId\" : { \"description\"\n                    : \"The user id\", \"type\" : \"string\" } }, \"required\" :\n                    [\"invoiceId\", \"userId\"], \"title\" : \"Invoice Paid Event\", \"type\" :\n                    \"object\" } }\n                ),\n            ),\n        },\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.EventType.Create(\n    new EventTypeIn\n    {\n        Archived = true,\n        Deprecated = true,\n        Description = \"A user has signed up\",\n        FeatureFlags = [\"cool-new-feature\"],\n        GroupName = \"user\",\n        Name = \"user.signup\",\n        Schemas = new Dictionary<string, string> { },\n    }\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->eventType->create(\n    EventTypeIn::create(\n        description: \"A user has signed up\",\n        name: \"user.signup\"\n    )\n    ->withArchived(true)\n    ->withDeprecated(true)\n    ->withFeatureFlags([\"cool-new-feature\"])\n    ->withGroupName(\"user\")\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix event-type create '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"A user has signed up\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"name\": \"user.signup\",\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    }\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/event-type' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"A user has signed up\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"name\": \"user.signup\",\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    }\n  }'"
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.eventType.create({\n  name: \"user.signup\",\n  description: \"A user has signed up\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n  groupName: \"user\",\n  featureFlags: [\"cool-new-feature\"],\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.eventType.create({\n  name: \"user.signup\",\n  description: \"A user has signed up\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n  groupName: \"user\",\n  featureFlags: [\"cool-new-feature\"],\n});"
+      - lang: Python
+        label: Python
+        source: "response = svix.event_type.create(\n    EventTypeIn(\n        name=\"user.signup\",\n        description=\"A user has signed up\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n        group_name=\"user\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.event_type.create(\n    EventTypeIn(\n        name=\"user.signup\",\n        description=\"A user has signed up\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n        group_name=\"user\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.EventType.Create(\n\tctx,\n\tEventTypeIn{\n\t\tName:         \"user.signup\",\n\t\tDescription:  \"A user has signed up\",\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tSchemas:      nil,\n\t\tGroupName:    new(\"user\"),\n\t\tFeatureFlags: []string{\"cool-new-feature\"},\n\t},\n\tnil,\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.eventType.create(\n        EventTypeIn(\n            name = \"user.signup\",\n            description = \"A user has signed up\",\n            archived = true,\n            deprecated = true,\n            schemas = mapOf(),\n            groupName = \"user\",\n            featureFlags = setOf(\"cool-new-feature\"),\n        )\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getEventType()\n        .create(new EventTypeIn()\n            .name(\"user.signup\")\n            .description(\"A user has signed up\")\n            .archived(true)\n            .deprecated(true)\n            .schemas(Map.of())\n            .groupName(\"user\")\n            .featureFlags(Set.of(\"cool-new-feature\")));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .event_type\n  .create(\n    {\n      name: \"user.signup\",\n      description: \"A user has signed up\",\n      archived: true,\n      deprecated: true,\n      schemas: {},\n      groupName: \"user\",\n      featureFlags: [\"cool-new-feature\"]\n    }\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .event_type()\n    .create(\n        EventTypeIn {\n            name: \"user.signup\".to_string(),\n            description: \"A user has signed up\".to_string(),\n            archived: Some(true),\n            deprecated: Some(true),\n            schemas: Some(\n                serde_json::json!(\n                    { \"1\" : { \"description\" : \"An invoice was paid by a user\",\n                    \"properties\" : { \"invoiceId\" : { \"description\" :\n                    \"The invoice id\", \"type\" : \"string\" }, \"userId\" : { \"description\"\n                    : \"The user id\", \"type\" : \"string\" } }, \"required\" :\n                    [\"invoiceId\", \"userId\"], \"title\" : \"Invoice Paid Event\", \"type\" :\n                    \"object\" } }\n                ),\n            ),\n            group_name: Some(\"user\".to_string()),\n            feature_flags: Some(vec![\"cool-new-feature\".to_string()]),\n        },\n        None,\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.EventType.Create(\n    new EventTypeIn\n    {\n        Name = \"user.signup\",\n        Description = \"A user has signed up\",\n        Archived = true,\n        Deprecated = true,\n        Schemas = new Dictionary<string, string> { },\n        GroupName = \"user\",\n        FeatureFlags = [\"cool-new-feature\"],\n    }\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->eventType->create(\n    EventTypeIn::create(\n        name: \"user.signup\",\n        description: \"A user has signed up\"\n    )\n    ->withArchived(true)\n    ->withDeprecated(true)\n    ->withGroupName(\"user\")\n    ->withFeatureFlags([\"cool-new-feature\"])\n);"
+      - lang: Shell
+        label: CLI
+        source: "svix event-type create '{\n    \"name\": \"user.signup\",\n    \"description\": \"A user has signed up\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    },\n    \"groupName\": \"user\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ]\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/event-type' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"user.signup\",\n    \"description\": \"A user has signed up\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    },\n    \"groupName\": \"user\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ]\n  }'"
   /api/v1/event-type/import/openapi:
     post:
       tags:
@@ -369,12 +363,6 @@ paths:
         top-level.'
       operationId: v1.event-type.import-openapi
       parameters:
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
       - in: header
         name: idempotency-key
         description: The request's idempotency key
@@ -443,44 +431,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.eventType.importOpenapi({\n  dryRun: true,\n  replaceAll: true,\n  spec: {\n    info: { title: \"Webhook Example\", version: \"1.0.0\" },\n    openapi: \"3.1.0\",\n    webhooks: {\n      \"pet.new\": {\n        post: {\n          requestBody: {\n            content: {\n              \"application/json\": {\n                schema: {\n                  properties: {\n                    id: { format: \"int64\", type: \"integer\" },\n                    name: { type: \"string\" },\n                    tag: { type: \"string\" },\n                  },\n                  required: [\"id\", \"name\"],\n                },\n              },\n            },\n            description: \"Information about a new pet in the system\",\n          },\n          responses: {\n            \"200\": {\n              description:\n                \"Return a 200 status to indicate that the data was received successfully\",\n            },\n          },\n        },\n      },\n    },\n  },\n  specRaw: \"sample string\",\n});"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.eventType.importOpenapi({\n  dryRun: true,\n  replaceAll: true,\n  spec: {\n    info: { title: \"Webhook Example\", version: \"1.0.0\" },\n    openapi: \"3.1.0\",\n    webhooks: {\n      \"pet.new\": {\n        post: {\n          requestBody: {\n            content: {\n              \"application/json\": {\n                schema: {\n                  properties: {\n                    id: { format: \"int64\", type: \"integer\" },\n                    name: { type: \"string\" },\n                    tag: { type: \"string\" },\n                  },\n                  required: [\"id\", \"name\"],\n                },\n              },\n            },\n            description: \"Information about a new pet in the system\",\n          },\n          responses: {\n            \"200\": {\n              description:\n                \"Return a 200 status to indicate that the data was received successfully\",\n            },\n          },\n        },\n      },\n    },\n  },\n  specRaw: \"sample string\",\n});"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.event_type.import_openapi(\n    EventTypeImportOpenApiIn(\n        dry_run=True,\n        replace_all=True,\n        spec={\n            \"info\": {\"title\": \"Webhook Example\", \"version\": \"1.0.0\"},\n            \"openapi\": \"3.1.0\",\n            \"webhooks\": {\n                \"pet.new\": {\n                    \"post\": {\n                        \"requestBody\": {\n                            \"content\": {\n                                \"application/json\": {\n                                    \"schema\": {\n                                        \"properties\": {\n                                            \"id\": {\n                                                \"format\": \"int64\",\n                                                \"type\": \"integer\",\n                                            },\n                                            \"name\": {\"type\": \"string\"},\n                                            \"tag\": {\"type\": \"string\"},\n                                        },\n                                        \"required\": [\"id\", \"name\"],\n                                    }\n                                }\n                            },\n                            \"description\": \"Information about a new pet in the system\",\n                        },\n                        \"responses\": {\n                            \"200\": {\n                                \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n                            }\n                        },\n                    }\n                }\n            },\n        },\n        spec_raw=\"sample string\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.event_type.import_openapi(\n    EventTypeImportOpenApiIn(\n        dry_run=True,\n        replace_all=True,\n        spec={\n            \"info\": {\"title\": \"Webhook Example\", \"version\": \"1.0.0\"},\n            \"openapi\": \"3.1.0\",\n            \"webhooks\": {\n                \"pet.new\": {\n                    \"post\": {\n                        \"requestBody\": {\n                            \"content\": {\n                                \"application/json\": {\n                                    \"schema\": {\n                                        \"properties\": {\n                                            \"id\": {\n                                                \"format\": \"int64\",\n                                                \"type\": \"integer\",\n                                            },\n                                            \"name\": {\"type\": \"string\"},\n                                            \"tag\": {\"type\": \"string\"},\n                                        },\n                                        \"required\": [\"id\", \"name\"],\n                                    }\n                                }\n                            },\n                            \"description\": \"Information about a new pet in the system\",\n                        },\n                        \"responses\": {\n                            \"200\": {\n                                \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n                            }\n                        },\n                    }\n                }\n            },\n        },\n        spec_raw=\"sample string\",\n    ),\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.EventType.ImportOpenapi(\n\tctx,\n\tEventTypeImportOpenApiIn{\n\t\tDryRun:     new(true),\n\t\tReplaceAll: new(true),\n\t\tSpec:       nil,\n\t\tSpecRaw:    new(\"sample string\"),\n\t},\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.eventType.importOpenapi(\n        EventTypeImportOpenApiIn(\n            dryRun = true,\n            replaceAll = true,\n            spec = mapOf(),\n            specRaw = \"sample string\",\n        )\n    )"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getEventType()\n        .importOpenapi(new EventTypeImportOpenApiIn()\n            .dryRun(true)\n            .replaceAll(true)\n            .spec(Map.of())\n            .specRaw(\"sample string\"));"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: 'response = svix.event_type.import_openapi({dryRun: true, replaceAll: true, spec: {}, specRaw: "sample string"})'
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .event_type()\n    .import_openapi(\n        EventTypeImportOpenApiIn {\n            dry_run: Some(true),\n            replace_all: Some(true),\n            spec: Some(\n                serde_json::json!(\n                    { \"info\" : { \"title\" : \"Webhook Example\", \"version\" : \"1.0.0\" },\n                    \"openapi\" : \"3.1.0\", \"webhooks\" : { \"pet.new\" : { \"post\" : {\n                    \"requestBody\" : { \"content\" : { \"application/json\" : { \"schema\" :\n                    { \"properties\" : { \"id\" : { \"format\" : \"int64\", \"type\" :\n                    \"integer\" }, \"name\" : { \"type\" : \"string\" }, \"tag\" : { \"type\" :\n                    \"string\" } }, \"required\" : [\"id\", \"name\"] } } }, \"description\" :\n                    \"Information about a new pet in the system\" }, \"responses\" : {\n                    \"200\" : { \"description\" :\n                    \"Return a 200 status to indicate that the data was received successfully\"\n                    } } } } } }\n                ),\n            ),\n            spec_raw: Some(\"sample string\".to_string()),\n        },\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.EventType.ImportOpenapi(\n    new EventTypeImportOpenApiIn\n    {\n        DryRun = true,\n        ReplaceAll = true,\n        Spec = new Dictionary<string, string> { },\n        SpecRaw = \"sample string\",\n    }\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->eventType->importOpenapi(\n    EventTypeImportOpenApiIn::create()\n    ->withDryRun(true)\n    ->withReplaceAll(true)\n    ->withSpecRaw(\"sample string\")\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: "svix event-type import-openapi '{\n    \"dryRun\": true,\n    \"replaceAll\": true,\n    \"spec\": {\n      \"info\": {\n        \"title\": \"Webhook Example\",\n        \"version\": \"1.0.0\"\n      },\n      \"openapi\": \"3.1.0\",\n      \"webhooks\": {\n        \"pet.new\": {\n          \"post\": {\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"schema\": {\n                    \"properties\": {\n                      \"id\": {\n                        \"format\": \"int64\",\n                        \"type\": \"integer\"\n                      },\n                      \"name\": {\n                        \"type\": \"string\"\n                      },\n                      \"tag\": {\n                        \"type\": \"string\"\n                      }\n                    },\n                    \"required\": [\n                      \"id\",\n                      \"name\"\n                    ]\n                  }\n                }\n              },\n              \"description\": \"Information about a new pet in the system\"\n            },\n            \"responses\": {\n              \"200\": {\n                \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n              }\n            }\n          }\n        }\n      }\n    },\n    \"specRaw\": \"sample string\"\n  }'"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/event-type/import/openapi' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"dryRun\": true,\n    \"replaceAll\": true,\n    \"spec\": {\n      \"info\": {\n        \"title\": \"Webhook Example\",\n        \"version\": \"1.0.0\"\n      },\n      \"openapi\": \"3.1.0\",\n      \"webhooks\": {\n        \"pet.new\": {\n          \"post\": {\n            \"requestBody\": {\n              \"content\": {\n                \"application/json\": {\n                  \"schema\": {\n                    \"properties\": {\n                      \"id\": {\n                        \"format\": \"int64\",\n                        \"type\": \"integer\"\n                      },\n                      \"name\": {\n                        \"type\": \"string\"\n                      },\n                      \"tag\": {\n                        \"type\": \"string\"\n                      }\n                    },\n                    \"required\": [\n                      \"id\",\n                      \"name\"\n                    ]\n                  }\n                }\n              },\n              \"description\": \"Information about a new pet in the system\"\n            },\n            \"responses\": {\n              \"200\": {\n                \"description\": \"Return a 200 status to indicate that the data was received successfully\"\n              }\n            }\n          }\n        }\n      }\n    },\n    \"specRaw\": \"sample string\"\n  }'"
   /api/v1/event-type/{event_type_name}:
     get:
@@ -553,50 +541,50 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: const response = await svix.eventType.get("user.signup");
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: const response = await svix.eventType.get("user.signup");
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.event_type.get(\n    \"user.signup\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.event_type.get(\n    \"user.signup\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: response, err := svix.EventType.Get(ctx, "user.signup")
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.eventType.get("user.signup")
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: var response = svix.getEventType().get("user.signup");
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.event_type.get("user.signup")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: let response = svix.event_type().get("user.signup".to_string()).await?;
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.EventType.Get("user.signup");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->eventType->get(\n    \"user.signup\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix event-type get "user.signup"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     put:
       tags:
       - Event Type
-      summary: Update Event Type
-      description: Update an event type.
+      summary: Upsert Event Type
+      description: Create or update an event type.
       operationId: v1.event-type.update
       parameters:
       - in: path
@@ -674,45 +662,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.update(\"user.signup\", {\n  archived: true,\n  deprecated: true,\n  description: \"A user has signed up\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.update(\"user.signup\", {\n  archived: true,\n  deprecated: true,\n  description: \"A user has signed up\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n});"
-      - label: Python
-        lang: Python
-        source: "response = svix.event_type.update(\n    \"user.signup\",\n    EventTypeUpdate(\n        archived=True,\n        deprecated=True,\n        description=\"A user has signed up\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.event_type.update(\n    \"user.signup\",\n    EventTypeUpdate(\n        archived=True,\n        deprecated=True,\n        description=\"A user has signed up\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.EventType.Update(\n\tctx,\n\t\"user.signup\",\n\tEventTypeUpdate{\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tDescription:  \"A user has signed up\",\n\t\tFeatureFlags: []string{\"cool-new-feature\"},\n\t\tGroupName:    new(\"user\"),\n\t\tSchemas:      nil,\n\t},\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.eventType.update(\n        \"user.signup\",\n        EventTypeUpdate(\n            archived = true,\n            deprecated = true,\n            description = \"A user has signed up\",\n            featureFlags = setOf(\"cool-new-feature\"),\n            groupName = \"user\",\n            schemas = mapOf(),\n        ),\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getEventType()\n        .update(\n            \"user.signup\",\n            new EventTypeUpdate()\n                .archived(true)\n                .deprecated(true)\n                .description(\"A user has signed up\")\n                .featureFlags(Set.of(\"cool-new-feature\"))\n                .groupName(\"user\")\n                .schemas(Map.of()));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .event_type\n  .update(\n    \"user.signup\",\n    {\n      archived: true,\n      deprecated: true,\n      description: \"A user has signed up\",\n      featureFlags: [\"cool-new-feature\"],\n      groupName: \"user\",\n      schemas: {}\n    }\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .event_type()\n    .update(\n        \"user.signup\".to_string(),\n        EventTypeUpdate {\n            archived: Some(true),\n            deprecated: Some(true),\n            description: \"A user has signed up\".to_string(),\n            feature_flags: Some(vec![\"cool-new-feature\".to_string()]),\n            group_name: Some(\"user\".to_string()),\n            schemas: Some(\n                serde_json::json!(\n                    { \"1\" : { \"description\" : \"An invoice was paid by a user\",\n                    \"properties\" : { \"invoiceId\" : { \"description\" :\n                    \"The invoice id\", \"type\" : \"string\" }, \"userId\" : { \"description\"\n                    : \"The user id\", \"type\" : \"string\" } }, \"required\" :\n                    [\"invoiceId\", \"userId\"], \"title\" : \"Invoice Paid Event\", \"type\" :\n                    \"object\" } }\n                ),\n            ),\n        },\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.EventType.Update(\n    \"user.signup\",\n    new EventTypeUpdate\n    {\n        Archived = true,\n        Deprecated = true,\n        Description = \"A user has signed up\",\n        FeatureFlags = [\"cool-new-feature\"],\n        GroupName = \"user\",\n        Schemas = new Dictionary<string, string> { },\n    }\n);"
-      - label: PHP
-        lang: PHP
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.eventType.update(\"user.signup\", {\n  description: \"A user has signed up\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.eventType.update(\"user.signup\", {\n  description: \"A user has signed up\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    \"1\": {\n      description: \"An invoice was paid by a user\",\n      properties: {\n        invoiceId: { description: \"The invoice id\", type: \"string\" },\n        userId: { description: \"The user id\", type: \"string\" },\n      },\n      required: [\"invoiceId\", \"userId\"],\n      title: \"Invoice Paid Event\",\n      type: \"object\",\n    },\n  },\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n});"
+      - lang: Python
+        label: Python
+        source: "response = svix.event_type.update(\n    \"user.signup\",\n    EventTypeUpdate(\n        description=\"A user has signed up\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.event_type.update(\n    \"user.signup\",\n    EventTypeUpdate(\n        description=\"A user has signed up\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"1\": {\n                \"description\": \"An invoice was paid by a user\",\n                \"properties\": {\n                    \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                    \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n                },\n                \"required\": [\"invoiceId\", \"userId\"],\n                \"title\": \"Invoice Paid Event\",\n                \"type\": \"object\",\n            }\n        },\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.EventType.Update(\n\tctx,\n\t\"user.signup\",\n\tEventTypeUpdate{\n\t\tDescription:  \"A user has signed up\",\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tSchemas:      nil,\n\t\tFeatureFlags: []string{\"cool-new-feature\"},\n\t\tGroupName:    new(\"user\"),\n\t},\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.eventType.update(\n        \"user.signup\",\n        EventTypeUpdate(\n            description = \"A user has signed up\",\n            archived = true,\n            deprecated = true,\n            schemas = mapOf(),\n            featureFlags = setOf(\"cool-new-feature\"),\n            groupName = \"user\",\n        ),\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getEventType()\n        .update(\n            \"user.signup\",\n            new EventTypeUpdate()\n                .description(\"A user has signed up\")\n                .archived(true)\n                .deprecated(true)\n                .schemas(Map.of())\n                .featureFlags(Set.of(\"cool-new-feature\"))\n                .groupName(\"user\"));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .event_type\n  .update(\n    \"user.signup\",\n    {\n      description: \"A user has signed up\",\n      archived: true,\n      deprecated: true,\n      schemas: {},\n      featureFlags: [\"cool-new-feature\"],\n      groupName: \"user\"\n    }\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .event_type()\n    .update(\n        \"user.signup\".to_string(),\n        EventTypeUpdate {\n            description: \"A user has signed up\".to_string(),\n            archived: Some(true),\n            deprecated: Some(true),\n            schemas: Some(\n                serde_json::json!(\n                    { \"1\" : { \"description\" : \"An invoice was paid by a user\",\n                    \"properties\" : { \"invoiceId\" : { \"description\" :\n                    \"The invoice id\", \"type\" : \"string\" }, \"userId\" : { \"description\"\n                    : \"The user id\", \"type\" : \"string\" } }, \"required\" :\n                    [\"invoiceId\", \"userId\"], \"title\" : \"Invoice Paid Event\", \"type\" :\n                    \"object\" } }\n                ),\n            ),\n            feature_flags: Some(vec![\"cool-new-feature\".to_string()]),\n            group_name: Some(\"user\".to_string()),\n        },\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.EventType.Update(\n    \"user.signup\",\n    new EventTypeUpdate\n    {\n        Description = \"A user has signed up\",\n        Archived = true,\n        Deprecated = true,\n        Schemas = new Dictionary<string, string> { },\n        FeatureFlags = [\"cool-new-feature\"],\n        GroupName = \"user\",\n    }\n);"
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->eventType->update(\n    \"user.signup\",\n    EventTypeUpdate::create(\n        description: \"A user has signed up\"\n    )\n    ->withArchived(true)\n    ->withDeprecated(true)\n    ->withFeatureFlags([\"cool-new-feature\"])\n    ->withGroupName(\"user\")\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix event-type update \"user.signup\" '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"A user has signed up\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    }\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"A user has signed up\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    }\n  }'"
+      - lang: Shell
+        label: CLI
+        source: "svix event-type update \"user.signup\" '{\n    \"description\": \"A user has signed up\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    },\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\"\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"description\": \"A user has signed up\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"1\": {\n        \"description\": \"An invoice was paid by a user\",\n        \"properties\": {\n          \"invoiceId\": {\n            \"description\": \"The invoice id\",\n            \"type\": \"string\"\n          },\n          \"userId\": {\n            \"description\": \"The user id\",\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"invoiceId\",\n          \"userId\"\n        ],\n        \"title\": \"Invoice Paid Event\",\n        \"type\": \"object\"\n      }\n    },\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\"\n  }'"
     delete:
       tags:
       - Event Type
@@ -745,8 +733,8 @@ paths:
         description: By default event types are archived when "deleted". Passing this to `true` deletes them entirely.
         schema:
           description: By default event types are archived when "deleted". Passing this to `true` deletes them entirely.
-          default: false
           type: boolean
+          default: false
         style: form
       responses:
         '204':
@@ -796,44 +784,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: await svix.eventType.delete("user.signup");
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: await svix.eventType.delete("user.signup");
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "svix.event_type.delete(\n    \"user.signup\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "await svix.event_type.delete(\n    \"user.signup\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: err := svix.EventType.Delete(ctx, "user.signup", nil)
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "svix.eventType.delete(\n    \"user.signup\"\n)"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: svix.getEventType().delete("user.signup");
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.event_type.delete("user.signup")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: svix.event_type().delete("user.signup".to_string(), None).await?;
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.EventType.Delete("user.signup");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$svix->eventType->delete(\n    \"user.signup\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix event-type delete "user.signup"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'DELETE' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN'"
     patch:
       tags:
@@ -911,51 +899,369 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.patch(\"user.signup\", {\n  archived: true,\n  deprecated: true,\n  description: \"sample string\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  schemas: {\n    description: \"An invoice was paid by a user\",\n    properties: {\n      invoiceId: { description: \"The invoice id\", type: \"string\" },\n      userId: { description: \"The user id\", type: \"string\" },\n    },\n    required: [\"invoiceId\", \"userId\"],\n    title: \"Invoice Paid Event\",\n    type: \"object\",\n  },\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.eventType.patch(\"user.signup\", {\n  archived: true,\n  deprecated: true,\n  description: \"sample string\",\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n  schemas: {\n    description: \"An invoice was paid by a user\",\n    properties: {\n      invoiceId: { description: \"The invoice id\", type: \"string\" },\n      userId: { description: \"The user id\", type: \"string\" },\n    },\n    required: [\"invoiceId\", \"userId\"],\n    title: \"Invoice Paid Event\",\n    type: \"object\",\n  },\n});"
-      - label: Python
-        lang: Python
-        source: "response = svix.event_type.patch(\n    \"user.signup\",\n    EventTypePatch(\n        archived=True,\n        deprecated=True,\n        description=\"sample string\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        schemas={\n            \"description\": \"An invoice was paid by a user\",\n            \"properties\": {\n                \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n            },\n            \"required\": [\"invoiceId\", \"userId\"],\n            \"title\": \"Invoice Paid Event\",\n            \"type\": \"object\",\n        },\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.event_type.patch(\n    \"user.signup\",\n    EventTypePatch(\n        archived=True,\n        deprecated=True,\n        description=\"sample string\",\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n        schemas={\n            \"description\": \"An invoice was paid by a user\",\n            \"properties\": {\n                \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n            },\n            \"required\": [\"invoiceId\", \"userId\"],\n            \"title\": \"Invoice Paid Event\",\n            \"type\": \"object\",\n        },\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.EventType.Patch(\n\tctx,\n\t\"user.signup\",\n\tEventTypePatch{\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tDescription:  new(\"sample string\"),\n\t\tFeatureFlags: NewNullable([]string{\"cool-new-feature\"}),\n\t\tGroupName:    NewNullable(\"user\"),\n\t\tSchemas:      NewUnsetNullable[map[string]any](),\n\t},\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.eventType.patch(\n        \"user.signup\",\n        EventTypePatch(\n            archived = true,\n            deprecated = true,\n            description = \"sample string\",\n            featureFlags = MaybeUnset.Present(setOf(\"cool-new-feature\")),\n            groupName = MaybeUnset.Present(\"user\"),\n            schemas = MaybeUnset.Present(mapOf()),\n        ),\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getEventType()\n        .patch(\n            \"user.signup\",\n            new EventTypePatch()\n                .archived(true)\n                .deprecated(true)\n                .description(\"sample string\")\n                .featureFlags(Set.of(\"cool-new-feature\"))\n                .groupName(\"user\")\n                .schemas(Map.of()));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .event_type\n  .patch(\n    \"user.signup\",\n    {\n      archived: true,\n      deprecated: true,\n      description: \"sample string\",\n      featureFlags: [\"cool-new-feature\"],\n      groupName: \"user\",\n      schemas: {}\n    }\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .event_type()\n    .patch(\n        \"user.signup\".to_string(),\n        EventTypePatch {\n            archived: Some(true),\n            deprecated: Some(true),\n            description: Some(\"sample string\".to_string()),\n            feature_flags: js_option::JsOption::Some(\n                vec![\"cool-new-feature\".to_string()],\n            ),\n            group_name: js_option::JsOption::Some(\"user\".to_string()),\n            schemas: js_option::JsOption::Some(\n                serde_json::json!(\n                    { \"description\" : \"An invoice was paid by a user\", \"properties\" :\n                    { \"invoiceId\" : { \"description\" : \"The invoice id\", \"type\" :\n                    \"string\" }, \"userId\" : { \"description\" : \"The user id\", \"type\" :\n                    \"string\" } }, \"required\" : [\"invoiceId\", \"userId\"], \"title\" :\n                    \"Invoice Paid Event\", \"type\" : \"object\" }\n                ),\n            ),\n        },\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.EventType.Patch(\n    \"user.signup\",\n    new EventTypePatch\n    {\n        Archived = true,\n        Deprecated = true,\n        Description = \"sample string\",\n        FeatureFlags = MaybeUnset<List<string>?>.Set([\"cool-new-feature\"]),\n        GroupName = \"user\",\n        Schemas = new Dictionary<string, string> { },\n    }\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->eventType->patch(\n    \"user.signup\",\n    EventTypePatch::create()\n    ->withArchived(true)\n    ->withDeprecated(true)\n    ->withDescription(\"sample string\")\n    ->withFeatureFlags([\"cool-new-feature\"])\n    ->withGroupName(\"user\")\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix event-type patch \"user.signup\" '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"sample string\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"schemas\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'PATCH' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"archived\": true,\n    \"deprecated\": true,\n    \"description\": \"sample string\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\",\n    \"schemas\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    }\n  }'"
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.eventType.patch(\"user.signup\", {\n  description: \"sample string\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    description: \"An invoice was paid by a user\",\n    properties: {\n      invoiceId: { description: \"The invoice id\", type: \"string\" },\n      userId: { description: \"The user id\", type: \"string\" },\n    },\n    required: [\"invoiceId\", \"userId\"],\n    title: \"Invoice Paid Event\",\n    type: \"object\",\n  },\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.eventType.patch(\"user.signup\", {\n  description: \"sample string\",\n  archived: true,\n  deprecated: true,\n  schemas: {\n    description: \"An invoice was paid by a user\",\n    properties: {\n      invoiceId: { description: \"The invoice id\", type: \"string\" },\n      userId: { description: \"The user id\", type: \"string\" },\n    },\n    required: [\"invoiceId\", \"userId\"],\n    title: \"Invoice Paid Event\",\n    type: \"object\",\n  },\n  featureFlags: [\"cool-new-feature\"],\n  groupName: \"user\",\n});"
+      - lang: Python
+        label: Python
+        source: "response = svix.event_type.patch(\n    \"user.signup\",\n    EventTypePatch(\n        description=\"sample string\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"description\": \"An invoice was paid by a user\",\n            \"properties\": {\n                \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n            },\n            \"required\": [\"invoiceId\", \"userId\"],\n            \"title\": \"Invoice Paid Event\",\n            \"type\": \"object\",\n        },\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.event_type.patch(\n    \"user.signup\",\n    EventTypePatch(\n        description=\"sample string\",\n        archived=True,\n        deprecated=True,\n        schemas={\n            \"description\": \"An invoice was paid by a user\",\n            \"properties\": {\n                \"invoiceId\": {\"description\": \"The invoice id\", \"type\": \"string\"},\n                \"userId\": {\"description\": \"The user id\", \"type\": \"string\"},\n            },\n            \"required\": [\"invoiceId\", \"userId\"],\n            \"title\": \"Invoice Paid Event\",\n            \"type\": \"object\",\n        },\n        feature_flags=[\n            \"cool-new-feature\",\n        ],\n        group_name=\"user\",\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.EventType.Patch(\n\tctx,\n\t\"user.signup\",\n\tEventTypePatch{\n\t\tDescription:  new(\"sample string\"),\n\t\tArchived:     new(true),\n\t\tDeprecated:   new(true),\n\t\tSchemas:      NewUnsetNullable[map[string]any](),\n\t\tFeatureFlags: NewNullable([]string{\"cool-new-feature\"}),\n\t\tGroupName:    NewNullable(\"user\"),\n\t},\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.eventType.patch(\n        \"user.signup\",\n        EventTypePatch(\n            description = \"sample string\",\n            archived = true,\n            deprecated = true,\n            schemas = MaybeUnset.Present(mapOf()),\n            featureFlags = MaybeUnset.Present(setOf(\"cool-new-feature\")),\n            groupName = MaybeUnset.Present(\"user\"),\n        ),\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getEventType()\n        .patch(\n            \"user.signup\",\n            new EventTypePatch()\n                .description(\"sample string\")\n                .archived(true)\n                .deprecated(true)\n                .schemas(Map.of())\n                .featureFlags(Set.of(\"cool-new-feature\"))\n                .groupName(\"user\"));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .event_type\n  .patch(\n    \"user.signup\",\n    {\n      description: \"sample string\",\n      archived: true,\n      deprecated: true,\n      schemas: {},\n      featureFlags: [\"cool-new-feature\"],\n      groupName: \"user\"\n    }\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .event_type()\n    .patch(\n        \"user.signup\".to_string(),\n        EventTypePatch {\n            description: Some(\"sample string\".to_string()),\n            archived: Some(true),\n            deprecated: Some(true),\n            schemas: js_option::JsOption::Some(\n                serde_json::json!(\n                    { \"description\" : \"An invoice was paid by a user\", \"properties\" :\n                    { \"invoiceId\" : { \"description\" : \"The invoice id\", \"type\" :\n                    \"string\" }, \"userId\" : { \"description\" : \"The user id\", \"type\" :\n                    \"string\" } }, \"required\" : [\"invoiceId\", \"userId\"], \"title\" :\n                    \"Invoice Paid Event\", \"type\" : \"object\" }\n                ),\n            ),\n            feature_flags: js_option::JsOption::Some(\n                vec![\"cool-new-feature\".to_string()],\n            ),\n            group_name: js_option::JsOption::Some(\"user\".to_string()),\n        },\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.EventType.Patch(\n    \"user.signup\",\n    new EventTypePatch\n    {\n        Description = \"sample string\",\n        Archived = true,\n        Deprecated = true,\n        Schemas = new Dictionary<string, string> { },\n        FeatureFlags = MaybeUnset<List<string>?>.Set([\"cool-new-feature\"]),\n        GroupName = \"user\",\n    }\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->eventType->patch(\n    \"user.signup\",\n    EventTypePatch::create()\n    ->withDescription(\"sample string\")\n    ->withArchived(true)\n    ->withDeprecated(true)\n    ->withFeatureFlags([\"cool-new-feature\"])\n    ->withGroupName(\"user\")\n);"
+      - lang: Shell
+        label: CLI
+        source: "svix event-type patch \"user.signup\" '{\n    \"description\": \"sample string\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    },\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\"\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'PATCH' \\\n  'https://api.eu.svix.com/api/v1/event-type/user.signup' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"description\": \"sample string\",\n    \"archived\": true,\n    \"deprecated\": true,\n    \"schemas\": {\n      \"description\": \"An invoice was paid by a user\",\n      \"properties\": {\n        \"invoiceId\": {\n          \"description\": \"The invoice id\",\n          \"type\": \"string\"\n        },\n        \"userId\": {\n          \"description\": \"The user id\",\n          \"type\": \"string\"\n        }\n      },\n      \"required\": [\n        \"invoiceId\",\n        \"userId\"\n      ],\n      \"title\": \"Invoice Paid Event\",\n      \"type\": \"object\"\n    },\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"groupName\": \"user\"\n  }'"
+  /api/v1/event-type/{event_type_name}/retry-schedule:
+    get:
+      tags:
+      - Event Type
+      summary: Get Retry Schedule
+      description: Gets the retry schedule for messages using the given event type.
+      operationId: v1.event-type.get-retry-schedule
+      parameters:
+      - in: path
+        name: event_type_name
+        description: The event type's name
+        required: true
+        schema:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetryScheduleInOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+    put:
+      tags:
+      - Event Type
+      summary: Set Retry Schedule
+      description: Sets a retry schedule for all messages using the given event type.
+      operationId: v1.event-type.set-retry-schedule
+      parameters:
+      - in: path
+        name: event_type_name
+        description: The event type's name
+        required: true
+        schema:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetryScheduleInOut'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetryScheduleInOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
+  /api/v1/event-type/export/openapi:
+    post:
+      tags:
+      - Event Type
+      summary: Event Type Export From Openapi
+      description: "Exports event type definitions based on the OpenAPI schemas associated\nwith each existing event type.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"sdk.generate\",\n  \"data\": {\n    \"schemaZip\": \"https://example.com/schema.zip\"\n  }\n}\n```"
+      operationId: v1.event-type.export-openapi
+      parameters:
+      - in: header
+        name: idempotency-key
+        description: The request's idempotency key
+        schema:
+          type: string
+        style: simple
+      responses:
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportEventTypeOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
+    EventTypeIn:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+          default: false
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          default: null
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          default: null
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - description
+      - name
+    EventTypeImportOpenApiOut:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
+      required:
+      - data
+    ListResponse_EventTypeOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventTypeOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    RetrySchedule:
+      type: array
+      items:
+        $ref: '#/components/schemas/Duration'
     EventTypeImportOpenApiOutData:
       type: object
-      required:
-      - modified
       properties:
         modified:
           type: array
@@ -970,22 +1276,162 @@ components:
           items:
             $ref: '#/components/schemas/EventTypeFromOpenApi'
           nullable: true
+      required:
+      - modified
+    EventTypeFromOpenApi:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+        schemas:
+          type: object
+          additionalProperties: true
+          example:
+            title: Invoice Paid Event
+            description: An invoice was paid by a user
+            type: object
+            properties:
+              invoiceId:
+                description: The invoice id
+                type: string
+              userId:
+                description: The user id
+                type: string
+            required:
+            - invoiceId
+            - userId
+          nullable: true
+        deprecated:
+          type: boolean
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          nullable: true
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - deprecated
+      - description
+      - name
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    ExportEventTypeOut:
+      type: object
+      properties:
+        id:
+          description: The QueueBackgroundTask's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - status
+      - task
+      - updatedAt
     HTTPValidationError:
       type: object
-      required:
-      - detail
       properties:
         detail:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    EventTypePatch:
+      type: object
+      properties:
+        description:
+          type: string
+        archived:
+          type: boolean
+        deprecated:
+          type: boolean
+        schemas:
+          type: object
+          additionalProperties: true
+          example:
+            title: Invoice Paid Event
+            description: An invoice was paid by a user
+            type: object
+            properties:
+              invoiceId:
+                description: The invoice id
+                type: string
+              userId:
+                description: The user id
+                type: string
+            required:
+            - invoiceId
+            - userId
+          nullable: true
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
-      required:
-      - loc
-      - msg
-      - type
       properties:
         loc:
           description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
@@ -998,62 +1444,109 @@ components:
         type:
           description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
           type: string
-    EventTypeFromOpenApi:
-      type: object
       required:
-      - deprecated
-      - description
-      - name
+      - loc
+      - msg
+      - type
+    Duration:
+      type: object
       properties:
-        deprecated:
-          type: boolean
+        secs:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        nanos:
+          type: integer
+          format: uint32
+          minimum: 0.0
+      required:
+      - nanos
+      - secs
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    RetryScheduleInOut:
+      type: object
+      properties:
+        retrySchedule:
+          $ref: '#/components/schemas/RetrySchedule'
+          nullable: true
+    EventTypeUpdate:
+      type: object
+      properties:
         description:
           type: string
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          deprecated: true
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+          default: false
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
           nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
         featureFlags:
           type: array
+          nullable: true
           items:
             type: string
             maxLength: 256
             pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
           uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          default: null
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
           nullable: true
         groupName:
           description: The event type group's name
           type: string
+          default: null
           maxLength: 256
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: user
           nullable: true
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        schemas:
-          type: object
-          example:
-            description: An invoice was paid by a user
-            properties:
-              invoiceId:
-                description: The invoice id
-                type: string
-              userId:
-                description: The user id
-                type: string
-            required:
-            - invoiceId
-            - userId
-            title: Invoice Paid Event
-            type: object
-          nullable: true
+      required:
+      - description
     EventTypeImportOpenApiIn:
       description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
 
@@ -1063,31 +1556,34 @@ components:
       properties:
         dryRun:
           description: If `true`, return the event types that would be modified without actually modifying them.
-          default: false
           type: boolean
+          default: false
         replaceAll:
           description: If `true`, all existing event types that are not in the spec will be archived.
-          default: false
           type: boolean
+          default: false
         spec:
           description: A pre-parsed JSON spec.
           type: object
+          nullable: true
+          additionalProperties: true
           example:
+            openapi: 3.1.0
             info:
               title: Webhook Example
               version: 1.0.0
-            openapi: 3.1.0
             webhooks:
               pet.new:
                 post:
                   requestBody:
+                    description: Information about a new pet in the system
                     content:
                       application/json:
                         schema:
                           properties:
                             id:
-                              format: int64
                               type: integer
+                              format: int64
                             name:
                               type: string
                             tag:
@@ -1095,312 +1591,86 @@ components:
                           required:
                           - id
                           - name
-                    description: Information about a new pet in the system
                   responses:
                     '200':
                       description: Return a 200 status to indicate that the data was received successfully
-          nullable: true
         specRaw:
           description: A string, parsed by the server as YAML or JSON.
           type: string
-          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
           nullable: true
+          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
     EventTypeOut:
       type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
       required:
       - createdAt
       - deprecated
       - description
       - name
       - updatedAt
-      properties:
-        archived:
-          default: false
-          type: boolean
-          example: false
-        createdAt:
-          type: string
-          format: date-time
-        deprecated:
-          type: boolean
-        description:
-          type: string
-          example: A user has signed up
-        featureFlag:
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        featureFlags:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-          nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          example:
-            '1':
-              description: An invoice was paid by a user
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-              title: Invoice Paid Event
-              type: object
-          nullable: true
-        updatedAt:
-          type: string
-          format: date-time
-    EventTypePatch:
-      type: object
-      properties:
-        archived:
-          type: boolean
-        deprecated:
-          type: boolean
-        description:
-          type: string
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          deprecated: true
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        featureFlags:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-          nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        schemas:
-          type: object
-          example:
-            description: An invoice was paid by a user
-            properties:
-              invoiceId:
-                description: The invoice id
-                type: string
-              userId:
-                description: The user id
-                type: string
-            required:
-            - invoiceId
-            - userId
-            title: Invoice Paid Event
-            type: object
-          nullable: true
-    ListResponse_EventTypeOut_:
-      type: object
-      required:
-      - data
-      - done
-      - iterator
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventTypeOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-          example: iterator
-          nullable: true
-        prevIterator:
-          type: string
-          example: -iterator
-          nullable: true
-    EventTypeUpdate:
-      type: object
-      required:
-      - description
-      properties:
-        archived:
-          default: false
-          type: boolean
-          example: false
-        deprecated:
-          default: false
-          type: boolean
-        description:
-          type: string
-          example: A user has signed up
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          default: null
-          deprecated: true
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        featureFlags:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-          nullable: true
-        groupName:
-          description: The event type group's name
-          default: null
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          example:
-            '1':
-              description: An invoice was paid by a user
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-              title: Invoice Paid Event
-              type: object
-          nullable: true
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    EventTypeIn:
-      type: object
-      required:
-      - description
-      - name
-      properties:
-        archived:
-          default: false
-          type: boolean
-          example: false
-        deprecated:
-          default: false
-          type: boolean
-        description:
-          type: string
-          example: A user has signed up
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          default: null
-          deprecated: true
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        featureFlags:
-          default: null
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-          nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          example:
-            '1':
-              description: An invoice was paid by a user
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-              title: Invoice Paid Event
-              type: object
-          nullable: true
-    EventTypeImportOpenApiOut:
-      type: object
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      required:
-      - code
-      - detail
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
   securitySchemes:
     HTTPBearer:
       type: http
@@ -1443,39 +1713,18 @@ x-tagGroups:
   tags:
   - Health
 x-webhooks:
-  background_task.finished:
-    post:
-      description: Sent when a background task is finished.
-      operationId: background_task.finished
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                data:
-                  appStats:
-                  - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                    appUid: null
-                    messageDestinations: 343
-                status: finished
-                task: application.stats
-                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-              type: background_task.finished
-            schema:
-              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: background_task.finished
-      tags:
-      - Webhook
   endpoint.created:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.created
       description: Sent when an endpoint is created.
       operationId: endpoint.created
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointCreatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1483,22 +1732,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.created
-            schema:
-              $ref: '#/components/schemas/EndpointCreatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.created
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.deleted:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.deleted
       description: Sent when an endpoint is deleted.
       operationId: endpoint.deleted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDeletedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1506,22 +1755,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.deleted
-            schema:
-              $ref: '#/components/schemas/EndpointDeletedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.deleted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.disabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.disabled
       description: Sent when an endpoint has been automatically disabled after continuous failures, or manually via an API call.
       operationId: endpoint.disabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDisabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1531,22 +1780,22 @@ x-webhooks:
                 failSince: '2022-11-06T15:04:05Z'
                 trigger: automatic
               type: endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/EndpointDisabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.disabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.enabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.enabled
       description: Sent when an endpoint has been enabled.
       operationId: endpoint.enabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointEnabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1554,22 +1803,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.enabled
-            schema:
-              $ref: '#/components/schemas/EndpointEnabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.enabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.updated:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.updated
       description: Sent when an endpoint is updated.
       operationId: endpoint.updated
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointUpdatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1577,148 +1826,43 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.updated
-            schema:
-              $ref: '#/components/schemas/EndpointUpdatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.updated
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
-  ingest.endpoint.disabled:
-    post:
-      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
-      operationId: ingest.endpoint.disabled
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                endpointUid: unique-endpoint-identifier
-                failSince: '2022-11-06T15:04:05Z'
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-                trigger: automatic
-              type: ingest.endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.endpoint.disabled
-      tags:
-      - Webhook
-  ingest.message.attempt.exhausted:
-    post:
-      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
-      operationId: ingest.message.attempt.exhausted
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.exhausted
-      tags:
-      - Webhook
-  ingest.message.attempt.failing:
-    post:
-      description: 'Sent after a message has been failing for a few times.
-
-        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
-      operationId: ingest.message.attempt.failing
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.failing
-      tags:
-      - Webhook
-  ingest.message.attempt.recovered:
-    post:
-      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
-      operationId: ingest.message.attempt.recovered
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 200
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.recovered
-      tags:
-      - Webhook
   message.attempt.exhausted:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.exhausted
       description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
       operationId: message.attempt.exhausted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.exhausted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   message.attempt.failing:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.failing
       description: 'Sent after a message has been failing for a few times.
 
         It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the last failure.'
@@ -1726,88 +1870,214 @@ x-webhooks:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptFailingEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/MessageAttemptFailingEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.failing
-      tags:
-      - Webhook
-      x-svix-group-name: dispatch
-  message.attempt.log:
-    post:
-      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
-      operationId: message.attempt.log
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-              - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                appUid: unique-app-identifier
-                attemptCount: 1
-                attemptEnd: '2022-11-06T15:04:07Z'
-                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                attemptStart: '2022-11-06T15:04:06Z'
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                eventType: user.signup
-                msgCreated: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                responseStatusCode: 200
-                status: 0
-              type: message.attempt.log
-            schema:
-              $ref: '#/components/schemas/MessageAttemptLogEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.log
-      tags:
-      - Webhook
-      x-internal: true
-      x-svix-feature-flags:
-      - attempt_log
       x-svix-group-name: dispatch
   message.attempt.recovered:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.recovered
       description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
       operationId: message.attempt.recovered
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 200
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.recovered
+      x-svix-group-name: dispatch
+  background_task.finished:
+    post:
       tags:
       - Webhook
+      summary: background_task.finished
+      description: Sent when a background task is finished.
+      operationId: background_task.finished
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
+            example:
+              data:
+                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                task: application.stats
+                status: finished
+                data:
+                  appStats:
+                  - messageDestinations: 343
+                    appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                    appUid: null
+              type: background_task.finished
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.endpoint.disabled:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.endpoint.disabled
+      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
+      operationId: ingest.endpoint.disabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                endpointUid: unique-endpoint-identifier
+                failSince: '2022-11-06T15:04:05Z'
+                trigger: automatic
+              type: ingest.endpoint.disabled
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.exhausted:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.exhausted
+      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+      operationId: ingest.message.attempt.exhausted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.exhausted
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.failing:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.failing
+      description: 'Sent after a message has been failing for a few times.
+
+        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
+      operationId: ingest.message.attempt.failing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.failing
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.recovered:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.recovered
+      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+      operationId: ingest.message.attempt.recovered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 200
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.recovered
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  message.attempt.log:
+    post:
+      tags:
+      - Webhook
+      summary: message.attempt.log
+      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
+      operationId: message.attempt.log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptLogEvent'
+            example:
+              data:
+              - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appUid: unique-app-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                msgCreated: '2022-11-06T15:04:05Z'
+                attemptStart: '2022-11-06T15:04:06Z'
+                attemptEnd: '2022-11-06T15:04:07Z'
+                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                responseStatusCode: 200
+                attemptCount: 1
+                status: 0
+                eventType: user.signup
+              type: message.attempt.log
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
       x-svix-group-name: dispatch
+      x-svix-feature-flags:
+      - attempt_log
+      x-internal: true

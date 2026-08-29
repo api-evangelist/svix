@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Svix Health API
+  title: Svix Events API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -84,19 +84,77 @@ servers:
 - url: https://api.in.svix.com
   description: The Svix India region
 tags:
-- name: Health
-  description: Health checks for the API.
+- name: Events
 paths:
-  /api/v1/health:
+  /api/v1/events:
     get:
       tags:
-      - Health
-      summary: Health
-      description: Verify the API server is up and running.
-      operationId: v1.health.get
+      - Events
+      summary: Events
+      description: Reads the stream of operational webhook events for this environment.
+      operationId: v1.events.stream
+      parameters:
+      - in: query
+        name: limit
+        description: Limit the number of returned items
+        schema:
+          description: Limit the number of returned items
+          type: integer
+          format: uint64
+          maximum: 250
+          minimum: 1.0
+        style: form
+      - in: query
+        name: iterator
+        description: The iterator returned from a prior invocation
+        schema:
+          description: The iterator returned from a prior invocation
+          type: string
+          nullable: true
+        style: form
+      - in: query
+        name: event_types
+        description: Filter response based on the event type
+        schema:
+          description: Filter response based on the event type
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          uniqueItems: true
+          nullable: true
+        style: form
+      - in: query
+        name: channels
+        description: Filter response based on the event type.
+        schema:
+          description: Filter response based on the event type.
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        style: form
+      - in: query
+        name: after
+        schema:
+          type: string
+          format: date-time
+          nullable: true
+        style: form
       responses:
-        '204':
-          description: no content
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageEventsOut'
         '400':
           description: Bad request
           content:
@@ -139,6 +197,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
     HttpErrorOut:
@@ -152,6 +213,21 @@ components:
       required:
       - code
       - detail
+    MessageEventsOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageOut'
+        iterator:
+          type: string
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     HTTPValidationError:
       type: object
       properties:
@@ -180,6 +256,73 @@ components:
       - loc
       - msg
       - type
+    MessageOut:
+      type: object
+      properties:
+        eventId:
+          description: Optional unique identifier for the message
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        id:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_./\\#]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        deliverAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - eventType
+      - id
+      - payload
+      - timestamp
   securitySchemes:
     HTTPBearer:
       type: http

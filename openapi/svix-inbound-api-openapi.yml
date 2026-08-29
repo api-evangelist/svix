@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Svix Health API
+  title: Svix Inbound API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -84,19 +84,43 @@ servers:
 - url: https://api.in.svix.com
   description: The Svix India region
 tags:
-- name: Health
-  description: Health checks for the API.
+- name: Inbound
 paths:
-  /api/v1/health:
-    get:
+  /api/v1/app/{app_id}/inbound/rotate-url:
+    post:
       tags:
-      - Health
-      summary: Health
-      description: Verify the API server is up and running.
-      operationId: v1.health.get
+      - Inbound
+      summary: Rotate Url
+      description: 'Invalidates the previous inbound url (if one exists), producing a new inbound
+
+        URL for this app.'
+      operationId: v1.inbound.rotate-url
+      parameters:
+      - in: path
+        name: app_id
+        description: The Application's ID or UID.
+        required: true
+        schema:
+          description: The Application's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: header
+        name: idempotency-key
+        description: The request's idempotency key
+        schema:
+          type: string
+        style: simple
       responses:
-        '204':
-          description: no content
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RotatedUrlOut'
         '400':
           description: Bad request
           content:
@@ -139,6 +163,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
     HttpErrorOut:
@@ -161,6 +188,13 @@ components:
             $ref: '#/components/schemas/ValidationError'
       required:
       - detail
+    RotatedUrlOut:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+      - url
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object

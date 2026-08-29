@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Svix Health API
+  title: Svix Broadcast API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -84,19 +84,35 @@ servers:
 - url: https://api.in.svix.com
   description: The Svix India region
 tags:
-- name: Health
-  description: Health checks for the API.
+- name: Broadcast
 paths:
-  /api/v1/health:
-    get:
+  /api/v1/msg/broadcast:
+    post:
       tags:
-      - Health
-      summary: Health
-      description: Verify the API server is up and running.
-      operationId: v1.health.get
+      - Broadcast
+      summary: Create Broadcast Message
+      description: "Creates a background task to send the same message to each application in your organization.\n\nA completed task will return a payload like the following:\n```json\n{\n  \"id\": \"qtask_33qen93MNuelBAq1T9G7eHLJRsF\",\n  \"status\": \"finished\",\n  \"task\": \"message.broadcast\",\n  \"data\": {\n    \"messagesCreated\": [\n      {\n        \"appId\": \"app_33s1An2Zz5cO9SWbhHsYyDmVC6m\",\n        \"msgId\": \"msg_33s1An2Zz5cO9SWbhHsYyDmVC6m\"\n      },\n      {\n        \"appId\": \"app_33sXYjcO6bkWeZIXDI8w6ZYMivz\",\n        \"msgId\": \"msg_33sZJfmYMOQGApyIgRdteOX0xlX\"\n      }\n    ]\n  }\n}\n```"
+      operationId: v1.message.broadcast
+      parameters:
+      - in: header
+        name: idempotency-key
+        description: The request's idempotency key
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageBroadcastIn'
+        required: true
       responses:
-        '204':
-          description: no content
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageBroadcastOut'
         '400':
           description: Bad request
           content:
@@ -139,6 +155,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
     HttpErrorOut:
@@ -152,6 +171,104 @@ components:
       required:
       - code
       - detail
+    MessageBroadcastOut:
+      type: object
+      properties:
+        id:
+          description: The QueueBackgroundTask's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - status
+      - task
+      - updatedAt
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    MessageBroadcastIn:
+      type: object
+      properties:
+        eventId:
+          description: Optional unique identifier for the message.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by.
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        payloadRetentionPeriod:
+          description: Optional number of days to retain the message payload. Defaults to 90. Note that this is mutually exclusive with `payloadRetentionHours`.
+          type: integer
+          format: int64
+          default: 90
+          nullable: true
+          maximum: 90
+          minimum: 1
+          example: 90
+        payloadRetentionHours:
+          description: Optional number of hours to retain the message payload. Note that this is mutually exclusive with `payloadRetentionPeriod`.
+          type: integer
+          format: int64
+          default: null
+          maximum: 2160
+          minimum: 1
+          nullable: true
+      required:
+      - eventType
+      - payload
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
     HTTPValidationError:
       type: object
       properties:

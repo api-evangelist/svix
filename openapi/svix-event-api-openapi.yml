@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Svix Application Event API
+  title: Svix Event API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -68,152 +68,24 @@ info:
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
 
     '
-  version: 1.84.0
+  version: 1.922.0
   x-logo:
-    altText: Svix Logo
     url: https://www.svix.com/static/img/brand-padded.svg
+    altText: Svix Logo
 servers:
-- url: https://api.eu.svix.com/
+- url: https://api.eu.svix.com
   description: The Svix EU region
-- url: https://api.us.svix.com/
+- url: https://api.us.svix.com
   description: The Svix US region
-- url: https://api.ca.svix.com/
+- url: https://api.ca.svix.com
   description: The Svix Canada region
-- url: https://api.au.svix.com/
+- url: https://api.au.svix.com
   description: The Svix Australia region
-- url: https://api.in.svix.com/
+- url: https://api.in.svix.com
   description: The Svix India region
 tags:
 - name: Event
 paths:
-  /api/v1/stream/{stream_id}/events:
-    post:
-      tags:
-      - Event
-      summary: Create Events
-      description: Creates events on the Stream.
-      operationId: v1.streaming.events.create
-      parameters:
-      - in: path
-        name: stream_id
-        description: The Stream's ID or UID.
-        required: true
-        schema:
-          description: The Stream's ID or UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateStreamEventsIn'
-        required: true
-      responses:
-        '202':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateStreamEventsOut'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "await svix.streaming.events.create(\"rock_inc_uid\", {\n  events: [\n    {\n      \"eventType\": \"user.signup\",\n      \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    }\n  ]\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "await svix.streaming.events.create(\"rock_inc_uid\", {\n  events: [\n    {\n      \"eventType\": \"user.signup\",\n      \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    }\n  ]\n});"
-      - label: Python
-        lang: Python
-        source: "svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn(\n  events=[\n    EventIn(\n      eventType=\"user.signup\",\n      payload='{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    )\n  ]\n))"
-      - label: Python (Async)
-        lang: Python
-        source: "await svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn(\n  events=[\n    EventIn(\n      eventType=\"user.signup\",\n      payload='{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    )\n  ]\n))"
-      - label: Go
-        lang: Go
-        source: "svixClient.Streaming.Events.Create(\n  ctx,\n  \"rock_inc_uid\",\n  &svix.CreateStreamEventsIn{\n    Events: []svix.EventIn{\n      {\n        EventType: \"user.signup\",\n        Payload: \\`{\"email\":\"test@example.com\",\"username\":\"test_user\"}\\`,\n      }\n    },\n  })"
-      - label: Kotlin
-        lang: Kotlin
-        source: "svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn()\n    .events(arrayOf(\n      EventIn(\n        eventType = \"user.signup\",\n        payload = \\`{\"email\":\"test@example.com\",\"username\":\"test_user\"}\\`,\n      )\n    ))\n)"
-      - label: Java
-        lang: Java
-        source: "svix.getStream().getEvents().create(\"rock_inc_uid\", new CreateStreamEventsIn()\n    .events(new EventIn[]{\n      new EventIn()\n        .eventType(\"user.signup\")\n        .payload(\"{\\\"email\\\":\\\"test@example.com\\\",\\\"username\\\":\\\"test_user\\\"}\")\n    })\n);"
-      - label: Ruby
-        lang: Ruby
-        source: "svix.streaming.events.create(\"rock_inc_uid\", Svix::CreateStreamEventsIn.new({\n    \"events\": [\n      {\n        \"eventType\": \"user.signup\",\n        \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n      }\n    ]\n}))"
-      - label: Rust
-        lang: Rust
-        source: "svix.streaming().events().create(\"rock_inc_uid\", CreateStreamEventsIn {\n    events: vec![\n      EventIn {\n        event_type: \"user.signup\".into(),\n        payload: r#\"{\"email\":\"test@example.com\",\"username\":\"test_user\"}\"#.into()\n      }\n    ],\n    stream: None,\n}, None).await?;"
-      - label: Php
-        lang: PHP
-        source: "$svix->streaming->events->create(\n  'rock_inc_uid',\n  CreateStreamEventsIn::create(\n    events: [\n      [\n        'eventType' => 'user.signup',\n        'payload' => '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n      ]\n    ],\n  )\n);"
-      - label: C#
-        lang: C#
-        source: "await svix.Streaming.Events.CreateAsync(\"stream_id\", new CreateStreamEventsIn{\n    events: new EventIn[] {\n      new EventIn(\n        eventType: \"user.signup\",\n        payload: \"{\\\\\"email\\\\\":\\\\\"test@example.com\\\\\",\\\\\"username\\\\\":\\\\\"test_user\\\\\"}\"\n      )\n    }\n});"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'POST' \\\\\n  'https://api.svix.com/api/v1/stream/rock_inc_uid/events' \\\\\n  -H 'accept: application/json' \\\\\n  -H \"Authorization: Bearer \\${AUTH_TOKEN}\" \\\\\n  -H 'Content-Type: application/json' \\\\\n  -d '{\n  \"events\": [\n    {\n      \"eventType\":\"user.signup\",\n      \"payload\":\"{\\\\\"email\\\":\\\\\"test@example.com\\\\\",\\\\\"username\\\\\":\\\\\"test_user\\\\\"}\"\n    }\n  ],\n}'"
-      - label: CLI
-        lang: Shell
-        source: Coming soon to Svix CLI
   /api/v1/stream/{stream_id}/sink/{sink_id}/events:
     get:
       tags:
@@ -254,7 +126,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -324,81 +196,319 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.streaming.events.get(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.streaming.events.get(\n  \"strm_31Dc0DD72P5AddYUguyBd\",\n  \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.streaming.events.get(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.streaming.events.get(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.Streaming.Events.Get(\n\tctx,\n\t\"strm_31Dc0DD72P5AddYUguyBd\",\n\t\"sink_31Dc11sPYY9aLDkwPuGMa\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.streaming.events.get("strm_31Dc0DD72P5AddYUguyBd", "sink_31Dc11sPYY9aLDkwPuGMa")
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getStreaming()\n        .getEvents()\n        .get(\"strm_31Dc0DD72P5AddYUguyBd\", \"sink_31Dc11sPYY9aLDkwPuGMa\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.streaming.events.get("strm_31Dc0DD72P5AddYUguyBd", "sink_31Dc11sPYY9aLDkwPuGMa")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .streaming()\n    .events()\n    .get(\n        \"strm_31Dc0DD72P5AddYUguyBd\".to_string(),\n        \"sink_31Dc11sPYY9aLDkwPuGMa\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.Streaming.Events.Get(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->streaming->events->get(\n    \"strm_31Dc0DD72P5AddYUguyBd\",\n    \"sink_31Dc11sPYY9aLDkwPuGMa\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix streaming events get "strm_31Dc0DD72P5AddYUguyBd" "sink_31Dc11sPYY9aLDkwPuGMa"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/stream/strm_31Dc0DD72P5AddYUguyBd/sink/sink_31Dc11sPYY9aLDkwPuGMa/events' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+  /api/v1/stream/{stream_id}/events:
+    post:
+      tags:
+      - Event
+      summary: Create Events
+      description: Creates events on the Stream.
+      operationId: v1.streaming.events.create
+      parameters:
+      - in: path
+        name: stream_id
+        description: The Stream's ID or UID.
+        required: true
+        schema:
+          description: The Stream's ID or UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          example: unique-identifier
+        style: simple
+      - in: header
+        name: idempotency-key
+        description: The request's idempotency key
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStreamEventsIn'
+        required: true
+      responses:
+        '202':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateStreamEventsOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-codeSamples:
+      - lang: TypeScript
+        label: JavaScript
+        source: "await svix.streaming.events.create(\"rock_inc_uid\", {\n  events: [\n    {\n      \"eventType\": \"user.signup\",\n      \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    }\n  ]\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "await svix.streaming.events.create(\"rock_inc_uid\", {\n  events: [\n    {\n      \"eventType\": \"user.signup\",\n      \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    }\n  ]\n});"
+      - lang: Python
+        label: Python
+        source: "svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn(\n  events=[\n    EventIn(\n      eventType=\"user.signup\",\n      payload='{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    )\n  ]\n))"
+      - lang: Python
+        label: Python (Async)
+        source: "await svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn(\n  events=[\n    EventIn(\n      eventType=\"user.signup\",\n      payload='{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n    )\n  ]\n))"
+      - lang: Go
+        label: Go
+        source: "svixClient.Streaming.Events.Create(\n  ctx,\n  \"rock_inc_uid\",\n  &svix.CreateStreamEventsIn{\n    Events: []svix.EventIn{\n      {\n        EventType: \"user.signup\",\n        Payload: \\`{\"email\":\"test@example.com\",\"username\":\"test_user\"}\\`,\n      }\n    },\n  })"
+      - lang: Kotlin
+        label: Kotlin
+        source: "svix.streaming.events.create(\"rock_inc_uid\", CreateStreamEventsIn()\n    .events(arrayOf(\n      EventIn(\n        eventType = \"user.signup\",\n        payload = \\`{\"email\":\"test@example.com\",\"username\":\"test_user\"}\\`,\n      )\n    ))\n)"
+      - lang: Java
+        label: Java
+        source: "svix.getStream().getEvents().create(\"rock_inc_uid\", new CreateStreamEventsIn()\n    .events(new EventIn[]{\n      new EventIn()\n        .eventType(\"user.signup\")\n        .payload(\"{\\\"email\\\":\\\"test@example.com\\\",\\\"username\\\":\\\"test_user\\\"}\")\n    })\n);"
+      - lang: Ruby
+        label: Ruby
+        source: "svix.streaming.events.create(\"rock_inc_uid\", Svix::CreateStreamEventsIn.new({\n    \"events\": [\n      {\n        \"eventType\": \"user.signup\",\n        \"payload\": '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n      }\n    ]\n}))"
+      - lang: Rust
+        label: Rust
+        source: "svix.streaming().events().create(\"rock_inc_uid\", CreateStreamEventsIn {\n    events: vec![\n      EventIn {\n        event_type: \"user.signup\".into(),\n        payload: r#\"{\"email\":\"test@example.com\",\"username\":\"test_user\"}\"#.into()\n      }\n    ],\n    stream: None,\n}, None).await?;"
+      - lang: PHP
+        label: Php
+        source: "$svix->streaming->events->create(\n  'rock_inc_uid',\n  CreateStreamEventsIn::create(\n    events: [\n      [\n        'eventType' => 'user.signup',\n        'payload' => '{\"email\":\"test@example.com\",\"username\":\"test_user\"}'\n      ]\n    ],\n  )\n);"
+      - lang: C#
+        label: C#
+        source: "await svix.Streaming.Events.CreateAsync(\"stream_id\", new CreateStreamEventsIn{\n    events: new EventIn[] {\n      new EventIn(\n        eventType: \"user.signup\",\n        payload: \"{\\\\\"email\\\\\":\\\\\"test@example.com\\\\\",\\\\\"username\\\\\":\\\\\"test_user\\\\\"}\"\n      )\n    }\n});"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'POST' \\\\\n  'https://api.svix.com/api/v1/stream/rock_inc_uid/events' \\\\\n  -H 'accept: application/json' \\\\\n  -H \"Authorization: Bearer \\${AUTH_TOKEN}\" \\\\\n  -H 'Content-Type: application/json' \\\\\n  -d '{\n  \"events\": [\n    {\n      \"eventType\":\"user.signup\",\n      \"payload\":\"{\\\\\"email\\\":\\\\\"test@example.com\\\\\",\\\\\"username\\\\\":\\\\\"test_user\\\\\"}\"\n    }\n  ],\n}'"
+      - lang: Shell
+        label: CLI
+        source: Coming soon to Svix CLI
+  /api/v1/stream/{stream_id}/events/latest:
+    get:
+      tags:
+      - Event
+      summary: Get Latest Stream Events
+      description: Get the latest events from the stream
+      operationId: v1.streaming.events.get-latest
+      parameters:
+      - in: path
+        name: stream_id
+        description: The Stream's ID or UID.
+        required: true
+        schema:
+          description: The Stream's ID or UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          example: unique-identifier
+        style: simple
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          format: uint64
+          default: 20
+          maximum: 50
+          minimum: 1.0
+        style: form
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LatestEventsOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-internal: true
 components:
   schemas:
-    HTTPValidationError:
+    EventStreamOut:
       type: object
-      required:
-      - detail
       properties:
-        detail:
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
+            $ref: '#/components/schemas/EventOut'
+        iterator:
+          type: string
+        done:
+          type: boolean
       required:
-      - loc
-      - msg
-      - type
+      - data
+      - done
+      - iterator
+    EventOut:
+      type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - eventType
+      - payload
+      - timestamp
+    StreamIn:
+      type: object
+      properties:
+        name:
+          description: The stream's name.
+          type: string
+          minLength: 1
+        uid:
+          description: An optional unique identifier for the stream.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
             type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
+      required:
+      - name
     CreateStreamEventsOut:
       type: object
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     CreateStreamEventsIn:
       type: object
-      required:
-      - events
       properties:
         events:
           type: array
@@ -414,29 +524,10 @@ components:
             If the stream id or uid that is used in the path already exists, this argument is ignored.'
           $ref: '#/components/schemas/StreamIn'
           nullable: true
-    EventOut:
-      type: object
       required:
-      - eventType
-      - payload
-      - timestamp
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
+      - events
     EventIn:
       type: object
-      required:
-      - eventType
-      - payload
       properties:
         eventType:
           description: The event type's name
@@ -446,54 +537,46 @@ components:
           example: user.signup
         payload:
           type: string
-    EventStreamOut:
-      type: object
       required:
-      - data
-      - done
-      - iterator
+      - eventType
+      - payload
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    LatestEventsOut:
+      type: object
       properties:
         data:
           type: array
           items:
             $ref: '#/components/schemas/EventOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-    StreamIn:
-      type: object
       required:
-      - name
-      properties:
-        metadata:
-          default: {}
-          type: object
-          additionalProperties:
-            type: string
-        name:
-          description: The stream's name.
-          type: string
-          minLength: 1
-        uid:
-          description: An optional unique identifier for the stream.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      required:
-      - code
-      - detail
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
+      - data
   securitySchemes:
     HTTPBearer:
       type: http
@@ -536,39 +619,18 @@ x-tagGroups:
   tags:
   - Health
 x-webhooks:
-  background_task.finished:
-    post:
-      description: Sent when a background task is finished.
-      operationId: background_task.finished
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                data:
-                  appStats:
-                  - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                    appUid: null
-                    messageDestinations: 343
-                status: finished
-                task: application.stats
-                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-              type: background_task.finished
-            schema:
-              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: background_task.finished
-      tags:
-      - Webhook
   endpoint.created:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.created
       description: Sent when an endpoint is created.
       operationId: endpoint.created
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointCreatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -576,22 +638,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.created
-            schema:
-              $ref: '#/components/schemas/EndpointCreatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.created
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.deleted:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.deleted
       description: Sent when an endpoint is deleted.
       operationId: endpoint.deleted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDeletedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -599,22 +661,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.deleted
-            schema:
-              $ref: '#/components/schemas/EndpointDeletedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.deleted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.disabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.disabled
       description: Sent when an endpoint has been automatically disabled after continuous failures, or manually via an API call.
       operationId: endpoint.disabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDisabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -624,22 +686,22 @@ x-webhooks:
                 failSince: '2022-11-06T15:04:05Z'
                 trigger: automatic
               type: endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/EndpointDisabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.disabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.enabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.enabled
       description: Sent when an endpoint has been enabled.
       operationId: endpoint.enabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointEnabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -647,22 +709,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.enabled
-            schema:
-              $ref: '#/components/schemas/EndpointEnabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.enabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.updated:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.updated
       description: Sent when an endpoint is updated.
       operationId: endpoint.updated
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointUpdatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -670,148 +732,43 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.updated
-            schema:
-              $ref: '#/components/schemas/EndpointUpdatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.updated
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
-  ingest.endpoint.disabled:
-    post:
-      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
-      operationId: ingest.endpoint.disabled
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                endpointUid: unique-endpoint-identifier
-                failSince: '2022-11-06T15:04:05Z'
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-                trigger: automatic
-              type: ingest.endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.endpoint.disabled
-      tags:
-      - Webhook
-  ingest.message.attempt.exhausted:
-    post:
-      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
-      operationId: ingest.message.attempt.exhausted
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.exhausted
-      tags:
-      - Webhook
-  ingest.message.attempt.failing:
-    post:
-      description: 'Sent after a message has been failing for a few times.
-
-        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
-      operationId: ingest.message.attempt.failing
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.failing
-      tags:
-      - Webhook
-  ingest.message.attempt.recovered:
-    post:
-      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
-      operationId: ingest.message.attempt.recovered
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 200
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.recovered
-      tags:
-      - Webhook
   message.attempt.exhausted:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.exhausted
       description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
       operationId: message.attempt.exhausted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.exhausted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   message.attempt.failing:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.failing
       description: 'Sent after a message has been failing for a few times.
 
         It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the last failure.'
@@ -819,88 +776,214 @@ x-webhooks:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptFailingEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/MessageAttemptFailingEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.failing
-      tags:
-      - Webhook
-      x-svix-group-name: dispatch
-  message.attempt.log:
-    post:
-      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
-      operationId: message.attempt.log
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-              - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                appUid: unique-app-identifier
-                attemptCount: 1
-                attemptEnd: '2022-11-06T15:04:07Z'
-                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                attemptStart: '2022-11-06T15:04:06Z'
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                eventType: user.signup
-                msgCreated: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                responseStatusCode: 200
-                status: 0
-              type: message.attempt.log
-            schema:
-              $ref: '#/components/schemas/MessageAttemptLogEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.log
-      tags:
-      - Webhook
-      x-internal: true
-      x-svix-feature-flags:
-      - attempt_log
       x-svix-group-name: dispatch
   message.attempt.recovered:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.recovered
       description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
       operationId: message.attempt.recovered
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 200
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.recovered
+      x-svix-group-name: dispatch
+  background_task.finished:
+    post:
       tags:
       - Webhook
+      summary: background_task.finished
+      description: Sent when a background task is finished.
+      operationId: background_task.finished
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
+            example:
+              data:
+                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                task: application.stats
+                status: finished
+                data:
+                  appStats:
+                  - messageDestinations: 343
+                    appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                    appUid: null
+              type: background_task.finished
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.endpoint.disabled:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.endpoint.disabled
+      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
+      operationId: ingest.endpoint.disabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                endpointUid: unique-endpoint-identifier
+                failSince: '2022-11-06T15:04:05Z'
+                trigger: automatic
+              type: ingest.endpoint.disabled
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.exhausted:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.exhausted
+      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+      operationId: ingest.message.attempt.exhausted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.exhausted
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.failing:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.failing
+      description: 'Sent after a message has been failing for a few times.
+
+        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
+      operationId: ingest.message.attempt.failing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.failing
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.recovered:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.recovered
+      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+      operationId: ingest.message.attempt.recovered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 200
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.recovered
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  message.attempt.log:
+    post:
+      tags:
+      - Webhook
+      summary: message.attempt.log
+      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
+      operationId: message.attempt.log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptLogEvent'
+            example:
+              data:
+              - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appUid: unique-app-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                msgCreated: '2022-11-06T15:04:05Z'
+                attemptStart: '2022-11-06T15:04:06Z'
+                attemptEnd: '2022-11-06T15:04:07Z'
+                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                responseStatusCode: 200
+                attemptCount: 1
+                status: 0
+                eventType: user.signup
+              type: message.attempt.log
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
       x-svix-group-name: dispatch
+      x-svix-feature-flags:
+      - attempt_log
+      x-internal: true

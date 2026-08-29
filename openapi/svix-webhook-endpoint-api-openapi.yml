@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Svix Application Webhook Endpoint API
+  title: Svix Webhook Endpoint API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -68,20 +68,20 @@ info:
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
 
     '
-  version: 1.84.0
+  version: 1.922.0
   x-logo:
-    altText: Svix Logo
     url: https://www.svix.com/static/img/brand-padded.svg
+    altText: Svix Logo
 servers:
-- url: https://api.eu.svix.com/
+- url: https://api.eu.svix.com
   description: The Svix EU region
-- url: https://api.us.svix.com/
+- url: https://api.us.svix.com
   description: The Svix US region
-- url: https://api.ca.svix.com/
+- url: https://api.ca.svix.com
   description: The Svix Canada region
-- url: https://api.au.svix.com/
+- url: https://api.au.svix.com
   description: The Svix Australia region
-- url: https://api.in.svix.com/
+- url: https://api.in.svix.com
   description: The Svix India region
 tags:
 - name: Webhook Endpoint
@@ -102,7 +102,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -177,44 +177,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: const response = await svix.operationalWebhook.endpoint.list();
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: const response = await svix.operationalWebhook.endpoint.list();
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: response = svix.operational_webhook.endpoint.list()
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: response = await svix.operational_webhook.endpoint.list()
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: response, err := svix.OperationalWebhook.Endpoint.List(ctx, nil)
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.operationalWebhook.endpoint.list()
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: var response = svix.getOperationalWebhook().getEndpoint().list();
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.operational_webhook.endpoint.list
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: let response = svix.operational_webhook().endpoint().list(None).await?;
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.OperationalWebhook.Endpoint.List();
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: $response = $svix->operationalWebhook->endpoint->list();
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix operational-webhook endpoint list
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     post:
       tags:
@@ -223,12 +223,6 @@ paths:
       description: Create an operational webhook endpoint.
       operationId: v1.operational-webhook.endpoint.create
       parameters:
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
-        style: simple
       - in: header
         name: idempotency-key
         description: The request's idempotency key
@@ -293,45 +287,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.create({\n  description: \"An example endpoint name\",\n  disabled: true,\n  filterTypes: [\"message.attempt.failing\"],\n  metadata: {},\n  secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n  throttleRate: 1,\n  uid: \"unique-identifier\",\n  url: \"https://example.com/webhook/\",\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.create({\n  description: \"An example endpoint name\",\n  disabled: true,\n  filterTypes: [\"message.attempt.failing\"],\n  metadata: {},\n  secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n  throttleRate: 1,\n  uid: \"unique-identifier\",\n  url: \"https://example.com/webhook/\",\n});"
-      - label: Python
-        lang: Python
-        source: "response = svix.operational_webhook.endpoint.create(\n    OperationalWebhookEndpointIn(\n        description=\"An example endpoint name\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n        secret=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        url=\"https://example.com/webhook/\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.operational_webhook.endpoint.create(\n    OperationalWebhookEndpointIn(\n        description=\"An example endpoint name\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n        secret=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        url=\"https://example.com/webhook/\",\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.OperationalWebhook.Endpoint.Create(\n\tctx,\n\tOperationalWebhookEndpointIn{\n\t\tDescription:  new(\"An example endpoint name\"),\n\t\tDisabled:     new(true),\n\t\tFilterTypes:  []string{\"message.attempt.failing\"},\n\t\tMetadata:     nil,\n\t\tSecret:       new(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"),\n\t\tThrottleRate: new(uint16(1)),\n\t\tUid:          new(\"unique-identifier\"),\n\t\tUrl:          \"https://example.com/webhook/\",\n\t},\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.operationalWebhook.endpoint.create(\n        OperationalWebhookEndpointIn(\n            description = \"An example endpoint name\",\n            disabled = true,\n            filterTypes = setOf(\"message.attempt.failing\"),\n            metadata = mapOf(),\n            secret = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n            throttleRate = 1u,\n            uid = \"unique-identifier\",\n            url = \"https://example.com/webhook/\",\n        )\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getOperationalWebhook()\n        .getEndpoint()\n        .create(new OperationalWebhookEndpointIn()\n            .description(\"An example endpoint name\")\n            .disabled(true)\n            .filterTypes(Set.of(\"message.attempt.failing\"))\n            .metadata(Map.of())\n            .secret(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")\n            .throttleRate(1L)\n            .uid(\"unique-identifier\")\n            .url(URI.create(\"https://example.com/webhook/\")));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .create(\n    {\n      description: \"An example endpoint name\",\n      disabled: true,\n      filterTypes: [\"message.attempt.failing\"],\n      metadata: {},\n      secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n      throttleRate: 1,\n      uid: \"unique-identifier\",\n      url: \"https://example.com/webhook/\"\n    }\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .create(\n        OperationalWebhookEndpointIn {\n            description: Some(\"An example endpoint name\".to_string()),\n            disabled: Some(true),\n            filter_types: Some(vec![\"message.attempt.failing\".to_string()]),\n            metadata: Some(HashMap::new()),\n            secret: Some(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\".to_string()),\n            throttle_rate: Some(1),\n            uid: Some(\"unique-identifier\".to_string()),\n            url: \"https://example.com/webhook/\".to_string(),\n        },\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.OperationalWebhook.Endpoint.Create(\n    new OperationalWebhookEndpointIn\n    {\n        Description = \"An example endpoint name\",\n        Disabled = true,\n        FilterTypes = [\"message.attempt.failing\"],\n        Metadata = [],\n        Secret = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        ThrottleRate = 1,\n        Uid = \"unique-identifier\",\n        Url = \"https://example.com/webhook/\",\n    }\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->operationalWebhook->endpoint->create(\n    OperationalWebhookEndpointIn::create(\n        url: \"https://example.com/webhook/\"\n    )\n    ->withDescription(\"An example endpoint name\")\n    ->withDisabled(true)\n    ->withFilterTypes([\"message.attempt.failing\"])\n    ->withMetadata([])\n    ->withSecret(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")\n    ->withThrottleRate(1)\n    ->withUid(\"unique-identifier\")\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix operational-webhook endpoint create '{\n    \"description\": \"An example endpoint name\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {},\n    \"secret\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"url\": \"https://example.com/webhook/\"\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"description\": \"An example endpoint name\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {},\n    \"secret\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"url\": \"https://example.com/webhook/\"\n  }'"
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.operationalWebhook.endpoint.create({\n  url: \"https://example.com/webhook/\",\n  description: \"An example endpoint name\",\n  throttleRate: 1,\n  uid: \"unique-identifier\",\n  disabled: true,\n  filterTypes: [\"message.attempt.failing\"],\n  secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n  metadata: {},\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.operationalWebhook.endpoint.create({\n  url: \"https://example.com/webhook/\",\n  description: \"An example endpoint name\",\n  throttleRate: 1,\n  uid: \"unique-identifier\",\n  disabled: true,\n  filterTypes: [\"message.attempt.failing\"],\n  secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n  metadata: {},\n});"
+      - lang: Python
+        label: Python
+        source: "response = svix.operational_webhook.endpoint.create(\n    OperationalWebhookEndpointIn(\n        url=\"https://example.com/webhook/\",\n        description=\"An example endpoint name\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        secret=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        metadata={},\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.operational_webhook.endpoint.create(\n    OperationalWebhookEndpointIn(\n        url=\"https://example.com/webhook/\",\n        description=\"An example endpoint name\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        secret=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        metadata={},\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.OperationalWebhook.Endpoint.Create(\n\tctx,\n\tOperationalWebhookEndpointIn{\n\t\tUrl:          \"https://example.com/webhook/\",\n\t\tDescription:  new(\"An example endpoint name\"),\n\t\tThrottleRate: new(uint16(1)),\n\t\tUid:          new(\"unique-identifier\"),\n\t\tDisabled:     new(true),\n\t\tFilterTypes:  []string{\"message.attempt.failing\"},\n\t\tSecret:       new(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"),\n\t\tMetadata:     nil,\n\t},\n\tnil,\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.operationalWebhook.endpoint.create(\n        OperationalWebhookEndpointIn(\n            url = \"https://example.com/webhook/\",\n            description = \"An example endpoint name\",\n            throttleRate = 1u,\n            uid = \"unique-identifier\",\n            disabled = true,\n            filterTypes = setOf(\"message.attempt.failing\"),\n            secret = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n            metadata = mapOf(),\n        )\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getOperationalWebhook()\n        .getEndpoint()\n        .create(new OperationalWebhookEndpointIn()\n            .url(URI.create(\"https://example.com/webhook/\"))\n            .description(\"An example endpoint name\")\n            .throttleRate(1L)\n            .uid(\"unique-identifier\")\n            .disabled(true)\n            .filterTypes(Set.of(\"message.attempt.failing\"))\n            .secret(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")\n            .metadata(Map.of()));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .create(\n    {\n      url: \"https://example.com/webhook/\",\n      description: \"An example endpoint name\",\n      throttleRate: 1,\n      uid: \"unique-identifier\",\n      disabled: true,\n      filterTypes: [\"message.attempt.failing\"],\n      secret: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n      metadata: {}\n    }\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .create(\n        OperationalWebhookEndpointIn {\n            url: \"https://example.com/webhook/\".to_string(),\n            description: Some(\"An example endpoint name\".to_string()),\n            throttle_rate: Some(1),\n            uid: Some(\"unique-identifier\".to_string()),\n            disabled: Some(true),\n            filter_types: Some(vec![\"message.attempt.failing\".to_string()]),\n            secret: Some(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\".to_string()),\n            metadata: Some(HashMap::new()),\n        },\n        None,\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.OperationalWebhook.Endpoint.Create(\n    new OperationalWebhookEndpointIn\n    {\n        Url = \"https://example.com/webhook/\",\n        Description = \"An example endpoint name\",\n        ThrottleRate = 1,\n        Uid = \"unique-identifier\",\n        Disabled = true,\n        FilterTypes = [\"message.attempt.failing\"],\n        Secret = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n        Metadata = [],\n    }\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->operationalWebhook->endpoint->create(\n    OperationalWebhookEndpointIn::create(\n        url: \"https://example.com/webhook/\"\n    )\n    ->withDescription(\"An example endpoint name\")\n    ->withThrottleRate(1)\n    ->withUid(\"unique-identifier\")\n    ->withDisabled(true)\n    ->withFilterTypes([\"message.attempt.failing\"])\n    ->withSecret(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")\n    ->withMetadata([])\n);"
+      - lang: Shell
+        label: CLI
+        source: "svix operational-webhook endpoint create '{\n    \"url\": \"https://example.com/webhook/\",\n    \"description\": \"An example endpoint name\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"secret\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    \"metadata\": {}\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"url\": \"https://example.com/webhook/\",\n    \"description\": \"An example endpoint name\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"secret\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    \"metadata\": {}\n  }'"
   /api/v1/operational-webhook/endpoint/{endpoint_id}:
     get:
       tags:
@@ -404,50 +398,50 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.operationalWebhook.endpoint.get(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.operationalWebhook.endpoint.get(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.operational_webhook.endpoint.get(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.operational_webhook.endpoint.get(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: response, err := svix.OperationalWebhook.Endpoint.Get(ctx, "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.operationalWebhook.endpoint.get("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: var response = svix.getOperationalWebhook().getEndpoint().get("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.operational_webhook.endpoint.get("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .get(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string())\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.OperationalWebhook.Endpoint.Get("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->operationalWebhook->endpoint->get(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix operational-webhook endpoint get "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     put:
       tags:
       - Webhook Endpoint
-      summary: Update Operational Webhook Endpoint
-      description: Update an operational webhook endpoint.
+      summary: Upsert Operational Webhook Endpoint
+      description: Create or update an operational webhook endpoint.
       operationId: v1.operational-webhook.endpoint.update
       parameters:
       - in: path
@@ -520,45 +514,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.update(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n  {\n    description: \"An example endpoint name\",\n    disabled: true,\n    filterTypes: [\"message.attempt.failing\"],\n    metadata: {},\n    throttleRate: 1,\n    uid: \"unique-identifier\",\n    url: \"https://example.com/webhook/\",\n  }\n);"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.update(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n  {\n    description: \"An example endpoint name\",\n    disabled: true,\n    filterTypes: [\"message.attempt.failing\"],\n    metadata: {},\n    throttleRate: 1,\n    uid: \"unique-identifier\",\n    url: \"https://example.com/webhook/\",\n  }\n);"
-      - label: Python
-        lang: Python
-        source: "response = svix.operational_webhook.endpoint.update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate(\n        description=\"An example endpoint name\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        url=\"https://example.com/webhook/\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.operational_webhook.endpoint.update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate(\n        description=\"An example endpoint name\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        url=\"https://example.com/webhook/\",\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.OperationalWebhook.Endpoint.Update(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tOperationalWebhookEndpointUpdate{\n\t\tDescription:  new(\"An example endpoint name\"),\n\t\tDisabled:     new(true),\n\t\tFilterTypes:  []string{\"message.attempt.failing\"},\n\t\tMetadata:     nil,\n\t\tThrottleRate: new(uint16(1)),\n\t\tUid:          new(\"unique-identifier\"),\n\t\tUrl:          \"https://example.com/webhook/\",\n\t},\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.operationalWebhook.endpoint.update(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n        OperationalWebhookEndpointUpdate(\n            description = \"An example endpoint name\",\n            disabled = true,\n            filterTypes = setOf(\"message.attempt.failing\"),\n            metadata = mapOf(),\n            throttleRate = 1u,\n            uid = \"unique-identifier\",\n            url = \"https://example.com/webhook/\",\n        ),\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getOperationalWebhook()\n        .getEndpoint()\n        .update(\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n            new OperationalWebhookEndpointUpdate()\n                .description(\"An example endpoint name\")\n                .disabled(true)\n                .filterTypes(Set.of(\"message.attempt.failing\"))\n                .metadata(Map.of())\n                .throttleRate(1L)\n                .uid(\"unique-identifier\")\n                .url(URI.create(\"https://example.com/webhook/\")));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    {\n      description: \"An example endpoint name\",\n      disabled: true,\n      filterTypes: [\"message.attempt.failing\"],\n      metadata: {},\n      throttleRate: 1,\n      uid: \"unique-identifier\",\n      url: \"https://example.com/webhook/\"\n    }\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .update(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        OperationalWebhookEndpointUpdate {\n            description: Some(\"An example endpoint name\".to_string()),\n            disabled: Some(true),\n            filter_types: Some(vec![\"message.attempt.failing\".to_string()]),\n            metadata: Some(HashMap::new()),\n            throttle_rate: Some(1),\n            uid: Some(\"unique-identifier\".to_string()),\n            url: \"https://example.com/webhook/\".to_string(),\n        },\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.OperationalWebhook.Endpoint.Update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    new OperationalWebhookEndpointUpdate\n    {\n        Description = \"An example endpoint name\",\n        Disabled = true,\n        FilterTypes = [\"message.attempt.failing\"],\n        Metadata = [],\n        ThrottleRate = 1,\n        Uid = \"unique-identifier\",\n        Url = \"https://example.com/webhook/\",\n    }\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->operationalWebhook->endpoint->update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate::create(\n        url: \"https://example.com/webhook/\"\n    )\n    ->withDescription(\"An example endpoint name\")\n    ->withDisabled(true)\n    ->withFilterTypes([\"message.attempt.failing\"])\n    ->withMetadata([])\n    ->withThrottleRate(1)\n    ->withUid(\"unique-identifier\")\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix operational-webhook endpoint update \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\" '{\n    \"description\": \"An example endpoint name\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {},\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"url\": \"https://example.com/webhook/\"\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"description\": \"An example endpoint name\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {},\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"url\": \"https://example.com/webhook/\"\n  }'"
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.operationalWebhook.endpoint.update(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n  {\n    url: \"https://example.com/webhook/\",\n    description: \"An example endpoint name\",\n    throttleRate: 1,\n    uid: \"unique-identifier\",\n    disabled: true,\n    filterTypes: [\"message.attempt.failing\"],\n    metadata: {},\n  }\n);"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.operationalWebhook.endpoint.update(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n  {\n    url: \"https://example.com/webhook/\",\n    description: \"An example endpoint name\",\n    throttleRate: 1,\n    uid: \"unique-identifier\",\n    disabled: true,\n    filterTypes: [\"message.attempt.failing\"],\n    metadata: {},\n  }\n);"
+      - lang: Python
+        label: Python
+        source: "response = svix.operational_webhook.endpoint.update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate(\n        url=\"https://example.com/webhook/\",\n        description=\"An example endpoint name\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.operational_webhook.endpoint.update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate(\n        url=\"https://example.com/webhook/\",\n        description=\"An example endpoint name\",\n        throttle_rate=1,\n        uid=\"unique-identifier\",\n        disabled=True,\n        filter_types=[\n            \"message.attempt.failing\",\n        ],\n        metadata={},\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.OperationalWebhook.Endpoint.Update(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tOperationalWebhookEndpointUpdate{\n\t\tUrl:          \"https://example.com/webhook/\",\n\t\tDescription:  new(\"An example endpoint name\"),\n\t\tThrottleRate: new(uint16(1)),\n\t\tUid:          new(\"unique-identifier\"),\n\t\tDisabled:     new(true),\n\t\tFilterTypes:  []string{\"message.attempt.failing\"},\n\t\tMetadata:     nil,\n\t},\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.operationalWebhook.endpoint.update(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n        OperationalWebhookEndpointUpdate(\n            url = \"https://example.com/webhook/\",\n            description = \"An example endpoint name\",\n            throttleRate = 1u,\n            uid = \"unique-identifier\",\n            disabled = true,\n            filterTypes = setOf(\"message.attempt.failing\"),\n            metadata = mapOf(),\n        ),\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getOperationalWebhook()\n        .getEndpoint()\n        .update(\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n            new OperationalWebhookEndpointUpdate()\n                .url(URI.create(\"https://example.com/webhook/\"))\n                .description(\"An example endpoint name\")\n                .throttleRate(1L)\n                .uid(\"unique-identifier\")\n                .disabled(true)\n                .filterTypes(Set.of(\"message.attempt.failing\"))\n                .metadata(Map.of()));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    {\n      url: \"https://example.com/webhook/\",\n      description: \"An example endpoint name\",\n      throttleRate: 1,\n      uid: \"unique-identifier\",\n      disabled: true,\n      filterTypes: [\"message.attempt.failing\"],\n      metadata: {}\n    }\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .update(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        OperationalWebhookEndpointUpdate {\n            url: \"https://example.com/webhook/\".to_string(),\n            description: Some(\"An example endpoint name\".to_string()),\n            throttle_rate: Some(1),\n            uid: Some(\"unique-identifier\".to_string()),\n            disabled: Some(true),\n            filter_types: Some(vec![\"message.attempt.failing\".to_string()]),\n            metadata: Some(HashMap::new()),\n        },\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.OperationalWebhook.Endpoint.Update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    new OperationalWebhookEndpointUpdate\n    {\n        Url = \"https://example.com/webhook/\",\n        Description = \"An example endpoint name\",\n        ThrottleRate = 1,\n        Uid = \"unique-identifier\",\n        Disabled = true,\n        FilterTypes = [\"message.attempt.failing\"],\n        Metadata = [],\n    }\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->operationalWebhook->endpoint->update(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointUpdate::create(\n        url: \"https://example.com/webhook/\"\n    )\n    ->withDescription(\"An example endpoint name\")\n    ->withThrottleRate(1)\n    ->withUid(\"unique-identifier\")\n    ->withDisabled(true)\n    ->withFilterTypes([\"message.attempt.failing\"])\n    ->withMetadata([])\n);"
+      - lang: Shell
+        label: CLI
+        source: "svix operational-webhook endpoint update \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\" '{\n    \"url\": \"https://example.com/webhook/\",\n    \"description\": \"An example endpoint name\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {}\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"url\": \"https://example.com/webhook/\",\n    \"description\": \"An example endpoint name\",\n    \"throttleRate\": 1,\n    \"uid\": \"unique-identifier\",\n    \"disabled\": true,\n    \"filterTypes\": [\n      \"message.attempt.failing\"\n    ],\n    \"metadata\": {}\n  }'"
     delete:
       tags:
       - Webhook Endpoint
@@ -626,268 +620,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: await svix.operationalWebhook.endpoint.delete("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: await svix.operationalWebhook.endpoint.delete("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "svix.operational_webhook.endpoint.delete(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "await svix.operational_webhook.endpoint.delete(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: err := svix.OperationalWebhook.Endpoint.Delete(ctx, "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "svix.operationalWebhook.endpoint.delete(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n)"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: svix.getOperationalWebhook().getEndpoint().delete("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.operational_webhook.endpoint.delete("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "svix.operational_webhook()\n    .endpoint()\n    .delete(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string())\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.OperationalWebhook.Endpoint.Delete("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$svix->operationalWebhook->endpoint->delete(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix operational-webhook endpoint delete "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'DELETE' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1' \\\n  -H 'Authorization: Bearer AUTH_TOKEN'"
-  /api/v1/operational-webhook/endpoint/{endpoint_id}/headers:
-    get:
-      tags:
-      - Webhook Endpoint
-      summary: Get Operational Webhook Endpoint Headers
-      description: Get the additional headers to be sent with the operational webhook.
-      operationId: v1.operational-webhook.endpoint.get-headers
-      parameters:
-      - in: path
-        name: endpoint_id
-        description: The Endpoint's ID or UID.
-        required: true
-        schema:
-          description: The Endpoint's ID or UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-        style: simple
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OperationalWebhookEndpointHeadersOut'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.getHeaders(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.operationalWebhook.endpoint.getHeaders(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
-        source: "response = svix.operational_webhook.endpoint.get_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.operational_webhook.endpoint.get_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.OperationalWebhook.Endpoint.GetHeaders(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: val response = svix.operationalWebhook.endpoint.getHeaders("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Java
-        lang: Java
-        source: "var response =\n        svix.getOperationalWebhook().getEndpoint().getHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
-      - label: Ruby
-        lang: Ruby
-        source: response = svix.operational_webhook.endpoint.get_headers("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .get_headers(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string())\n    .await?;"
-      - label: C#
-        lang: C#
-        source: var response = svix.OperationalWebhook.Endpoint.GetHeaders("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->operationalWebhook->endpoint->getHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
-        source: svix operational-webhook endpoint get-headers "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
-    put:
-      tags:
-      - Webhook Endpoint
-      summary: Update Operational Webhook Endpoint Headers
-      description: Set the additional headers to be sent with the operational webhook.
-      operationId: v1.operational-webhook.endpoint.update-headers
-      parameters:
-      - in: path
-        name: endpoint_id
-        description: The Endpoint's ID or UID.
-        required: true
-        schema:
-          description: The Endpoint's ID or UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OperationalWebhookEndpointHeadersIn'
-        required: true
-      responses:
-        '204':
-          description: no content
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "await svix.operationalWebhook.endpoint.updateHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  headers: { \"X-Example\": \"123\", \"X-Foobar\": \"Bar\" },\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "await svix.operationalWebhook.endpoint.updateHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  headers: { \"X-Example\": \"123\", \"X-Foobar\": \"Bar\" },\n});"
-      - label: Python
-        lang: Python
-        source: "svix.operational_webhook.endpoint.update_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(\n        headers={\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "await svix.operational_webhook.endpoint.update_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(\n        headers={\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "err := svix.OperationalWebhook.Endpoint.UpdateHeaders(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tOperationalWebhookEndpointHeadersIn{\n\t\tHeaders: map[string]string{\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n\t},\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "svix.operationalWebhook.endpoint.updateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(headers = mapOf(\"X-Example\" to \"123\", \"X-Foobar\" to \"Bar\")),\n)"
-      - label: Java
-        lang: Java
-        source: "svix.getOperationalWebhook()\n        .getEndpoint()\n        .updateHeaders(\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n            new OperationalWebhookEndpointHeadersIn()\n                .headers(\n                    Map.ofEntries(Map.entry(\"X-Example\", \"123\"), Map.entry(\"X-Foobar\", \"Bar\"))));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .update_headers(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {headers: {:\"X-Example\" => \"123\", :\"X-Foobar\" => \"Bar\"}})"
-      - label: Rust
-        lang: Rust
-        source: "svix.operational_webhook()\n    .endpoint()\n    .update_headers(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        OperationalWebhookEndpointHeadersIn {\n            headers: HashMap::from([\n                (\"X-Example\".to_string(), \"123\".to_string()),\n                (\"X-Foobar\".to_string(), \"Bar\".to_string()),\n            ]),\n        },\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.OperationalWebhook.Endpoint.UpdateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    new OperationalWebhookEndpointHeadersIn\n    {\n        Headers = new() { { \"X-Example\", \"123\" }, { \"X-Foobar\", \"Bar\" } },\n    }\n);"
-      - label: PHP
-        lang: PHP
-        source: "$svix->operationalWebhook->endpoint->updateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn::create(\n        headers: [\"X-Example\" => \"123\", \"X-Foobar\" => \"Bar\"]\n    )\n\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix operational-webhook endpoint update-headers \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\" '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
   /api/v1/operational-webhook/endpoint/{endpoint_id}/secret:
     get:
       tags:
@@ -965,44 +736,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.operationalWebhook.endpoint.getSecret(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.operationalWebhook.endpoint.getSecret(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.operational_webhook.endpoint.get_secret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.operational_webhook.endpoint.get_secret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.OperationalWebhook.Endpoint.GetSecret(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.operationalWebhook.endpoint.getSecret("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response =\n        svix.getOperationalWebhook().getEndpoint().getSecret(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.operational_webhook.endpoint.get_secret("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .get_secret(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string())\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.OperationalWebhook.Endpoint.GetSecret("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->operationalWebhook->endpoint->getSecret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix operational-webhook endpoint get-secret "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/secret' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
   /api/v1/operational-webhook/endpoint/{endpoint_id}/secret/rotate:
     post:
@@ -1026,12 +797,6 @@ paths:
           minLength: 1
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
         style: simple
       - in: header
         name: idempotency-key
@@ -1093,69 +858,373 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "await svix.operationalWebhook.endpoint.rotateSecret(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  key: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n});"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "await svix.operationalWebhook.endpoint.rotateSecret(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  key: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n});"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "svix.operational_webhook.endpoint.rotate_secret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointSecretIn(\n        key=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "await svix.operational_webhook.endpoint.rotate_secret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointSecretIn(\n        key=\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\",\n    ),\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "err := svix.OperationalWebhook.Endpoint.RotateSecret(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tOperationalWebhookEndpointSecretIn{Key: new(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")},\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "svix.operationalWebhook.endpoint.rotateSecret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointSecretIn(key = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"),\n)"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "svix.getOperationalWebhook()\n        .getEndpoint()\n        .rotateSecret(\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n            new OperationalWebhookEndpointSecretIn().key(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"));"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: "response = svix\n  .operational_webhook\n  .endpoint\n  .rotate_secret(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {key: \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"})"
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "svix.operational_webhook()\n    .endpoint()\n    .rotate_secret(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        OperationalWebhookEndpointSecretIn {\n            key: Some(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\".to_string()),\n        },\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.OperationalWebhook.Endpoint.RotateSecret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    new OperationalWebhookEndpointSecretIn { Key = \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\" }\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$svix->operationalWebhook->endpoint->rotateSecret(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointSecretIn::create()\n    ->withKey(\"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\")\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: "svix operational-webhook endpoint rotate-secret \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\" '{\n    \"key\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"\n  }'"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/secret/rotate' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"key\": \"whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD\"\n  }'"
+  /api/v1/operational-webhook/endpoint/{endpoint_id}/headers:
+    get:
+      tags:
+      - Webhook Endpoint
+      summary: Get Operational Webhook Endpoint Headers
+      description: Get the additional headers to be sent with the operational webhook.
+      operationId: v1.operational-webhook.endpoint.get-headers
+      parameters:
+      - in: path
+        name: endpoint_id
+        description: The Endpoint's ID or UID.
+        required: true
+        schema:
+          description: The Endpoint's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationalWebhookEndpointHeadersOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-codeSamples:
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.operationalWebhook.endpoint.getHeaders(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.operationalWebhook.endpoint.getHeaders(\n  \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
+      - lang: Python
+        label: Python
+        source: "response = svix.operational_webhook.endpoint.get_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.operational_webhook.endpoint.get_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.OperationalWebhook.Endpoint.GetHeaders(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: val response = svix.operationalWebhook.endpoint.getHeaders("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
+      - lang: Java
+        label: Java
+        source: "var response =\n        svix.getOperationalWebhook().getEndpoint().getHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\");"
+      - lang: Ruby
+        label: Ruby
+        source: response = svix.operational_webhook.endpoint.get_headers("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1")
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .operational_webhook()\n    .endpoint()\n    .get_headers(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string())\n    .await?;"
+      - lang: C#
+        label: C#
+        source: var response = svix.OperationalWebhook.Endpoint.GetHeaders("ep_33ZIBDmz66FcPG35FnsbM6Ie4X1");
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->operationalWebhook->endpoint->getHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\"\n);"
+      - lang: Shell
+        label: CLI
+        source: svix operational-webhook endpoint get-headers "ep_33ZIBDmz66FcPG35FnsbM6Ie4X1"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
+    put:
+      tags:
+      - Webhook Endpoint
+      summary: Set Operational Webhook Endpoint Headers
+      description: Set the additional headers to be sent with the operational webhook.
+      operationId: v1.operational-webhook.endpoint.update-headers
+      parameters:
+      - in: path
+        name: endpoint_id
+        description: The Endpoint's ID or UID.
+        required: true
+        schema:
+          description: The Endpoint's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationalWebhookEndpointHeadersIn'
+        required: true
+      responses:
+        '204':
+          description: no content
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-codeSamples:
+      - lang: TypeScript
+        label: JavaScript
+        source: "await svix.operationalWebhook.endpoint.updateHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  headers: { \"X-Example\": \"123\", \"X-Foobar\": \"Bar\" },\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "await svix.operationalWebhook.endpoint.updateHeaders(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {\n  headers: { \"X-Example\": \"123\", \"X-Foobar\": \"Bar\" },\n});"
+      - lang: Python
+        label: Python
+        source: "svix.operational_webhook.endpoint.update_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(\n        headers={\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "await svix.operational_webhook.endpoint.update_headers(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(\n        headers={\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "err := svix.OperationalWebhook.Endpoint.UpdateHeaders(\n\tctx,\n\t\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n\tOperationalWebhookEndpointHeadersIn{\n\t\tHeaders: map[string]string{\"X-Example\": \"123\", \"X-Foobar\": \"Bar\"},\n\t},\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "svix.operationalWebhook.endpoint.updateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn(headers = mapOf(\"X-Example\" to \"123\", \"X-Foobar\" to \"Bar\")),\n)"
+      - lang: Java
+        label: Java
+        source: "svix.getOperationalWebhook()\n        .getEndpoint()\n        .updateHeaders(\n            \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n            new OperationalWebhookEndpointHeadersIn()\n                .headers(\n                    Map.ofEntries(Map.entry(\"X-Example\", \"123\"), Map.entry(\"X-Foobar\", \"Bar\"))));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .operational_webhook\n  .endpoint\n  .update_headers(\"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\", {headers: {:\"X-Example\" => \"123\", :\"X-Foobar\" => \"Bar\"}})"
+      - lang: Rust
+        label: Rust
+        source: "svix.operational_webhook()\n    .endpoint()\n    .update_headers(\n        \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\".to_string(),\n        OperationalWebhookEndpointHeadersIn {\n            headers: HashMap::from([\n                (\"X-Example\".to_string(), \"123\".to_string()),\n                (\"X-Foobar\".to_string(), \"Bar\".to_string()),\n            ]),\n        },\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.OperationalWebhook.Endpoint.UpdateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    new OperationalWebhookEndpointHeadersIn\n    {\n        Headers = new() { { \"X-Example\", \"123\" }, { \"X-Foobar\", \"Bar\" } },\n    }\n);"
+      - lang: PHP
+        label: PHP
+        source: "$svix->operationalWebhook->endpoint->updateHeaders(\n    \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\",\n    OperationalWebhookEndpointHeadersIn::create(\n        headers: [\"X-Example\" => \"123\", \"X-Foobar\" => \"Bar\"]\n    )\n\n);"
+      - lang: Shell
+        label: CLI
+        source: "svix operational-webhook endpoint update-headers \"ep_33ZIBDmz66FcPG35FnsbM6Ie4X1\" '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
 components:
   schemas:
-    OperationalWebhookEndpointOut:
+    OperationalWebhookEndpointHeadersIn:
       type: object
-      required:
-      - createdAt
-      - description
-      - id
-      - metadata
-      - updatedAt
-      - url
       properties:
-        createdAt:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+      required:
+      - headers
+    ListResponse_OperationalWebhookEndpointOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/OperationalWebhookEndpointOut'
+        iterator:
           type: string
-          format: date-time
-        description:
-          description: An example endpoint name.
+          nullable: true
+          example: iterator
+        prevIterator:
           type: string
-        disabled:
-          default: false
+          nullable: true
+          example: -iterator
+        done:
           type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    OperationalWebhookEndpointSecretOut:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      required:
+      - key
+    OperationalWebhookEndpointIn:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        disabled:
+          type: boolean
+          default: false
           example: false
         filterTypes:
           type: array
+          nullable: true
           items:
             description: The event type's name
             type: string
@@ -1166,7 +1235,27 @@ components:
           uniqueItems: true
           example:
           - message.attempt.failing
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
           nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - url
+    OperationalWebhookEndpointOut:
+      type: object
+      properties:
         id:
           description: The Endpoint's ID.
           type: string
@@ -1174,16 +1263,20 @@ components:
           minLength: 30
           pattern: ^ep_[A-Za-z0-9]{27}$
           example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
         rateLimit:
           description: Deprecated, use `throttleRate` instead.
-          deprecated: true
           type: integer
           format: uint16
-          minimum: 0.0
+          deprecated: true
+          minimum: 0
           nullable: true
         throttleRate:
           description: 'Maximum messages per second to send to this endpoint.
@@ -1192,7 +1285,7 @@ components:
             Outgoing messages will be throttled to this rate.'
           type: integer
           format: uint16
-          minimum: 0.0
+          minimum: 0
           nullable: true
         uid:
           description: Optional unique identifier for the endpoint.
@@ -1202,47 +1295,42 @@ components:
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
           nullable: true
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - message.attempt.failing
+        createdAt:
+          type: string
+          format: date-time
         updatedAt:
           type: string
           format: date-time
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          example: https://example.com/webhook/
-    OperationalWebhookEndpointHeadersIn:
-      type: object
-      required:
-      - headers
-      properties:
-        headers:
+        metadata:
           type: object
           additionalProperties:
             type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-    OperationalWebhookEndpointSecretOut:
-      type: object
       required:
-      - key
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      - createdAt
+      - description
+      - id
+      - metadata
+      - updatedAt
+      - url
     OperationalWebhookEndpointHeadersOut:
       type: object
-      required:
-      - headers
-      - sensitive
       properties:
         headers:
           type: object
@@ -1253,27 +1341,26 @@ components:
             X-Foobar: Bar
         sensitive:
           type: array
+          uniqueItems: true
           items:
             type: string
-          uniqueItems: true
           example:
           - Authorization
+      required:
+      - headers
+      - sensitive
     HTTPValidationError:
       type: object
-      required:
-      - detail
       properties:
         detail:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
-      required:
-      - loc
-      - msg
-      - type
       properties:
         loc:
           description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
@@ -1286,21 +1373,54 @@ components:
         type:
           description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
           type: string
+      required:
+      - loc
+      - msg
+      - type
     OperationalWebhookEndpointUpdate:
       type: object
-      required:
-      - url
       properties:
-        description:
-          default: ''
+        url:
           type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
           example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
         disabled:
-          default: false
           type: boolean
+          default: false
           example: false
         filterTypes:
           type: array
+          nullable: true
           items:
             description: The event type's name
             type: string
@@ -1311,135 +1431,13 @@ components:
           uniqueItems: true
           example:
           - message.attempt.failing
-          nullable: true
         metadata:
-          default: {}
           type: object
+          default: {}
           additionalProperties:
             type: string
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          deprecated: true
-          type: integer
-          format: uint16
-          minimum: 1.0
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1.0
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          example: https://example.com/webhook/
-    OperationalWebhookEndpointIn:
-      type: object
       required:
       - url
-      properties:
-        description:
-          default: ''
-          type: string
-          example: An example endpoint name
-        disabled:
-          default: false
-          type: boolean
-          example: false
-        filterTypes:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - message.attempt.failing
-          nullable: true
-        metadata:
-          default: {}
-          type: object
-          additionalProperties:
-            type: string
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          deprecated: true
-          type: integer
-          format: uint16
-          minimum: 1.0
-          nullable: true
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1.0
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          example: https://example.com/webhook/
-    ListResponse_OperationalWebhookEndpointOut_:
-      type: object
-      required:
-      - data
-      - done
-      - iterator
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/OperationalWebhookEndpointOut'
-        done:
-          type: boolean
-        iterator:
-          type: string
-          example: iterator
-          nullable: true
-        prevIterator:
-          type: string
-          example: -iterator
-          nullable: true
     Ordering:
       description: Defines the ordering in a listing of results.
       type: string
@@ -1456,22 +1454,11 @@ components:
             Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
 
             It is recommended to not set this and let the server generate the secret.'
-          default: null
           type: string
-          pattern: ^(whsec_)?[a-zA-Z0-9+/=]{32,100}$
+          default: null
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
           nullable: true
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      required:
-      - code
-      - detail
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
   securitySchemes:
     HTTPBearer:
       type: http
@@ -1514,39 +1501,18 @@ x-tagGroups:
   tags:
   - Health
 x-webhooks:
-  background_task.finished:
-    post:
-      description: Sent when a background task is finished.
-      operationId: background_task.finished
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                data:
-                  appStats:
-                  - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                    appUid: null
-                    messageDestinations: 343
-                status: finished
-                task: application.stats
-                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-              type: background_task.finished
-            schema:
-              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: background_task.finished
-      tags:
-      - Webhook
   endpoint.created:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.created
       description: Sent when an endpoint is created.
       operationId: endpoint.created
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointCreatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1554,22 +1520,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.created
-            schema:
-              $ref: '#/components/schemas/EndpointCreatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.created
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.deleted:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.deleted
       description: Sent when an endpoint is deleted.
       operationId: endpoint.deleted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDeletedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1577,22 +1543,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.deleted
-            schema:
-              $ref: '#/components/schemas/EndpointDeletedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.deleted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.disabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.disabled
       description: Sent when an endpoint has been automatically disabled after continuous failures, or manually via an API call.
       operationId: endpoint.disabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDisabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1602,22 +1568,22 @@ x-webhooks:
                 failSince: '2022-11-06T15:04:05Z'
                 trigger: automatic
               type: endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/EndpointDisabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.disabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.enabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.enabled
       description: Sent when an endpoint has been enabled.
       operationId: endpoint.enabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointEnabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1625,22 +1591,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.enabled
-            schema:
-              $ref: '#/components/schemas/EndpointEnabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.enabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.updated:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.updated
       description: Sent when an endpoint is updated.
       operationId: endpoint.updated
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointUpdatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1648,148 +1614,43 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.updated
-            schema:
-              $ref: '#/components/schemas/EndpointUpdatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.updated
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
-  ingest.endpoint.disabled:
-    post:
-      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
-      operationId: ingest.endpoint.disabled
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                endpointUid: unique-endpoint-identifier
-                failSince: '2022-11-06T15:04:05Z'
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-                trigger: automatic
-              type: ingest.endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.endpoint.disabled
-      tags:
-      - Webhook
-  ingest.message.attempt.exhausted:
-    post:
-      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
-      operationId: ingest.message.attempt.exhausted
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.exhausted
-      tags:
-      - Webhook
-  ingest.message.attempt.failing:
-    post:
-      description: 'Sent after a message has been failing for a few times.
-
-        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
-      operationId: ingest.message.attempt.failing
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.failing
-      tags:
-      - Webhook
-  ingest.message.attempt.recovered:
-    post:
-      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
-      operationId: ingest.message.attempt.recovered
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 200
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.recovered
-      tags:
-      - Webhook
   message.attempt.exhausted:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.exhausted
       description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
       operationId: message.attempt.exhausted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.exhausted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   message.attempt.failing:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.failing
       description: 'Sent after a message has been failing for a few times.
 
         It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the last failure.'
@@ -1797,88 +1658,214 @@ x-webhooks:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptFailingEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/MessageAttemptFailingEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.failing
-      tags:
-      - Webhook
-      x-svix-group-name: dispatch
-  message.attempt.log:
-    post:
-      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
-      operationId: message.attempt.log
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-              - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                appUid: unique-app-identifier
-                attemptCount: 1
-                attemptEnd: '2022-11-06T15:04:07Z'
-                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                attemptStart: '2022-11-06T15:04:06Z'
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                eventType: user.signup
-                msgCreated: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                responseStatusCode: 200
-                status: 0
-              type: message.attempt.log
-            schema:
-              $ref: '#/components/schemas/MessageAttemptLogEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.log
-      tags:
-      - Webhook
-      x-internal: true
-      x-svix-feature-flags:
-      - attempt_log
       x-svix-group-name: dispatch
   message.attempt.recovered:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.recovered
       description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
       operationId: message.attempt.recovered
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 200
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.recovered
+      x-svix-group-name: dispatch
+  background_task.finished:
+    post:
       tags:
       - Webhook
+      summary: background_task.finished
+      description: Sent when a background task is finished.
+      operationId: background_task.finished
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
+            example:
+              data:
+                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                task: application.stats
+                status: finished
+                data:
+                  appStats:
+                  - messageDestinations: 343
+                    appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                    appUid: null
+              type: background_task.finished
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.endpoint.disabled:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.endpoint.disabled
+      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
+      operationId: ingest.endpoint.disabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                endpointUid: unique-endpoint-identifier
+                failSince: '2022-11-06T15:04:05Z'
+                trigger: automatic
+              type: ingest.endpoint.disabled
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.exhausted:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.exhausted
+      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+      operationId: ingest.message.attempt.exhausted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.exhausted
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.failing:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.failing
+      description: 'Sent after a message has been failing for a few times.
+
+        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
+      operationId: ingest.message.attempt.failing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.failing
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.recovered:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.recovered
+      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+      operationId: ingest.message.attempt.recovered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 200
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.recovered
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  message.attempt.log:
+    post:
+      tags:
+      - Webhook
+      summary: message.attempt.log
+      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
+      operationId: message.attempt.log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptLogEvent'
+            example:
+              data:
+              - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appUid: unique-app-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                msgCreated: '2022-11-06T15:04:05Z'
+                attemptStart: '2022-11-06T15:04:06Z'
+                attemptEnd: '2022-11-06T15:04:07Z'
+                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                responseStatusCode: 200
+                attemptCount: 1
+                status: 0
+                eventType: user.signup
+              type: message.attempt.log
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
       x-svix-group-name: dispatch
+      x-svix-feature-flags:
+      - attempt_log
+      x-internal: true

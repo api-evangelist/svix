@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Svix Application Integration API
+  title: Svix Integration API
   description: 'Welcome to the Svix API documentation!
 
 
@@ -68,20 +68,20 @@ info:
     This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with [W3C spec](https://www.w3.org/TR/cors/). And that allows cross-domain communication from the browser. All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
 
     '
-  version: 1.84.0
+  version: 1.922.0
   x-logo:
-    altText: Svix Logo
     url: https://www.svix.com/static/img/brand-padded.svg
+    altText: Svix Logo
 servers:
-- url: https://api.eu.svix.com/
+- url: https://api.eu.svix.com
   description: The Svix EU region
-- url: https://api.us.svix.com/
+- url: https://api.us.svix.com
   description: The Svix US region
-- url: https://api.ca.svix.com/
+- url: https://api.ca.svix.com
   description: The Svix Canada region
-- url: https://api.au.svix.com/
+- url: https://api.au.svix.com
   description: The Svix Australia region
-- url: https://api.in.svix.com/
+- url: https://api.in.svix.com
   description: The Svix India region
 tags:
 - name: Integration
@@ -114,7 +114,7 @@ paths:
           description: Limit the number of returned items
           type: integer
           format: uint64
-          maximum: 250.0
+          maximum: 250
           minimum: 1.0
         style: form
       - in: query
@@ -189,44 +189,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: const response = await svix.integration.list("app_1srOrx2ZWZBpBUvZwXKQmoEYga2");
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: const response = await svix.integration.list("app_1srOrx2ZWZBpBUvZwXKQmoEYga2");
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.integration.list(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.integration.list(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: response, err := svix.Integration.List(ctx, "app_1srOrx2ZWZBpBUvZwXKQmoEYga2", nil)
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: val response = svix.integration.list("app_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: var response = svix.getIntegration().list("app_1srOrx2ZWZBpBUvZwXKQmoEYga2");
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.integration.list("app_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .integration()\n    .list(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(), None)\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: var response = svix.Integration.List("app_1srOrx2ZWZBpBUvZwXKQmoEYga2");
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->integration->list(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix integration list "app_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     post:
       tags:
@@ -246,12 +246,6 @@ paths:
           minLength: 1
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
-          type: string
         style: simple
       - in: header
         name: idempotency-key
@@ -317,45 +311,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.integration.create(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", {\n  featureFlags: [],\n  name: \"Example Integration\",\n});"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.integration.create(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", {\n  featureFlags: [],\n  name: \"Example Integration\",\n});"
-      - label: Python
-        lang: Python
-        source: "response = svix.integration.create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationIn(\n        feature_flags=[],\n        name=\"Example Integration\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.integration.create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationIn(\n        feature_flags=[],\n        name=\"Example Integration\",\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.Integration.Create(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tIntegrationIn{FeatureFlags: []string{}, Name: \"Example Integration\"},\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.integration.create(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        IntegrationIn(featureFlags = setOf(), name = \"Example Integration\"),\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getIntegration()\n        .create(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            new IntegrationIn().featureFlags(Set.of()).name(\"Example Integration\"));"
-      - label: Ruby
-        lang: Ruby
-        source: 'response = svix.integration.create("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", {featureFlags: [], name: "Example Integration"})'
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .integration()\n    .create(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        IntegrationIn {\n            feature_flags: Some(vec![]),\n            name: \"Example Integration\".to_string(),\n        },\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.Integration.Create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    new IntegrationIn { FeatureFlags = [], Name = \"Example Integration\" }\n);"
-      - label: PHP
-        lang: PHP
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.integration.create(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", {\n  name: \"Example Integration\",\n  featureFlags: [],\n});"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.integration.create(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", {\n  name: \"Example Integration\",\n  featureFlags: [],\n});"
+      - lang: Python
+        label: Python
+        source: "response = svix.integration.create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationIn(\n        name=\"Example Integration\",\n        feature_flags=[],\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.integration.create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationIn(\n        name=\"Example Integration\",\n        feature_flags=[],\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.Integration.Create(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tIntegrationIn{Name: \"Example Integration\", FeatureFlags: []string{}},\n\tnil,\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.integration.create(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        IntegrationIn(name = \"Example Integration\", featureFlags = setOf()),\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getIntegration()\n        .create(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            new IntegrationIn().name(\"Example Integration\").featureFlags(Set.of()));"
+      - lang: Ruby
+        label: Ruby
+        source: 'response = svix.integration.create("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", {name: "Example Integration", featureFlags: []})'
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .integration()\n    .create(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        IntegrationIn {\n            name: \"Example Integration\".to_string(),\n            feature_flags: Some(vec![]),\n        },\n        None,\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.Integration.Create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    new IntegrationIn { Name = \"Example Integration\", FeatureFlags = [] }\n);"
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->integration->create(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationIn::create(\n        name: \"Example Integration\"\n    )\n    ->withFeatureFlags([])\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix integration create \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\" '{\n    \"featureFlags\": [],\n    \"name\": \"Example Integration\"\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"featureFlags\": [],\n    \"name\": \"Example Integration\"\n  }'"
+      - lang: Shell
+        label: CLI
+        source: "svix integration create \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\" '{\n    \"name\": \"Example Integration\",\n    \"featureFlags\": []\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"Example Integration\",\n    \"featureFlags\": []\n  }'"
   /api/v1/app/{app_id}/integration/{integ_id}:
     get:
       tags:
@@ -440,44 +434,44 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.integration.get(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.integration.get(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.integration.get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.integration.get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.Integration.Get(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.integration.get(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\")"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getIntegration()\n        .get(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.integration.get("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .integration()\n    .get(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.Integration.Get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->integration->get(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix integration get "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
     put:
       tags:
@@ -568,45 +562,45 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.integration.update(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  {\n    featureFlags: [],\n    name: \"Example Integration\",\n  }\n);"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.integration.update(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  {\n    featureFlags: [],\n    name: \"Example Integration\",\n  }\n);"
-      - label: Python
-        lang: Python
-        source: "response = svix.integration.update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationUpdate(\n        feature_flags=[],\n        name=\"Example Integration\",\n    ),\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.integration.update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationUpdate(\n        feature_flags=[],\n        name=\"Example Integration\",\n    ),\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.Integration.Update(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tIntegrationUpdate{FeatureFlags: []string{}, Name: \"Example Integration\"},\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.integration.update(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        IntegrationUpdate(featureFlags = setOf(), name = \"Example Integration\"),\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getIntegration()\n        .update(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            new IntegrationUpdate().featureFlags(Set.of()).name(\"Example Integration\"));"
-      - label: Ruby
-        lang: Ruby
-        source: "response = svix\n  .integration\n  .update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    {featureFlags: [], name: \"Example Integration\"}\n  )"
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .integration()\n    .update(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        IntegrationUpdate {\n            feature_flags: Some(vec![]),\n            name: \"Example Integration\".to_string(),\n        },\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.Integration.Update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    new IntegrationUpdate { FeatureFlags = [], Name = \"Example Integration\" }\n);"
-      - label: PHP
-        lang: PHP
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.integration.update(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  {\n    name: \"Example Integration\",\n    featureFlags: [],\n  }\n);"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.integration.update(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  {\n    name: \"Example Integration\",\n    featureFlags: [],\n  }\n);"
+      - lang: Python
+        label: Python
+        source: "response = svix.integration.update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationUpdate(\n        name=\"Example Integration\",\n        feature_flags=[],\n    ),\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.integration.update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationUpdate(\n        name=\"Example Integration\",\n        feature_flags=[],\n    ),\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.Integration.Update(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tIntegrationUpdate{Name: \"Example Integration\", FeatureFlags: []string{}},\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.integration.update(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        IntegrationUpdate(name = \"Example Integration\", featureFlags = setOf()),\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getIntegration()\n        .update(\n            \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n            new IntegrationUpdate().name(\"Example Integration\").featureFlags(Set.of()));"
+      - lang: Ruby
+        label: Ruby
+        source: "response = svix\n  .integration\n  .update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    {name: \"Example Integration\", featureFlags: []}\n  )"
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .integration()\n    .update(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        IntegrationUpdate {\n            name: \"Example Integration\".to_string(),\n            feature_flags: Some(vec![]),\n        },\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.Integration.Update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    new IntegrationUpdate { Name = \"Example Integration\", FeatureFlags = [] }\n);"
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->integration->update(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    IntegrationUpdate::create(\n        name: \"Example Integration\"\n    )\n    ->withFeatureFlags([])\n);"
-      - label: CLI
-        lang: Shell
-        source: "svix integration update \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\" \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\" '{\n    \"featureFlags\": [],\n    \"name\": \"Example Integration\"\n  }'"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"featureFlags\": [],\n    \"name\": \"Example Integration\"\n  }'"
+      - lang: Shell
+        label: CLI
+        source: "svix integration update \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\" \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\" '{\n    \"name\": \"Example Integration\",\n    \"featureFlags\": []\n  }'"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"name\": \"Example Integration\",\n    \"featureFlags\": []\n  }'"
     delete:
       tags:
       - Integration
@@ -686,45 +680,174 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "await svix.integration.delete(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "await svix.integration.delete(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "svix.integration.delete(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "await svix.integration.delete(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "err := svix.Integration.Delete(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "svix.integration.delete(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "svix.getIntegration()\n        .delete(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.integration.delete("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "svix.integration()\n    .delete(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.Integration.Delete(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$svix->integration->delete(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix integration delete "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'DELETE' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN'"
+  /api/v1/app/{app_id}/integration/{integ_id}/key/rotate:
+    post:
+      tags:
+      - Integration
+      summary: Rotate Integration Key
+      description: Rotate the integration's key. The previous key will be immediately revoked.
+      operationId: v1.integration.rotate-key
+      parameters:
+      - in: path
+        name: app_id
+        description: The Application's ID or UID.
+        required: true
+        schema:
+          description: The Application's ID or UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+        style: simple
+      - in: path
+        name: integ_id
+        description: The Integration's ID.
+        required: true
+        schema:
+          description: The Integration's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^integ_[A-Za-z0-9]{27}$
+          example: integ_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        style: simple
+      - in: header
+        name: idempotency-key
+        description: The request's idempotency key
+        schema:
+          type: string
+        style: simple
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationKeyOut'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpErrorOut'
+      security:
+      - HTTPBearer: []
+      x-codeSamples:
+      - lang: TypeScript
+        label: JavaScript
+        source: "const response = await svix.integration.rotateKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
+      - lang: TypeScript
+        label: TypeScript
+        source: "const response = await svix.integration.rotateKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
+      - lang: Python
+        label: Python
+        source: "response = svix.integration.rotate_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
+      - lang: Python
+        label: Python (Async)
+        source: "response = await svix.integration.rotate_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
+      - lang: Go
+        label: Go
+        source: "response, err := svix.Integration.RotateKey(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tnil,\n)"
+      - lang: Kotlin
+        label: Kotlin
+        source: "val response =\n    svix.integration.rotateKey(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    )"
+      - lang: Java
+        label: Java
+        source: "var response = svix.getIntegration()\n        .rotateKey(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
+      - lang: Ruby
+        label: Ruby
+        source: response = svix.integration.rotate_key("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2")
+      - lang: Rust
+        label: Rust
+        source: "let response = svix\n    .integration()\n    .rotate_key(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        None,\n    )\n    .await?;"
+      - lang: C#
+        label: C#
+        source: "var response = svix.Integration.RotateKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
+      - lang: PHP
+        label: PHP
+        source: "$response = $svix->integration->rotateKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
+      - lang: Shell
+        label: CLI
+        source: svix integration rotate-key "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2"
+      - lang: Shell
+        label: cURL
+        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2/key/rotate' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
   /api/v1/app/{app_id}/integration/{integ_id}/key:
     get:
       tags:
@@ -810,198 +933,152 @@ paths:
       security:
       - HTTPBearer: []
       x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: JavaScript
         source: "const response = await svix.integration.getKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
+      - lang: TypeScript
+        label: TypeScript
         source: "const response = await svix.integration.getKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
+      - lang: Python
+        label: Python
         source: "response = svix.integration.get_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
+      - lang: Python
+        label: Python (Async)
         source: "response = await svix.integration.get_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
+      - lang: Go
+        label: Go
         source: "response, err := svix.Integration.GetKey(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Kotlin
-        lang: Kotlin
+      - lang: Kotlin
+        label: Kotlin
         source: "val response =\n    svix.integration.getKey(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\")"
-      - label: Java
-        lang: Java
+      - lang: Java
+        label: Java
         source: "var response = svix.getIntegration()\n        .getKey(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
+      - lang: Ruby
+        label: Ruby
         source: response = svix.integration.get_key("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Rust
-        lang: Rust
+      - lang: Rust
+        label: Rust
         source: "let response = svix\n    .integration()\n    .get_key(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n    )\n    .await?;"
-      - label: C#
-        lang: C#
+      - lang: C#
+        label: C#
         source: "var response = svix.Integration.GetKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
+      - lang: PHP
+        label: PHP
         source: "$response = $svix->integration->getKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
+      - lang: Shell
+        label: CLI
         source: svix integration get-key "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
+      - lang: Shell
+        label: cURL
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2/key' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
-  /api/v1/app/{app_id}/integration/{integ_id}/key/rotate:
-    post:
-      tags:
-      - Integration
-      summary: Rotate Integration Key
-      description: Rotate the integration's key. The previous key will be immediately revoked.
-      operationId: v1.integration.rotate-key
-      parameters:
-      - in: path
-        name: app_id
-        description: The Application's ID or UID.
-        required: true
-        schema:
-          description: The Application's ID or UID.
+components:
+  schemas:
+    IntegrationUpdate:
+      type: object
+      properties:
+        name:
           type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-        style: simple
-      - in: path
-        name: integ_id
-        description: The Integration's ID.
-        required: true
-        schema:
+          example: Example Integration
+        featureFlags:
+          description: The set of feature flags the integration will have access to.
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          maxItems: 25
+          minItems: 1
+          example: []
+      required:
+      - name
+    IntegrationOut:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Integration
+        id:
           description: The Integration's ID.
           type: string
           maxLength: 33
           minLength: 33
           pattern: ^integ_[A-Za-z0-9]{27}$
           example: integ_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
+        createdAt:
           type: string
-        style: simple
-      - in: header
-        name: idempotency-key
-        description: The request's idempotency key
-        schema:
+          format: date-time
+        updatedAt:
           type: string
-        style: simple
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IntegrationKeyOut'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '409':
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HttpErrorOut'
-      security:
-      - HTTPBearer: []
-      x-codeSamples:
-      - label: JavaScript
-        lang: TypeScript
-        source: "const response = await svix.integration.rotateKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: TypeScript
-        lang: TypeScript
-        source: "const response = await svix.integration.rotateKey(\n  \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n  \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: Python
-        lang: Python
-        source: "response = svix.integration.rotate_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Python (Async)
-        lang: Python
-        source: "response = await svix.integration.rotate_key(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n)"
-      - label: Go
-        lang: Go
-        source: "response, err := svix.Integration.RotateKey(\n\tctx,\n\t\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\t\"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n\tnil,\n)"
-      - label: Kotlin
-        lang: Kotlin
-        source: "val response =\n    svix.integration.rotateKey(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    )"
-      - label: Java
-        lang: Java
-        source: "var response = svix.getIntegration()\n        .rotateKey(\"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\", \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\");"
-      - label: Ruby
-        lang: Ruby
-        source: response = svix.integration.rotate_key("app_1srOrx2ZWZBpBUvZwXKQmoEYga2", "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2")
-      - label: Rust
-        lang: Rust
-        source: "let response = svix\n    .integration()\n    .rotate_key(\n        \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\".to_string(),\n        None,\n    )\n    .await?;"
-      - label: C#
-        lang: C#
-        source: "var response = svix.Integration.RotateKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: PHP
-        lang: PHP
-        source: "$response = $svix->integration->rotateKey(\n    \"app_1srOrx2ZWZBpBUvZwXKQmoEYga2\",\n    \"integ_1srOrx2ZWZBpBUvZwXKQmoEYga2\"\n);"
-      - label: CLI
-        lang: Shell
-        source: svix integration rotate-key "app_1srOrx2ZWZBpBUvZwXKQmoEYga2" "integ_1srOrx2ZWZBpBUvZwXKQmoEYga2"
-      - label: cURL
-        lang: Shell
-        source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/integration/integ_1srOrx2ZWZBpBUvZwXKQmoEYga2/key/rotate' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
-components:
-  schemas:
+          format: date-time
+        featureFlags:
+          description: The set of feature flags the integration has access to.
+          type: array
+          default: []
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          maxItems: 25
+          minItems: 1
+          example: []
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    IntegrationKeyOut:
+      type: object
+      properties:
+        key:
+          type: string
+          example: integsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+      required:
+      - key
+    IntegrationIn:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Integration
+        featureFlags:
+          description: The set of feature flags the integration will have access to.
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          maxItems: 25
+          minItems: 1
+          example: []
+      required:
+      - name
     HTTPValidationError:
       type: object
-      required:
-      - detail
       properties:
         detail:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
-      required:
-      - loc
-      - msg
-      - type
       properties:
         loc:
           description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
@@ -1014,126 +1091,37 @@ components:
         type:
           description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
           type: string
-    IntegrationKeyOut:
-      type: object
       required:
-      - key
-      properties:
-        key:
-          type: string
-          example: integsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-    IntegrationOut:
-      type: object
-      required:
-      - createdAt
-      - id
-      - name
-      - updatedAt
-      properties:
-        createdAt:
-          type: string
-          format: date-time
-        featureFlags:
-          description: The set of feature flags the integration has access to.
-          default: []
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          maxItems: 25
-          minItems: 1
-          uniqueItems: true
-          example: []
-        id:
-          description: The Integration's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^integ_[A-Za-z0-9]{27}$
-          example: integ_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        name:
-          type: string
-          example: Example Integration
-        updatedAt:
-          type: string
-          format: date-time
-    IntegrationUpdate:
-      type: object
-      required:
-      - name
-      properties:
-        featureFlags:
-          description: The set of feature flags the integration will have access to.
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          maxItems: 25
-          minItems: 1
-          uniqueItems: true
-          example: []
-        name:
-          type: string
-          example: Example Integration
-    IntegrationIn:
-      type: object
-      required:
-      - name
-      properties:
-        featureFlags:
-          description: The set of feature flags the integration will have access to.
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          maxItems: 25
-          minItems: 1
-          uniqueItems: true
-          example: []
-        name:
-          type: string
-          example: Example Integration
+      - loc
+      - msg
+      - type
     ListResponse_IntegrationOut_:
       type: object
-      required:
-      - data
-      - done
-      - iterator
       properties:
         data:
           type: array
           items:
             $ref: '#/components/schemas/IntegrationOut'
-        done:
-          type: boolean
         iterator:
           type: string
-          example: iterator
           nullable: true
+          example: iterator
         prevIterator:
           type: string
-          example: -iterator
           nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     Ordering:
       description: Defines the ordering in a listing of results.
       type: string
       enum:
       - ascending
       - descending
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      required:
-      - code
-      - detail
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
   securitySchemes:
     HTTPBearer:
       type: http
@@ -1176,39 +1164,18 @@ x-tagGroups:
   tags:
   - Health
 x-webhooks:
-  background_task.finished:
-    post:
-      description: Sent when a background task is finished.
-      operationId: background_task.finished
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                data:
-                  appStats:
-                  - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                    appUid: null
-                    messageDestinations: 343
-                status: finished
-                task: application.stats
-                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-              type: background_task.finished
-            schema:
-              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: background_task.finished
-      tags:
-      - Webhook
   endpoint.created:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.created
       description: Sent when an endpoint is created.
       operationId: endpoint.created
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointCreatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1216,22 +1183,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.created
-            schema:
-              $ref: '#/components/schemas/EndpointCreatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.created
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.deleted:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.deleted
       description: Sent when an endpoint is deleted.
       operationId: endpoint.deleted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDeletedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1239,22 +1206,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.deleted
-            schema:
-              $ref: '#/components/schemas/EndpointDeletedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.deleted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.disabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.disabled
       description: Sent when an endpoint has been automatically disabled after continuous failures, or manually via an API call.
       operationId: endpoint.disabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointDisabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1264,22 +1231,22 @@ x-webhooks:
                 failSince: '2022-11-06T15:04:05Z'
                 trigger: automatic
               type: endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/EndpointDisabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.disabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.enabled:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.enabled
       description: Sent when an endpoint has been enabled.
       operationId: endpoint.enabled
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointEnabledEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1287,22 +1254,22 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.enabled
-            schema:
-              $ref: '#/components/schemas/EndpointEnabledEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.enabled
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   endpoint.updated:
     post:
+      tags:
+      - Webhook
+      summary: endpoint.updated
       description: Sent when an endpoint is updated.
       operationId: endpoint.updated
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/EndpointUpdatedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
@@ -1310,148 +1277,43 @@ x-webhooks:
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 endpointUid: unique-endpoint-identifier
               type: endpoint.updated
-            schema:
-              $ref: '#/components/schemas/EndpointUpdatedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: endpoint.updated
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
-  ingest.endpoint.disabled:
-    post:
-      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
-      operationId: ingest.endpoint.disabled
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                endpointUid: unique-endpoint-identifier
-                failSince: '2022-11-06T15:04:05Z'
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-                trigger: automatic
-              type: ingest.endpoint.disabled
-            schema:
-              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.endpoint.disabled
-      tags:
-      - Webhook
-  ingest.message.attempt.exhausted:
-    post:
-      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
-      operationId: ingest.message.attempt.exhausted
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.exhausted
-      tags:
-      - Webhook
-  ingest.message.attempt.failing:
-    post:
-      description: 'Sent after a message has been failing for a few times.
-
-        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
-      operationId: ingest.message.attempt.failing
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 500
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.failing
-      tags:
-      - Webhook
-  ingest.message.attempt.recovered:
-    post:
-      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
-      operationId: ingest.message.attempt.recovered
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                lastAttempt:
-                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                  responseStatusCode: 200
-                  timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                sourceId: src_30HT9jb8WZXKVWIO44ZDr
-              type: ingest.message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: ingest.message.attempt.recovered
-      tags:
-      - Webhook
   message.attempt.exhausted:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.exhausted
       description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
       operationId: message.attempt.exhausted
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.exhausted
-            schema:
-              $ref: '#/components/schemas/MessageAttemptExhaustedEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.exhausted
-      tags:
-      - Webhook
       x-svix-group-name: dispatch
   message.attempt.failing:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.failing
       description: 'Sent after a message has been failing for a few times.
 
         It''s sent on the fourth failure. It complements `message.attempt.exhausted` which is sent after the last failure.'
@@ -1459,88 +1321,214 @@ x-webhooks:
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptFailingEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 500
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.failing
-            schema:
-              $ref: '#/components/schemas/MessageAttemptFailingEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.failing
-      tags:
-      - Webhook
-      x-svix-group-name: dispatch
-  message.attempt.log:
-    post:
-      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
-      operationId: message.attempt.log
-      requestBody:
-        content:
-          application/json:
-            example:
-              data:
-              - appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                appUid: unique-app-identifier
-                attemptCount: 1
-                attemptEnd: '2022-11-06T15:04:07Z'
-                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                attemptStart: '2022-11-06T15:04:06Z'
-                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                eventType: user.signup
-                msgCreated: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
-                responseStatusCode: 200
-                status: 0
-              type: message.attempt.log
-            schema:
-              $ref: '#/components/schemas/MessageAttemptLogEvent'
-      responses:
-        2XX:
-          description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.log
-      tags:
-      - Webhook
-      x-internal: true
-      x-svix-feature-flags:
-      - attempt_log
       x-svix-group-name: dispatch
   message.attempt.recovered:
     post:
+      tags:
+      - Webhook
+      summary: message.attempt.recovered
       description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
       operationId: message.attempt.recovered
       requestBody:
         content:
           application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
             example:
               data:
                 appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 appUid: unique-app-identifier
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
                 endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
                 lastAttempt:
                   id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
                   responseStatusCode: 200
                   timestamp: '2022-11-06T15:04:05Z'
-                msgEventId: unique-msg-identifier
-                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
               type: message.attempt.recovered
-            schema:
-              $ref: '#/components/schemas/MessageAttemptRecoveredEvent'
       responses:
         2XX:
           description: Return any 2XX status to indicate that the data was received successfully
-      summary: message.attempt.recovered
+      x-svix-group-name: dispatch
+  background_task.finished:
+    post:
       tags:
       - Webhook
+      summary: background_task.finished
+      description: Sent when a background task is finished.
+      operationId: background_task.finished
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackgroundTaskFinishedEvent'
+            example:
+              data:
+                taskId: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                task: application.stats
+                status: finished
+                data:
+                  appStats:
+                  - messageDestinations: 343
+                    appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                    appUid: null
+              type: background_task.finished
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.endpoint.disabled:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.endpoint.disabled
+      description: Sent when an ingest endpoint has been automatically disabled after continuous failures, or manually via an API call.
+      operationId: ingest.endpoint.disabled
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestEndpointDisabledEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                endpointUid: unique-endpoint-identifier
+                failSince: '2022-11-06T15:04:05Z'
+                trigger: automatic
+              type: ingest.endpoint.disabled
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.exhausted:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.exhausted
+      description: Sent when a message delivery has failed (all of the retry attempts have been exhausted).
+      operationId: ingest.message.attempt.exhausted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptExhaustedEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.exhausted
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.failing:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.failing
+      description: 'Sent after a message has been failing for a few times.
+
+        It''s sent on the fourth failure. It complements `ingest.message.attempt.exhausted` which is sent after the last failure.'
+      operationId: ingest.message.attempt.failing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptFailingEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 500
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.failing
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  ingest.message.attempt.recovered:
+    post:
+      tags:
+      - Webhook
+      summary: ingest.message.attempt.recovered
+      description: Sent on a successful dispatch after an earlier failure op webhook has already been sent.
+      operationId: ingest.message.attempt.recovered
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestMessageAttemptRecoveredEvent'
+            example:
+              data:
+                sourceId: src_30HT9jb8WZXKVWIO44ZDr
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                lastAttempt:
+                  id: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                  responseStatusCode: 200
+                  timestamp: '2022-11-06T15:04:05Z'
+              type: ingest.message.attempt.recovered
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
+  message.attempt.log:
+    post:
+      tags:
+      - Webhook
+      summary: message.attempt.log
+      description: Sent after message attempts are made. Contains metadata about message attempts and their results. In order to reduce the frequency of webhooks, these are sent in batches periodically.
+      operationId: message.attempt.log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAttemptLogEvent'
+            example:
+              data:
+              - orgId: env_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appId: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                appUid: unique-app-identifier
+                endpointId: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgId: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                msgEventId: unique-msg-identifier
+                msgCreated: '2022-11-06T15:04:05Z'
+                attemptStart: '2022-11-06T15:04:06Z'
+                attemptEnd: '2022-11-06T15:04:07Z'
+                attemptId: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+                responseStatusCode: 200
+                attemptCount: 1
+                status: 0
+                eventType: user.signup
+              type: message.attempt.log
+      responses:
+        2XX:
+          description: Return any 2XX status to indicate that the data was received successfully
       x-svix-group-name: dispatch
+      x-svix-feature-flags:
+      - attempt_log
+      x-internal: true
