@@ -1,0 +1,25 @@
+slug: svix
+provider: Svix
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Telecommunications
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Event Type
+  spec_file: svix-event-type-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: POST /api/v1/event-type  Create Event Type; Event Type Import From Openapi; Set Retry Schedule
+  reason: Defines and versions the webhook event-type schemas (including OpenAPI import/export and retry
+    schedules) that outbound webhook subscriptions are built on — matches 'lifecycle of outbound webhook
+    subscriptions, event schemas'.

@@ -753,6 +753,9 @@ apis:
   - type: OpenAPI
     url: openapi/svix-webhooks-autoconfig-api-openapi.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/svix-capability-edges.yml
+    name: Svix Business Capability Map
   - type: IssueTracker
     url: https://github.com/svix/svix-webhooks/issues
   - type: SecurityPolicy
