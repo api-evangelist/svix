@@ -9,6 +9,20 @@ description: |
 url: https://github.com/api-evangelist/svix
 humanURL: https://www.svix.com
 baseURL: https://api.svix.com
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -669,6 +683,14 @@ apis:
   - type: OpenAPI
     url: openapi/svix-webhook-api-openapi.yml
 common:
+  - type: IssueTracker
+    url: https://github.com/svix/svix-webhooks/issues
+  - type: SecurityPolicy
+    url: https://github.com/svix/svix-webhooks/blob/main/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/svix/svix-webhooks/blob/main/CODE_OF_CONDUCT.md
+  - type: ContributionGuide
+    url: https://github.com/svix/svix-webhooks/blob/main/CONTRIBUTING.md
   - type: License
     name: MIT
     url: https://github.com/svix/svix-webhooks/blob/main/LICENSE
