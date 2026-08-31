@@ -47,10 +47,10 @@ tags:
   - Webhooks As A Service
   - Webhook Delivery
   - Webhook Sending
-  - Event-Driven
+  - Event Driven
   - Eventing
   - Messaging
-  - Pub-Sub
+  - Pub Sub
   - Streaming
   - Ingest
   - Integration
@@ -61,8 +61,8 @@ tags:
   - Verification
   - HMAC
   - Standard Webhooks
-  - Multi-Tenant
-  - Multi-Region
+  - Multi Tenant
+  - Multi Region
   - Enterprise
   - Software-as-a-Service
   - Developer Platform
@@ -698,6 +698,8 @@ apis:
   humanURL: https://github.com/svix/svix-webhooks
   baseURL: http://localhost:8071
   tags:
+  - Environment Settings
+  tags_raw:
   - Environment-Settings
   properties:
   - type: OpenAPI
@@ -708,6 +710,8 @@ apis:
   humanURL: https://github.com/svix/svix-webhooks
   baseURL: http://localhost:8071
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
