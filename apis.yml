@@ -34,7 +34,9 @@ accessModel:
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  - sandbox
+  generated: '2026-09-03'
   method: derived
 image: https://www.svix.com/static/img/brand-padded.svg
 created: '2026-05-22'
