@@ -759,6 +759,8 @@ apis:
   - type: OpenAPI
     url: openapi/svix-webhooks-autoconfig-api-openapi.yml
 common:
+  - type: Website
+    url: https://www.svix.com/
   - type: CapabilityMap
     url: capabilities/svix-capability-edges.yml
     name: Svix Business Capability Map

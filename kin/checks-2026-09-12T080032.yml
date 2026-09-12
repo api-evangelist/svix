@@ -1,16 +1,16 @@
 ---
 kin_checks:
   slug: svix
-  schema_version: 0.18.2
-  scored_at: '2026-09-04'
-  run_ts: 2026-09-04T062714
+  schema_version: 0.21.0
+  scored_at: '2026-09-12'
+  run_ts: 2026-09-12T080032
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.18.2.yml; counts below let you verify that.
+    in rubric/scoring-0.21.0.yml; counts below let you verify that.
   counts:
-    total: 132
-    earned: 62
-    partial: 17
-    missed: 35
+    total: 136
+    earned: 63
+    partial: 18
+    missed: 37
     na: 18
   checks:
   - id: multiple_apis
@@ -72,6 +72,10 @@ kin_checks:
   - id: reg_write_surface
     status: missed
   - id: reg_pci_sca
+    status: missed
+  - id: upsert_outcome_discriminator
+    status: missed
+  - id: upsert_alternate_key
     status: missed
   - id: openapi_examples
     status: missed
@@ -140,6 +144,9 @@ kin_checks:
     status: partial
     earned: 1.0
     detail: pointer liveness 0.5
+  - id: postman_present
+    status: partial
+    earned: 0.5
   - id: agentic_access
     status: partial
     earned: 2.5
