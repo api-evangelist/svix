@@ -11,8 +11,97 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 9
 edges:
+- tag: Endpoint
+  spec_file: svix-endpoint-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.85
+  evidence: '`endpoint`: endpoints are the URLs messages will be sent to ... POST /api/v1/app/{app_id}/endpoint
+    Create Endpoint; GET .../endpoint/{endpoint_id}/secret Get Endpoint Secret; EndpointRateLimitStatus,
+    BulkReplayIn'
+  reason: Endpoint and sink CRUD, signing secrets, rate-limit status and message replay are precisely
+    the lifecycle and delivery reliability of outbound webhook subscriptions.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Webhook Endpoint
+  spec_file: svix-webhook-endpoint-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.85
+  evidence: '"Create Operational Webhook Endpoint", "Rotate Operational Webhook Endpoint Secret", schema
+    OperationalWebhookEndpointIn'
+  reason: Operations manage the lifecycle of webhook delivery endpoints (create/update/delete, secrets,
+    headers) for a webhooks-as-a-service platform — exactly outbound webhook/event subscription management.
+    No healthcare reading applies.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Ingest Endpoint
+  spec_file: svix-ingest-endpoint-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /ingest/api/v1/source/{source_id}/endpoint  Create Ingest Endpoint; Rotate Ingest Endpoint
+    Secret; Patch Ingest Endpoint Transformation
+  reason: Full CRUD lifecycle of webhook delivery endpoints, their signing secrets, headers and payload
+    transformations — squarely webhook/event subscription lifecycle management for a devtool vendor.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Message
+  spec_file: svix-message-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: 'POST /api/v1/app/{app_id}/msg  v1.message.create  Create Message; ''messages: these are the
+    webhooks being sent'''
+  reason: Core outbound webhook message send/list/search surface of a webhooks-as-a-service platform;
+    the doc explicitly defines messages as the webhooks being sent.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Message Attempt
+  spec_file: svix-message-attempt-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /api/v1/app/{app_id}/msg/{msg_id}/endpoint/{endpoint_id}/resend  v1.message-attempt.resend  Resend
+    Webhook
+  reason: Delivery attempts, attempt counts and webhook resend — webhook delivery reliability management,
+    which BC-4270.80 explicitly covers.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Ingest Source
+  spec_file: svix-ingest-source-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: POST /ingest/api/v1/source  Create Ingest Source; schemas StripeConfigOut, ShopifyConfig,
+    SlackConfigOut
+  reason: Manages inbound webhook sources from third-party providers, with token rotation and consumer
+    portal — webhook/event subscription lifecycle, not any industry business function.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Webhook Sink
+  spec_file: svix-webhook-sink-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: '"Create Sink", "Get Sink Transformation", schemas SqsConfig, BigQueryConfig, StreamSinkOut'
+  reason: Sinks are configured destinations for event streams (SQS, SNS, BigQuery, S3, PubSub) with secrets
+    and transformations — event delivery/subscription configuration on the sending platform. Slightly
+    broader than pure webhooks, hence lower confidence.
+  recovered_from: vertical-healthcare-providers-edges.json
+- tag: Webhooks AutoConfig
+  spec_file: svix-webhooks-autoconfig-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.72
+  evidence: '"Create Subscription", "Rotate Subscription", schemas SubscribeIn, EndpointIn, AutoConfigSinkType'
+  reason: Auto-config creates and rotates event subscriptions/endpoints for an application — webhook and
+    event subscription lifecycle. Thin surface but consistent with the vendor's webhook delivery business.
+  recovered_from: vertical-healthcare-providers-edges.json
 - tag: Event Type
   spec_file: svix-event-type-api-openapi.yml
   capability_id: BC-4270.80
