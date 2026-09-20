@@ -8,9 +8,14 @@ note: ESTIMATES, not quotes. Computed by API Evangelist from the prices this pro
   replace it — publish that and the estimate is retired.
 audience_of_source_pricing: developer-api
 pricing_basis: tiered-subscription
-delivery: managed+licensed
-delivery_method: page
+delivery: open-core
+delivery_method: github
 delivery_evidence: On-Prem Deployment (incl. FIPS 140-3)
+open_source_repository:
+  repo: svix/svix-webhooks
+  license: MIT
+  stars: 3412
+delivery_on_pricing_page: managed+licensed
 estimate_count: 2
 estimates:
 - kind: entry_cost
