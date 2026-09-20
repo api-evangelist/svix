@@ -10,6 +10,12 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: developer-api
 pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-09-20'
+  evidence: On-Prem Deployment (incl. FIPS 140-3)
+  managed_tier: Professional
 published: true
 note: Tiered plans with per-message overage at $0.0001 per msg; Enterprise is custom/contact sales.
 plan_count: 3
