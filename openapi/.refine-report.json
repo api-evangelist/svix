@@ -51,19 +51,25 @@
     "svix-openapi.json: declared missing tag: Stream Authentication",
     "svix-openapi.json: declared missing tag: Stream Event Type",
     "svix-openapi.json: declared missing tag: Webhook Sink",
-    "svix-openapi.json: declared missing tag: Webhooks AutoConfig"
+    "svix-openapi.json: declared missing tag: Webhooks AutoConfig",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "svix-application-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-background-task-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-broadcast-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-connector-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-environment-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-environment-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-event-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-event-type-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-inbound-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-ingest-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-ingest-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-ingest-source-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-integration-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-message-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -74,6 +80,8 @@
     "svix-stream-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-stream-event-type-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "svix-webhook-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "svix-webhook-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "svix-webhook-endpoint-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-webhook-sink-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "svix-webhooks-autoconfig-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
