@@ -73,7 +73,7 @@ tags:
   - HIPAA
   - PCI DSS
   - GDPR
-  - Open-Source
+  - Open Source
   - Rust
   - Polyglot SDK
   - Terraform
@@ -113,6 +113,7 @@ tags_raw:
   - Polyglot SDK
   - Terraform
   - CLI
+  - Open-Source
 
 apis:
 - name: Svix Open Source Server API
@@ -128,7 +129,7 @@ apis:
   baseURL: http://localhost:8071
   aid: svix:open-source-server
   tags:
-  - Open-Source
+  - Open Source
   - Self-Hosted
   - Webhook Sending
   - Rust
@@ -139,6 +140,7 @@ apis:
   - Webhook Sending
   - Rust
   - MIT License
+  - Open-Source
   properties:
   - type: GitHubRepository
     url: https://github.com/svix/svix-webhooks

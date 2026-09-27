@@ -1990,6 +1990,115 @@ paths:
       x-internal: true
 components:
   schemas:
+    MessageSearchIn:
+      type: object
+      properties:
+        limit:
+          description: Limit the number of returned items
+          type: integer
+          format: uint64
+          maximum: 250
+          minimum: 1.0
+        iterator:
+          description: The iterator returned from a prior invocation
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+          nullable: true
+        channel:
+          description: Filter response based on the channel.
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
+          example: project_1337
+          nullable: true
+        before:
+          description: Only include items created before a certain date.
+          type: string
+          format: date-time
+          nullable: true
+        after:
+          description: Only include items created after a certain date.
+          type: string
+          format: date-time
+          nullable: true
+        with_content:
+          description: When `true` message payloads are included in the response.
+          type: boolean
+          default: false
+        tag:
+          description: Filter messages matching the provided tag.
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_./\\#]+$
+          example: project_1337
+          nullable: true
+        event_types:
+          description: Filter response based on the event type
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          uniqueItems: true
+          nullable: true
+    PollerV2CommitIn:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: uint64
+          minimum: 0.0
+      required:
+      - offset
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    ListResponse_MessageOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    PollerV2PollOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PollerV2MessageOut'
+        done:
+          type: boolean
+      required:
+      - data
+      - done
     PollerV2MessageOut:
       description: The MessageOut equivalent of polling endpoint
       type: object
@@ -2068,82 +2177,14 @@ components:
       - offset
       - payload
       - timestamp
-    HttpErrorOut:
-      title: HttpError
+    MessagePrecheckOut:
       type: object
       properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    MessageSearchIn:
-      type: object
-      properties:
-        limit:
-          description: Limit the number of returned items
-          type: integer
-          format: uint64
-          maximum: 250
-          minimum: 1.0
-        iterator:
-          description: The iterator returned from a prior invocation
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-          nullable: true
-        channel:
-          description: Filter response based on the channel.
-          type: string
-          maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_.:+]+$
-          example: project_1337
-          nullable: true
-        before:
-          description: Only include items created before a certain date.
-          type: string
-          format: date-time
-          nullable: true
-        after:
-          description: Only include items created after a certain date.
-          type: string
-          format: date-time
-          nullable: true
-        with_content:
-          description: When `true` message payloads are included in the response.
+        active:
+          description: Whether there are any active endpoint that would get sent such a message.
           type: boolean
-          default: false
-        tag:
-          description: Filter messages matching the provided tag.
-          type: string
-          maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_./\\#]+$
-          example: project_1337
-          nullable: true
-        event_types:
-          description: Filter response based on the event type
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          uniqueItems: true
-          nullable: true
-    PollerV2CommitIn:
-      type: object
-      properties:
-        offset:
-          type: integer
-          format: uint64
-          minimum: 0.0
       required:
-      - offset
+      - active
     PollingEndpointMessageOut:
       description: The MessageOut equivalent of polling endpoint
       type: object
@@ -2226,6 +2267,45 @@ components:
             $ref: '#/components/schemas/ValidationError'
       required:
       - detail
+    ApplicationIn:
+      type: object
+      properties:
+        name:
+          description: Application name for human consumption.
+          type: string
+          minLength: 1
+          example: My first application
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this application.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the application.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - name
     PollingEndpointOut:
       type: object
       properties:
@@ -2338,31 +2418,15 @@ components:
       required:
       - eventType
       - payload
-    MessagePrecheckIn:
+    PollingEndpointConsumerSeekIn:
       type: object
       properties:
-        eventType:
-          description: The event type's name
+        after:
           type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        channels:
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
+          format: date-time
+          example: '2025-04-21T11:20:34Z'
       required:
-      - eventType
+      - after
     MessageRawPayloadOut:
       type: object
       properties:
@@ -2371,178 +2435,6 @@ components:
           example: '{"email":"test@example.com","type":"user.created","username":"test_user"}'
       required:
       - payload
-    ListResponse_MessageOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    PollerV2PollOut:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PollerV2MessageOut'
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-    StartingPosition:
-      type: string
-      enum:
-      - earliest
-      - latest
-    MessageEventsOut:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageOut'
-        iterator:
-          type: string
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    MessageStatus:
-      title: MessageStatus
-      description: 'The sending status of the message:
-
-
-        - Success = 0
-
-        - Pending = 1
-
-        - Fail = 2
-
-        - Sending = 3
-
-        - Canceled = 4'
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      x-enum-varnames:
-      - Success
-      - Pending
-      - Fail
-      - Sending
-      - Canceled
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    ApplicationIn:
-      type: object
-      properties:
-        name:
-          description: Application name for human consumption.
-          type: string
-          minLength: 1
-          example: My first application
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this application.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the application.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - name
-    MessagePrecheckOut:
-      type: object
-      properties:
-        active:
-          description: Whether there are any active endpoint that would get sent such a message.
-          type: boolean
-      required:
-      - active
-    PollingEndpointConsumerSeekOut:
-      type: object
-      properties:
-        iterator:
-          type: string
-      required:
-      - iterator
-    MessageStatusText:
-      type: string
-      enum:
-      - success
-      - pending
-      - fail
-      - sending
-      - canceled
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
     MessageOut:
       type: object
       properties:
@@ -2610,21 +2502,6 @@ components:
       - id
       - payload
       - timestamp
-    MessageAttemptTriggerType:
-      title: MessageAttemptTriggerType
-      description: 'The reason an attempt was made:
-
-
-        - Scheduled = 0
-
-        - Manual = 1'
-      type: integer
-      enum:
-      - 0
-      - 1
-      x-enum-varnames:
-      - Scheduled
-      - Manual
     ExpungeAllContentsOut:
       type: object
       properties:
@@ -2647,15 +2524,102 @@ components:
       - status
       - task
       - updatedAt
-    PollingEndpointConsumerSeekIn:
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    PollingEndpointConsumerSeekOut:
       type: object
       properties:
-        after:
+        iterator:
           type: string
-          format: date-time
-          example: '2025-04-21T11:20:34Z'
       required:
-      - after
+      - iterator
+    MessageStatus:
+      title: MessageStatus
+      description: 'The sending status of the message:
+
+
+        - Success = 0
+
+        - Pending = 1
+
+        - Fail = 2
+
+        - Sending = 3
+
+        - Canceled = 4'
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      x-enum-varnames:
+      - Success
+      - Pending
+      - Fail
+      - Sending
+      - Canceled
+    StartingPosition:
+      type: string
+      enum:
+      - earliest
+      - latest
+    MessageAttemptTriggerType:
+      title: MessageAttemptTriggerType
+      description: 'The reason an attempt was made:
+
+
+        - Scheduled = 0
+
+        - Manual = 1'
+      type: integer
+      enum:
+      - 0
+      - 1
+      x-enum-varnames:
+      - Scheduled
+      - Manual
+    MessagePrecheckIn:
+      type: object
+      properties:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        channels:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+      required:
+      - eventType
     MessageAttemptOut:
       type: object
       properties:
@@ -2721,12 +2685,48 @@ components:
       - timestamp
       - triggerType
       - url
-    BackgroundTaskStatus:
+    MessageEventsOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageOut'
+        iterator:
+          type: string
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    MessageStatusText:
       type: string
       enum:
-      - running
-      - finished
-      - failed
+      - success
+      - pending
+      - fail
+      - sending
+      - canceled
   securitySchemes:
     HTTPBearer:
       type: http

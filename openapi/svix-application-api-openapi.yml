@@ -1004,6 +1004,36 @@ paths:
       x-internal: true
 components:
   schemas:
+    ListResponse_ApplicationOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    ActiveAppCount:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: uint64
+          minimum: 0.0
+      required:
+      - count
     ApplicationOut:
       type: object
       properties:
@@ -1067,90 +1097,12 @@ components:
             $ref: '#/components/schemas/ValidationError'
       required:
       - detail
-    ApplicationPatch:
-      type: object
-      properties:
-        name:
-          type: string
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 0
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this application.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 0
-          nullable: true
-        uid:
-          description: The Application's UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    AppAttemptStatsOut:
-      type: object
-      properties:
-        by_event_type:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/AppAttemptEventTypeStats'
-        total_success:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        total_failure:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        total_canceled:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        since:
-          type: string
-          format: date-time
-        until:
-          type: string
-          format: date-time
-      required:
-      - by_event_type
-      - since
-      - total_canceled
-      - total_failure
-      - total_success
-      - until
-    AlertEmailPatch:
-      type: object
-      properties:
-        email:
-          description: A comma-separated list of email addresses
-          type: string
-          nullable: true
-          example: user1@example.com, user2@example.com
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
     ApplicationIn:
       type: object
       properties:
@@ -1190,15 +1142,58 @@ components:
             type: string
       required:
       - name
-    ActiveAppCount:
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        count:
-          type: integer
-          format: uint64
-          minimum: 0.0
+        code:
+          type: string
+        detail:
+          type: string
       required:
-      - count
+      - code
+      - detail
+    AlertEmailPatch:
+      type: object
+      properties:
+        email:
+          description: A comma-separated list of email addresses
+          type: string
+          nullable: true
+          example: user1@example.com, user2@example.com
+    ApplicationPatch:
+      type: object
+      properties:
+        name:
+          type: string
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this application.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        uid:
+          description: The Application's UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
     AppAttemptEventTypeStats:
       type: object
       properties:
@@ -1218,6 +1213,38 @@ components:
       - canceled
       - failure
       - success
+    AppAttemptStatsOut:
+      type: object
+      properties:
+        by_event_type:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AppAttemptEventTypeStats'
+        total_success:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        total_failure:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        total_canceled:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        since:
+          type: string
+          format: date-time
+        until:
+          type: string
+          format: date-time
+      required:
+      - by_event_type
+      - since
+      - total_canceled
+      - total_failure
+      - total_success
+      - until
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -1237,33 +1264,6 @@ components:
       - loc
       - msg
       - type
-    ListResponse_ApplicationOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
   securitySchemes:
     HTTPBearer:
       type: http

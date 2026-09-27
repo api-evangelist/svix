@@ -369,107 +369,19 @@ paths:
       x-internal: true
 components:
   schemas:
-    AutoConfigCensoredOut:
+    SinkInCommon:
       type: object
       properties:
-        updatedAt:
-          type: string
-          format: date-time
-        tokenCensored:
-          type: string
-        endpId:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-      required:
-      - endpId
-      - tokenCensored
-      - updatedAt
-    AutoConfigSinkType:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - poller
-          config:
-            $ref: '#/components/schemas/SinkInCommon'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - http
-          config:
-            $ref: '#/components/schemas/EndpointIn'
-        required:
-        - config
-        - type
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    AutoConfigOut:
-      type: object
-      properties:
-        updatedAt:
-          type: string
-          format: date-time
-        token:
-          type: string
-        endpId:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-      required:
-      - endpId
-      - token
-      - updatedAt
-    EndpointOut:
-      type: object
-      properties:
-        id:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
         description:
           type: string
+          default: ''
+          example: An example endpoint name
         rateLimit:
           description: Deprecated, use `throttleRate` instead.
           type: integer
           format: uint16
           deprecated: true
-          minimum: 0
+          minimum: 1
           nullable: true
         throttleRate:
           description: 'Maximum messages per second to send to this endpoint.
@@ -478,22 +390,27 @@ components:
             Outgoing messages will be throttled to this rate.'
           type: integer
           format: uint16
-          minimum: 0
+          minimum: 1
           nullable: true
         uid:
-          description: Optional unique identifier for the endpoint.
+          description: Optional unique identifier for the sink.
           type: string
           maxLength: 256
           minLength: 1
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: unique-identifier
           nullable: true
-        version:
-          type: integer
-          format: int32
-          deprecated: true
-          minimum: 1
-          example: 1
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
         disabled:
           type: boolean
           default: false
@@ -513,7 +430,7 @@ components:
           - user.signup
           - user.deleted
         channels:
-          description: List of message channels this endpoint listens to (omit for all).
+          description: List of message channels this sink listens to (omit for all).
           type: array
           nullable: true
           items:
@@ -527,20 +444,31 @@ components:
           example:
           - project_123
           - group_2
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - createdAt
-      - description
-      - id
-      - metadata
-      - updatedAt
-      - url
-      - version
+      - detail
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     EndpointIn:
       type: object
       properties:
@@ -645,6 +573,164 @@ components:
             X-Foobar: Bar
       required:
       - url
+    RotateSubscriptionIn:
+      type: object
+      properties:
+        signingSecret:
+          default: null
+          $ref: '#/components/schemas/EndpointSecretRotateIn'
+          nullable: true
+    AutoConfigSinkType:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - poller
+          config:
+            $ref: '#/components/schemas/SinkInCommon'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - http
+          config:
+            $ref: '#/components/schemas/EndpointIn'
+        required:
+        - config
+        - type
+    AutoConfigCensoredOut:
+      type: object
+      properties:
+        updatedAt:
+          type: string
+          format: date-time
+        tokenCensored:
+          type: string
+        endpId:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      required:
+      - endpId
+      - tokenCensored
+      - updatedAt
+    SubscribeIn:
+      type: object
+      properties:
+        endpoint:
+          $ref: '#/components/schemas/EndpointIn'
+          nullable: true
+        sink:
+          $ref: '#/components/schemas/AutoConfigSinkType'
+          nullable: true
+    EndpointOut:
+      type: object
+      properties:
+        id:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        version:
+          type: integer
+          format: int32
+          deprecated: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this endpoint listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - createdAt
+      - description
+      - id
+      - metadata
+      - updatedAt
+      - url
+      - version
     EndpointSecretRotateIn:
       type: object
       properties:
@@ -671,93 +757,6 @@ components:
           maximum: 604800
           minimum: 0
           nullable: true
-    SinkInCommon:
-      type: object
-      properties:
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the sink.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        channels:
-          description: List of message channels this sink listens to (omit for all).
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-    RotateSubscriptionIn:
-      type: object
-      properties:
-        signingSecret:
-          default: null
-          $ref: '#/components/schemas/EndpointSecretRotateIn'
-          nullable: true
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -777,24 +776,25 @@ components:
       - loc
       - msg
       - type
-    HTTPValidationError:
+    AutoConfigOut:
       type: object
       properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
+        updatedAt:
+          type: string
+          format: date-time
+        token:
+          type: string
+        endpId:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
       required:
-      - detail
-    SubscribeIn:
-      type: object
-      properties:
-        endpoint:
-          $ref: '#/components/schemas/EndpointIn'
-          nullable: true
-        sink:
-          $ref: '#/components/schemas/AutoConfigSinkType'
-          nullable: true
+      - endpId
+      - token
+      - updatedAt
   securitySchemes:
     HTTPBearer:
       type: http

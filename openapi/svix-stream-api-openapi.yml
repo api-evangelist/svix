@@ -857,104 +857,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    StreamTransformationSimulateIn:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/StreamTransformationSimulateType'
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventIn'
-      required:
-      - code
-      - events
-      - type
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    ListResponse_StreamOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StreamOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    StreamTransformationSimulateOut:
-      type: object
-      properties:
-        output:
-          type: object
-          additionalProperties: true
-      required:
-      - output
-    StreamPatch:
-      type: object
-      properties:
-        description:
-          description: The Stream's description.
-          type: string
-        uid:
-          description: An optional unique identifier for the stream.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-    EventIn:
-      type: object
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-      required:
-      - eventType
-      - payload
     StreamOut:
       type: object
       properties:
@@ -992,6 +894,49 @@ components:
       - id
       - metadata
       - updatedAt
+    StreamAlertEmailPatch:
+      type: object
+      properties:
+        email:
+          description: A comma-separated list of email addresses
+          type: string
+          nullable: true
+          example: user1@example.com, user2@example.com
+    StreamTransformationSimulateIn:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/StreamTransformationSimulateType'
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventIn'
+      required:
+      - code
+      - events
+      - type
+    StreamPatch:
+      type: object
+      properties:
+        description:
+          description: The Stream's description.
+          type: string
+        uid:
+          description: An optional unique identifier for the stream.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
     StreamIn:
       type: object
       properties:
@@ -1014,6 +959,21 @@ components:
             type: string
       required:
       - name
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
     StreamTransformationSimulateType:
       type: string
       enum:
@@ -1024,6 +984,60 @@ components:
       - googleCloudStorage
       - sns
       - sqs
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    EventIn:
+      type: object
+      properties:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+      required:
+      - eventType
+      - payload
+    StreamTransformationSimulateOut:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+      required:
+      - output
+    ListResponse_StreamOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -1043,20 +1057,6 @@ components:
       - loc
       - msg
       - type
-    StreamAlertEmailPatch:
-      type: object
-      properties:
-        email:
-          description: A comma-separated list of email addresses
-          type: string
-          nullable: true
-          example: user1@example.com, user2@example.com
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
   securitySchemes:
     HTTPBearer:
       type: http

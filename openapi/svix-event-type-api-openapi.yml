@@ -1112,32 +1112,90 @@ paths:
       x-internal: true
 components:
   schemas:
-    ExportEventTypeOut:
+    EventTypeImportOpenApiOut:
       type: object
       properties:
-        id:
-          description: The QueueBackgroundTask's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^qtask_[A-Za-z0-9]{27}$
-          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        status:
-          $ref: '#/components/schemas/BackgroundTaskStatus'
-        task:
-          $ref: '#/components/schemas/BackgroundTaskType'
-        updatedAt:
-          type: string
-          format: date-time
+        data:
+          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
       required:
-      - id
-      - status
-      - task
-      - updatedAt
+      - data
     RetrySchedule:
       type: array
       items:
         $ref: '#/components/schemas/Duration'
+    ListResponse_EventTypeOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventTypeOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    EventTypeImportOpenApiIn:
+      description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
+
+
+        The OpenAPI spec can be specified as either `spec` given the spec as a JSON object, or as `specRaw` (a `string`) which will be parsed as YAML or JSON by the server. Sending neither or both is invalid, resulting in a `400` **Bad Request**.'
+      type: object
+      properties:
+        dryRun:
+          description: If `true`, return the event types that would be modified without actually modifying them.
+          type: boolean
+          default: false
+        replaceAll:
+          description: If `true`, all existing event types that are not in the spec will be archived.
+          type: boolean
+          default: false
+        spec:
+          description: A pre-parsed JSON spec.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            openapi: 3.1.0
+            info:
+              title: Webhook Example
+              version: 1.0.0
+            webhooks:
+              pet.new:
+                post:
+                  requestBody:
+                    description: Information about a new pet in the system
+                    content:
+                      application/json:
+                        schema:
+                          properties:
+                            id:
+                              type: integer
+                              format: int64
+                            name:
+                              type: string
+                            tag:
+                              type: string
+                          required:
+                          - id
+                          - name
+                  responses:
+                    '200':
+                      description: Return a 200 status to indicate that the data was received successfully
+        specRaw:
+          description: A string, parsed by the server as YAML or JSON.
+          type: string
+          nullable: true
+          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
     HttpErrorOut:
       title: HttpError
       type: object
@@ -1149,9 +1207,15 @@ components:
       required:
       - code
       - detail
-    EventTypeUpdate:
+    EventTypeIn:
       type: object
       properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
         description:
           type: string
           example: A user has signed up
@@ -1182,8 +1246,16 @@ components:
               required:
               - invoiceId
               - userId
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
         featureFlags:
           type: array
+          default: null
           nullable: true
           items:
             type: string
@@ -1201,16 +1273,9 @@ components:
           maxLength: 256
           pattern: ^[a-zA-Z0-9\-_.]+$
           nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          default: null
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
       required:
       - description
+      - name
     HTTPValidationError:
       type: object
       properties:
@@ -1238,27 +1303,86 @@ components:
           nullable: true
       required:
       - modified
-    ListResponse_EventTypeOut_:
+    RetryScheduleInOut:
       type: object
       properties:
-        data:
+        retrySchedule:
+          $ref: '#/components/schemas/RetrySchedule'
+          nullable: true
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    EventTypeFromOpenApi:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+        schemas:
+          type: object
+          additionalProperties: true
+          example:
+            title: Invoice Paid Event
+            description: An invoice was paid by a user
+            type: object
+            properties:
+              invoiceId:
+                description: The invoice id
+                type: string
+              userId:
+                description: The user id
+                type: string
+            required:
+            - invoiceId
+            - userId
+          nullable: true
+        deprecated:
+          type: boolean
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
           type: array
           items:
-            $ref: '#/components/schemas/EventTypeOut'
-        iterator:
-          type: string
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
           nullable: true
-          example: iterator
-        prevIterator:
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
           type: string
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
           nullable: true
-          example: -iterator
-        done:
-          type: boolean
       required:
-      - data
-      - done
-      - iterator
+      - deprecated
+      - description
+      - name
     EventTypeOut:
       type: object
       properties:
@@ -1345,173 +1469,9 @@ components:
       required:
       - nanos
       - secs
-    RetryScheduleInOut:
+    EventTypeUpdate:
       type: object
       properties:
-        retrySchedule:
-          $ref: '#/components/schemas/RetrySchedule'
-          nullable: true
-    EventTypeFromOpenApi:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-        schemas:
-          type: object
-          additionalProperties: true
-          example:
-            title: Invoice Paid Event
-            description: An invoice was paid by a user
-            type: object
-            properties:
-              invoiceId:
-                description: The invoice id
-                type: string
-              userId:
-                description: The user id
-                type: string
-            required:
-            - invoiceId
-            - userId
-          nullable: true
-        deprecated:
-          type: boolean
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          nullable: true
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-      required:
-      - deprecated
-      - description
-      - name
-    EventTypeImportOpenApiIn:
-      description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
-
-
-        The OpenAPI spec can be specified as either `spec` given the spec as a JSON object, or as `specRaw` (a `string`) which will be parsed as YAML or JSON by the server. Sending neither or both is invalid, resulting in a `400` **Bad Request**.'
-      type: object
-      properties:
-        dryRun:
-          description: If `true`, return the event types that would be modified without actually modifying them.
-          type: boolean
-          default: false
-        replaceAll:
-          description: If `true`, all existing event types that are not in the spec will be archived.
-          type: boolean
-          default: false
-        spec:
-          description: A pre-parsed JSON spec.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            openapi: 3.1.0
-            info:
-              title: Webhook Example
-              version: 1.0.0
-            webhooks:
-              pet.new:
-                post:
-                  requestBody:
-                    description: Information about a new pet in the system
-                    content:
-                      application/json:
-                        schema:
-                          properties:
-                            id:
-                              type: integer
-                              format: int64
-                            name:
-                              type: string
-                            tag:
-                              type: string
-                          required:
-                          - id
-                          - name
-                  responses:
-                    '200':
-                      description: Return a 200 status to indicate that the data was received successfully
-        specRaw:
-          description: A string, parsed by the server as YAML or JSON.
-          type: string
-          nullable: true
-          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    EventTypeImportOpenApiOut:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
-      required:
-      - data
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    EventTypeIn:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
         description:
           type: string
           example: A user has signed up
@@ -1542,16 +1502,8 @@ components:
               required:
               - invoiceId
               - userId
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
         featureFlags:
           type: array
-          default: null
           nullable: true
           items:
             type: string
@@ -1569,15 +1521,63 @@ components:
           maxLength: 256
           pattern: ^[a-zA-Z0-9\-_.]+$
           nullable: true
+        groupName:
+          description: The event type group's name
+          type: string
+          default: null
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
       required:
       - description
-      - name
-    BackgroundTaskStatus:
+    ExportEventTypeOut:
+      type: object
+      properties:
+        id:
+          description: The QueueBackgroundTask's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - status
+      - task
+      - updatedAt
+    Ordering:
+      description: Defines the ordering in a listing of results.
       type: string
       enum:
-      - running
-      - finished
-      - failed
+      - ascending
+      - descending
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
     EventTypePatch:
       type: object
       properties:

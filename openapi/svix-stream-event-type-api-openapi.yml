@@ -727,6 +727,27 @@ paths:
         source: "curl -X 'PATCH' \\\n  'https://api.eu.svix.com/api/v1/stream/event-type/name' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"description\": \"sample string\",\n    \"featureFlags\": [\n      \"cool-new-feature\"\n    ],\n    \"deprecated\": true,\n    \"archived\": true\n  }'"
 components:
   schemas:
+    ListResponse_StreamEventTypeOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamEventTypeOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     HTTPValidationError:
       type: object
       properties:
@@ -756,6 +777,12 @@ components:
           type: boolean
         archived:
           type: boolean
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
     HttpErrorOut:
       title: HttpError
       type: object
@@ -798,27 +825,25 @@ components:
           default: false
       required:
       - name
-    ListResponse_StreamEventTypeOut_:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        data:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
           items:
-            $ref: '#/components/schemas/StreamEventTypeOut'
-        iterator:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
           type: string
-          nullable: true
-          example: iterator
-        prevIterator:
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
           type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
       required:
-      - data
-      - done
-      - iterator
+      - loc
+      - msg
+      - type
     StreamEventTypeOut:
       type: object
       properties:
@@ -857,31 +882,6 @@ components:
       - deprecated
       - name
       - updatedAt
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
   securitySchemes:
     HTTPBearer:
       type: http

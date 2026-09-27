@@ -1400,16 +1400,80 @@ paths:
         source: "curl -X 'PATCH' \\\n  'https://api.eu.svix.com/ingest/api/v1/source/src_31Dc4Mx7vQVLfxFgArIhq/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/transformation' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"code\": \"sample string\",\n    \"enabled\": true\n  }'"
 components:
   schemas:
-    IngestEndpointTransformationPatch:
+    IngestEndpointSecretOut:
       type: object
       properties:
-        code:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
           type: string
-          maxLength: 51200
-          minLength: 10
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      required:
+      - key
+    IngestEndpointIn:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
           nullable: true
-        enabled:
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        disabled:
           type: boolean
+          default: false
+          example: false
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - url
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -1429,35 +1493,6 @@ components:
       - loc
       - msg
       - type
-    IngestEndpointHeadersOut:
-      type: object
-      properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-        sensitive:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-          example:
-          - Authorization
-      required:
-      - headers
-      - sensitive
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
     IngestEndpointTransformationOut:
       type: object
       properties:
@@ -1469,6 +1504,102 @@ components:
         enabled:
           type: boolean
           default: false
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    IngestEndpointTransformationPatch:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+          nullable: true
+        enabled:
+          type: boolean
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    IngestEndpointUpdate:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - url
+    IngestEndpointHeadersIn:
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+      required:
+      - headers
     IngestEndpointOut:
       type: object
       properties:
@@ -1532,154 +1663,6 @@ components:
       - metadata
       - updatedAt
       - url
-    IngestEndpointSecretIn:
-      type: object
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          default: null
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    IngestEndpointSecretOut:
-      type: object
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-      required:
-      - key
-    IngestEndpointUpdate:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - url
-    IngestEndpointIn:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - url
     ListResponse_IngestEndpointOut_:
       type: object
       properties:
@@ -1701,13 +1684,22 @@ components:
       - data
       - done
       - iterator
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    IngestEndpointHeadersIn:
+    IngestEndpointSecretIn:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          default: null
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+    IngestEndpointHeadersOut:
       type: object
       properties:
         headers:
@@ -1717,8 +1709,16 @@ components:
           example:
             X-Example: '123'
             X-Foobar: Bar
+        sensitive:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          example:
+          - Authorization
       required:
       - headers
+      - sensitive
   securitySchemes:
     HTTPBearer:
       type: http

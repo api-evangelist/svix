@@ -135,25 +135,65 @@ paths:
       x-internal: true
 components:
   schemas:
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+    MessageBroadcastOut:
       type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+        id:
+          description: The QueueBackgroundTask's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - status
+      - task
+      - updatedAt
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
           type: array
           items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
           type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+        detail:
           type: string
       required:
-      - loc
-      - msg
-      - type
+      - code
+      - detail
     MessageBroadcastIn:
       type: object
       properties:
@@ -213,65 +253,25 @@ components:
       required:
       - eventType
       - payload
-    HttpErrorOut:
-      title: HttpError
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    MessageBroadcastOut:
-      type: object
-      properties:
-        id:
-          description: The QueueBackgroundTask's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^qtask_[A-Za-z0-9]{27}$
-          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        status:
-          $ref: '#/components/schemas/BackgroundTaskStatus'
-        task:
-          $ref: '#/components/schemas/BackgroundTaskType'
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - status
-      - task
-      - updatedAt
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
       required:
-      - detail
+      - loc
+      - msg
+      - type
   securitySchemes:
     HTTPBearer:
       type: http

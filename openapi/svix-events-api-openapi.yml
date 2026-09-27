@@ -136,17 +136,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
     MessageOut:
       type: object
       properties:
@@ -214,6 +203,26 @@ components:
       - id
       - payload
       - timestamp
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     MessageEventsOut:
       type: object
       properties:
@@ -248,15 +257,6 @@ components:
       - loc
       - msg
       - type
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
   securitySchemes:
     HTTPBearer:
       type: http

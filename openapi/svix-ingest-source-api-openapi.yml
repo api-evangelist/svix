@@ -920,20 +920,40 @@ paths:
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/ingest/api/v1/source/src_31Dc4Mx7vQVLfxFgArIhq/dashboard' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"expiry\": 1,\n    \"readOnly\": true\n  }'"
 components:
   schemas:
-    CheckbookConfig:
+    VapiConfig:
       type: object
       properties:
         secret:
           type: string
       required:
       - secret
-    AdobeSignConfig:
+    StripeConfig:
       type: object
       properties:
-        clientId:
+        secret:
           type: string
       required:
-      - clientId
+      - secret
+    VapiConfigOut:
+      type: object
+    ShopifyConfigOut:
+      type: object
+    CheckbookConfigOut:
+      type: object
+    NangoConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    OpenClawConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
     TelnyxConfigOut:
       type: object
       properties:
@@ -941,75 +961,13 @@ components:
           type: string
       required:
       - publicKey
-    TailscaleConfig:
-      type: object
-      properties:
-        secret:
-          description: Shared secret for Tailscale Webhooks
-          type: string
-        timestampGraceSeconds:
-          description: 'Grace period (in seconds) for the timestamp.
-
-
-            If not passed, timestamp age will not be checked.'
-          type: integer
-          format: uint32
-          default: null
-          minimum: 0
-          nullable: true
-      required:
-      - secret
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    PandaDocConfigOut:
-      type: object
-    AdobeSignConfigOut:
-      type: object
-    MetaConfig:
+    AirwallexConfig:
       type: object
       properties:
         secret:
           type: string
-        verifyToken:
-          type: string
       required:
       - secret
-      - verifyToken
-    TelnyxConfig:
-      type: object
-      properties:
-        publicKey:
-          type: string
-      required:
-      - publicKey
-    IngestSourcePatch:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 256
-          minLength: 2
-        uid:
-          description: The Source's UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
     CronConfig:
       type: object
       properties:
@@ -1027,43 +985,24 @@ components:
       required:
       - payload
       - schedule
-    ShopifyConfigOut:
-      type: object
-    DocusignConfigOut:
-      type: object
-    EasypostConfig:
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        secret:
+        code:
           type: string
-          nullable: true
-    GithubConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    OpenClawConfigOut:
-      type: object
-    SegmentConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    HTTPValidationError:
-      type: object
-      properties:
         detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
+          type: string
       required:
+      - code
       - detail
-    ZoomConfigOut:
+    SlackConfig:
       type: object
-    PortIoConfigOut:
-      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
     IngestSourceOut:
       type: object
       properties:
@@ -1575,20 +1514,58 @@ components:
       - metadata
       - name
       - updatedAt
-    VgsConfig:
+    HubspotConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    IngestSourceConsumerPortalAccessIn:
+      type: object
+      properties:
+        expiry:
+          description: 'How long the token will be valid for, in seconds.
+
+
+            Valid values are between 1 hour and 7 days. The default is 7 days.'
+          type: integer
+          format: uint64
+          maximum: 604800
+          minimum: 3600
+          nullable: true
+        readOnly:
+          description: Whether the app portal should be in read-only mode.
+          type: boolean
+          nullable: true
+    DashboardAccessOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
+        token:
+          type: string
+          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+      required:
+      - token
+      - url
+    RutterConfig:
       type: object
       properties:
         secret:
           type: string
       required:
       - secret
-    OrumIoConfig:
+    VeriffConfig:
       type: object
       properties:
-        publicKey:
+        secret:
           type: string
       required:
-      - publicKey
+      - secret
     IngestSourceIn:
       type: object
       properties:
@@ -2083,203 +2060,6 @@ components:
         - type
       required:
       - name
-    RutterConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    MetaConfigOut:
-      type: object
-    ShopifyConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    GithubConfigOut:
-      type: object
-    EasypostConfigOut:
-      type: object
-    VapiConfigOut:
-      type: object
-    SlackConfigOut:
-      type: object
-    RutterConfigOut:
-      type: object
-    HubspotConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    OrumIoConfigOut:
-      type: object
-      properties:
-        publicKey:
-          type: string
-      required:
-      - publicKey
-    VeriffConfigOut:
-      type: object
-    ZoomConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    PortIoConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    StripeConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    NangoConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    CheckbookConfigOut:
-      type: object
-    AirwallexConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    SegmentConfigOut:
-      type: object
-    HubspotConfigOut:
-      type: object
-    VgsConfigOut:
-      type: object
-    TailscaleConfigOut:
-      type: object
-    DocusignConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    AirwallexConfigOut:
-      type: object
-    DashboardAccessOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-      required:
-      - token
-      - url
-    IngestSourceConsumerPortalAccessIn:
-      type: object
-      properties:
-        expiry:
-          description: 'How long the token will be valid for, in seconds.
-
-
-            Valid values are between 1 hour and 7 days. The default is 7 days.'
-          type: integer
-          format: uint64
-          maximum: 604800
-          minimum: 3600
-          nullable: true
-        readOnly:
-          description: Whether the app portal should be in read-only mode.
-          type: boolean
-          nullable: true
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    SvixConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    StripeConfigOut:
-      type: object
-    PandaDocConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    OpenClawConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    VeriffConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    RotateTokenOut:
-      type: object
-      properties:
-        ingestUrl:
-          type: string
-      required:
-      - ingestUrl
-    NangoConfigOut:
-      type: object
-    VapiConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
     ListResponse_IngestSourceOut_:
       type: object
       properties:
@@ -2301,15 +2081,235 @@ components:
       - data
       - done
       - iterator
-    SvixConfigOut:
+    HTTPValidationError:
       type: object
-    SlackConfig:
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    ShopifyConfig:
       type: object
       properties:
         secret:
           type: string
       required:
       - secret
+    HubspotConfigOut:
+      type: object
+    DocusignConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    OrumIoConfigOut:
+      type: object
+      properties:
+        publicKey:
+          type: string
+      required:
+      - publicKey
+    EasypostConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    SvixConfigOut:
+      type: object
+    VgsConfigOut:
+      type: object
+    PortIoConfigOut:
+      type: object
+    AirwallexConfigOut:
+      type: object
+    SlackConfigOut:
+      type: object
+    SegmentConfigOut:
+      type: object
+    ZoomConfigOut:
+      type: object
+    AdobeSignConfig:
+      type: object
+      properties:
+        clientId:
+          type: string
+      required:
+      - clientId
+    TelnyxConfig:
+      type: object
+      properties:
+        publicKey:
+          type: string
+      required:
+      - publicKey
+    TailscaleConfig:
+      type: object
+      properties:
+        secret:
+          description: Shared secret for Tailscale Webhooks
+          type: string
+        timestampGraceSeconds:
+          description: 'Grace period (in seconds) for the timestamp.
+
+
+            If not passed, timestamp age will not be checked.'
+          type: integer
+          format: uint32
+          default: null
+          minimum: 0
+          nullable: true
+      required:
+      - secret
+    PandaDocConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    SegmentConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    EasypostConfigOut:
+      type: object
+    AdobeSignConfigOut:
+      type: object
+    TailscaleConfigOut:
+      type: object
+    GithubConfigOut:
+      type: object
+    PandaDocConfigOut:
+      type: object
+    VgsConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    RotateTokenOut:
+      type: object
+      properties:
+        ingestUrl:
+          type: string
+      required:
+      - ingestUrl
+    OpenClawConfigOut:
+      type: object
+    NangoConfigOut:
+      type: object
+    PortIoConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    StripeConfigOut:
+      type: object
+    MetaConfigOut:
+      type: object
+    DocusignConfigOut:
+      type: object
+    ZoomConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    IngestSourcePatch:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 256
+          minLength: 2
+        uid:
+          description: The Source's UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    SvixConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    OrumIoConfig:
+      type: object
+      properties:
+        publicKey:
+          type: string
+      required:
+      - publicKey
+    CheckbookConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    VeriffConfigOut:
+      type: object
+    GithubConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    MetaConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+        verifyToken:
+          type: string
+      required:
+      - secret
+      - verifyToken
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    RutterConfigOut:
+      type: object
   securitySchemes:
     HTTPBearer:
       type: http

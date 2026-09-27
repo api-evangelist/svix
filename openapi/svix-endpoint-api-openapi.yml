@@ -3918,29 +3918,6 @@ paths:
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/send-example' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"eventType\": \"user.signup\",\n    \"exampleIndex\": 1\n  }'"
 components:
   schemas:
-    OauthJwsSigningAlgorithm:
-      type: string
-      enum:
-      - RS256
-    TransformationSimulateOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-        payload:
-          type: string
-        method:
-          $ref: '#/components/schemas/TransformationHttpMethod'
-          nullable: true
-        cancel:
-          type: boolean
-      required:
-      - cancel
-      - payload
-      - url
     EndpointStats:
       type: object
       properties:
@@ -3965,16 +3942,6 @@ components:
       - pending
       - sending
       - success
-    Oauth2AuthMethodInOut:
-      description: 'The method used for authenticating to the OAuth authorization server.
-
-
-        `clientSecretJwt` will construct a JWT used for authentication with the oauth authorization server. This method is less commonly used and may not be supported by all oauth providers. `clientSecretBasic` will authenticate to the oauth authorization server using an `Authorization` header with the client secret as the value. This is the most common means of authentication. `clientSecretPost` will authenticate to the oauth authorization server by passing the client secret in a `client_secret` field in the request body. This method may not be supported by all oauth providers, and in general `clientSecretBasic` should be preferred.'
-      type: string
-      enum:
-      - clientSecretJwt
-      - clientSecretBasic
-      - clientSecretPost
     ConnectorOut:
       type: object
       properties:
@@ -4062,6 +4029,923 @@ components:
       - transformation
       - transformationUpdatedAt
       - updatedAt
+    ReplayIn:
+      type: object
+      properties:
+        since:
+          type: string
+          format: date-time
+        until:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - since
+    EndpointRateLimitStatus:
+      type: string
+      enum:
+      - Ok
+      - RateLimited
+    EndpointMtlsConfigOut:
+      type: object
+    ListResponse_EndpointOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EndpointOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    Oauth2AuthMethodInOut:
+      description: 'The method used for authenticating to the OAuth authorization server.
+
+
+        `clientSecretJwt` will construct a JWT used for authentication with the oauth authorization server. This method is less commonly used and may not be supported by all oauth providers. `clientSecretBasic` will authenticate to the oauth authorization server using an `Authorization` header with the client secret as the value. This is the most common means of authentication. `clientSecretPost` will authenticate to the oauth authorization server by passing the client secret in a `client_secret` field in the request body. This method may not be supported by all oauth providers, and in general `clientSecretBasic` should be preferred.'
+      type: string
+      enum:
+      - clientSecretJwt
+      - clientSecretBasic
+      - clientSecretPost
+    EndpointServerCaOut:
+      type: object
+      properties:
+        cert:
+          description: 'A PEM encoded X.509 certificate used to verify the webhook receiver''s certificate.
+
+
+            If this is `null`, standard CAs are in use.'
+          type: string
+          nullable: true
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    EndpointIn:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        version:
+          type: integer
+          format: uint16
+          default: 1
+          deprecated: true
+          nullable: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this endpoint listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+        headers:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+      required:
+      - url
+    ConnectorProduct:
+      type: string
+      enum:
+      - Dispatch
+      - Stream
+    OauthJwsSigningAlgorithm:
+      type: string
+      enum:
+      - RS256
+    TransformationHttpMethod:
+      type: string
+      enum:
+      - POST
+      - PUT
+      - PATCH
+    EndpointHeadersPatchIn:
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+        deleteHeaders:
+          description: A list of headers be be removed
+          type: array
+          default: []
+          items:
+            type: string
+      required:
+      - headers
+    EndpointUpdate:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        version:
+          type: integer
+          format: uint16
+          default: 1
+          deprecated: true
+          nullable: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this endpoint listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - url
+    TransformationSimulateOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+        payload:
+          type: string
+        method:
+          $ref: '#/components/schemas/TransformationHttpMethod'
+          nullable: true
+        cancel:
+          type: boolean
+      required:
+      - cancel
+      - payload
+      - url
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    EndpointTransformationOut:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+          nullable: true
+        enabled:
+          type: boolean
+          default: false
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+    RecoverIn:
+      type: object
+      properties:
+        since:
+          type: string
+          format: date-time
+        until:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - since
+    EndpointRateLimitStatusOut:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/EndpointRateLimitStatus'
+        throttledSince:
+          description: When throttling started for this endpoint, if currently throttled.
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - status
+    CancelMsgsIn:
+      type: object
+      properties:
+        createdBefore:
+          type: string
+          format: date-time
+      required:
+      - createdBefore
+    Oauth2GrantTypeInOut:
+      type: string
+      enum:
+      - clientCredentials
+      - refreshToken
+    EndpointOauthConfigOut:
+      type: object
+      properties:
+        grantType:
+          $ref: '#/components/schemas/Oauth2GrantTypeInOut'
+        authMethod:
+          $ref: '#/components/schemas/Oauth2AuthMethodInOut'
+        clientId:
+          type: string
+        tokenUrl:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+          nullable: true
+        extraParams:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+        extraHeaders:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      required:
+      - authMethod
+      - clientId
+      - grantType
+      - tokenUrl
+    MessageOut:
+      type: object
+      properties:
+        eventId:
+          description: Optional unique identifier for the message
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        id:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_./\\#]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        deliverAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - eventType
+      - id
+      - payload
+      - timestamp
+    EndpointOauthOut:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        config:
+          $ref: '#/components/schemas/EndpointOauthConfigOut'
+          nullable: true
+      required:
+      - enabled
+    BulkReplayIn:
+      type: object
+      properties:
+        since:
+          type: string
+          format: date-time
+        until:
+          type: string
+          format: date-time
+          nullable: true
+        eventTypes:
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          uniqueItems: true
+          nullable: true
+        channel:
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_.:+]+$
+          example: project_1337
+          nullable: true
+        tag:
+          type: string
+          maxLength: 128
+          pattern: ^[a-zA-Z0-9\-_./\\#]+$
+          example: project_1337
+          nullable: true
+        status:
+          $ref: '#/components/schemas/MessageStatus'
+          nullable: true
+        statusCodeClass:
+          $ref: '#/components/schemas/StatusCodeClass'
+          nullable: true
+      required:
+      - since
+    EndpointServerCaIn:
+      type: object
+      properties:
+        cert:
+          description: 'A PEM encoded X.509 certificate used to verify the webhook receiver''s certificate.
+
+
+            Set to `null` to use standard CAs.'
+          type: string
+          nullable: true
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    TransformationSimulateIn:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        channels:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - eventType
+      - payload
+    EndpointTransformationPatch:
+      type: object
+      properties:
+        code:
+          type: string
+          nullable: true
+          maxLength: 51200
+          minLength: 10
+          example: function handler(webhook) { /* ... */ }
+        enabled:
+          type: boolean
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+    StatusCodeClass:
+      title: StatusCodeClass
+      description: 'The different classes of HTTP status codes:
+
+
+        - CodeNone = 0
+
+        - Code1xx = 100
+
+        - Code2xx = 200
+
+        - Code3xx = 300
+
+        - Code4xx = 400
+
+        - Code5xx = 500'
+      type: integer
+      enum:
+      - 0
+      - 100
+      - 200
+      - 300
+      - 400
+      - 500
+      x-enum-varnames:
+      - CodeNone
+      - Code1xx
+      - Code2xx
+      - Code3xx
+      - Code4xx
+      - Code5xx
+    EndpointSecretOut:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      required:
+      - key
+    EndpointOut:
+      type: object
+      properties:
+        id:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        version:
+          type: integer
+          format: int32
+          deprecated: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this endpoint listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - createdAt
+      - description
+      - id
+      - metadata
+      - updatedAt
+      - url
+      - version
+    EndpointSecretRotateIn:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          default: null
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        gracePeriodSeconds:
+          description: 'How long the old secret will be valid for, in seconds.
+
+
+            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
+          type: integer
+          format: uint32
+          default: 86400
+          maximum: 604800
+          minimum: 0
+          nullable: true
+    EndpointOauthConfigIn:
+      type: object
+      properties:
+        grantType:
+          description: The OAuth grant type.
+          $ref: '#/components/schemas/Oauth2GrantTypeInOut'
+        authMethod:
+          $ref: '#/components/schemas/Oauth2AuthMethodInOut'
+        jwtParams:
+          description: Optional JWT parameters. Only required for `clientSecretJwt`
+          $ref: '#/components/schemas/ClientSecretJwtParamsIn'
+          nullable: true
+        clientId:
+          description: The client ID. Required for all authentication types.
+          type: string
+        clientSecret:
+          description: 'Optional client secret. This is only used for `clientSecretBasic` and `clientSecretPost`.
+
+
+            For `clientSecretBasic`, the secret will be appended to the `Authorization` header. For `clientSecretPost`, this will be added to the body in a `client_secret` parameter.'
+          type: string
+          nullable: true
+        tokenUrl:
+          description: The URL of the authorization server.
+          type: string
+          format: uri
+        scopes:
+          description: Optional OAuth scopes added to the request body.
+          type: array
+          items:
+            type: string
+          nullable: true
+        extraParams:
+          description: Extra parameters added to the request body as key-value pairs.
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+        refreshToken:
+          description: For `refreshToken` grant type.
+          type: string
+          nullable: true
+        extraHeaders:
+          description: Optional headers added to the token request.
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      required:
+      - authMethod
+      - clientId
+      - grantType
+      - tokenUrl
+    EndpointPatch:
+      type: object
+      properties:
+        description:
+          type: string
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        uid:
+          description: The Endpoint's UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        url:
+          type: string
+          format: uri
+        version:
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          example: 1
+        disabled:
+          type: boolean
+        filterTypes:
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          uniqueItems: true
+          nullable: true
+        channels:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          deprecated: true
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
     SinkOut:
       type: object
       properties:
@@ -4176,53 +5060,147 @@ components:
       - id
       - metadata
       - updatedAt
-    EndpointOauthConfigOut:
+    MessageStatus:
+      title: MessageStatus
+      description: 'The sending status of the message:
+
+
+        - Success = 0
+
+        - Pending = 1
+
+        - Fail = 2
+
+        - Sending = 3
+
+        - Canceled = 4'
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      x-enum-varnames:
+      - Success
+      - Pending
+      - Fail
+      - Sending
+      - Canceled
+    ClientSecretJwtParamsIn:
       type: object
       properties:
-        grantType:
-          $ref: '#/components/schemas/Oauth2GrantTypeInOut'
-        authMethod:
-          $ref: '#/components/schemas/Oauth2AuthMethodInOut'
-        clientId:
+        secretBase64:
+          description: The base64-encoded secret used for signing the JWT.
           type: string
-        tokenUrl:
+        signingAlgorithm:
+          description: The algorithm used to sign the JWT.
+          $ref: '#/components/schemas/OauthJwsSigningAlgorithm'
+        secretId:
+          description: Optional secret identifier. If supplied, this will be populated in the JWT header in the `kid` field.
           type: string
-        scopes:
-          type: array
-          items:
-            type: string
           nullable: true
-        extraParams:
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-        extraHeaders:
-          type: object
-          additionalProperties:
-            type: string
+        tokenExpirySecs:
+          description: Optional number of seconds after which the JWT should expire. Defaults to 300 seconds.
+          type: integer
+          format: uint64
+          minimum: 0
           nullable: true
       required:
-      - authMethod
-      - clientId
-      - grantType
-      - tokenUrl
-    HttpErrorOut:
-      title: HttpError
+      - secretBase64
+      - signingAlgorithm
+    RecoverOut:
       type: object
       properties:
-        code:
+        id:
+          description: The QueueBackgroundTask's ID.
           type: string
-        detail:
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
           type: string
+          format: date-time
       required:
-      - code
-      - detail
-    EndpointRateLimitStatus:
+      - id
+      - status
+      - task
+      - updatedAt
+    Ordering:
+      description: Defines the ordering in a listing of results.
       type: string
       enum:
-      - Ok
-      - RateLimited
+      - ascending
+      - descending
+    ReplayOut:
+      type: object
+      properties:
+        id:
+          description: The QueueBackgroundTask's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^qtask_[A-Za-z0-9]{27}$
+          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        status:
+          $ref: '#/components/schemas/BackgroundTaskStatus'
+        task:
+          $ref: '#/components/schemas/BackgroundTaskType'
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - status
+      - task
+      - updatedAt
+    ConnectorKind:
+      type: string
+      enum:
+      - Custom
+      - AgenticCommerceProtocol
+      - CloseCRM
+      - CustomerIO
+      - Discord
+      - Hubspot
+      - Inngest
+      - Loops
+      - Otel
+      - Resend
+      - Salesforce
+      - Segment
+      - Sendgrid
+      - Slack
+      - Teams
+      - TriggerDev
+      - Windmill
+      - Zapier
+    ListResponse_SinkOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SinkOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     EventExampleIn:
       type: object
       properties:
@@ -4243,175 +5221,11 @@ components:
           minimum: 0.0
       required:
       - eventType
-    BulkReplayIn:
-      type: object
-      properties:
-        since:
-          type: string
-          format: date-time
-        until:
-          type: string
-          format: date-time
-          nullable: true
-        eventTypes:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          uniqueItems: true
-          nullable: true
-        channel:
-          type: string
-          maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_.:+]+$
-          example: project_1337
-          nullable: true
-        tag:
-          type: string
-          maxLength: 128
-          pattern: ^[a-zA-Z0-9\-_./\\#]+$
-          example: project_1337
-          nullable: true
-        status:
-          $ref: '#/components/schemas/MessageStatus'
-          nullable: true
-        statusCodeClass:
-          $ref: '#/components/schemas/StatusCodeClass'
-          nullable: true
-      required:
-      - since
-    TransformationSimulateIn:
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        channels:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        payload:
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - eventType
-      - payload
-    EndpointPatch:
-      type: object
-      properties:
-        description:
-          type: string
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 0
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
+    EndpointHeadersOut:
+      description: 'The value of the headers is returned in the `headers` field.
 
 
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 0
-          nullable: true
-        uid:
-          description: The Endpoint's UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        url:
-          type: string
-          format: uri
-        version:
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          example: 1
-        disabled:
-          type: boolean
-        filterTypes:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          uniqueItems: true
-          nullable: true
-        channels:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          deprecated: true
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-    Oauth2GrantTypeInOut:
-      type: string
-      enum:
-      - clientCredentials
-      - refreshToken
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    EndpointServerCaOut:
-      type: object
-      properties:
-        cert:
-          description: 'A PEM encoded X.509 certificate used to verify the webhook receiver''s certificate.
-
-
-            If this is `null`, standard CAs are in use.'
-          type: string
-          nullable: true
-    EndpointHeadersIn:
+        Sensitive headers that have been redacted are returned in the sensitive field.'
       type: object
       properties:
         headers:
@@ -4421,107 +5235,26 @@ components:
           example:
             X-Example: '123'
             X-Foobar: Bar
+        sensitive:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          example:
+          - Authorization
       required:
       - headers
-    EndpointOut:
+      - sensitive
+    EndpointMtlsOut:
       type: object
       properties:
-        id:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 0
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 0
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        version:
-          type: integer
-          format: int32
-          deprecated: true
-          minimum: 1
-          example: 1
-        disabled:
+        enabled:
           type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
+        config:
+          $ref: '#/components/schemas/EndpointMtlsConfigOut'
           nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        channels:
-          description: List of message channels this endpoint listens to (omit for all).
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
       required:
-      - createdAt
-      - description
-      - id
-      - metadata
-      - updatedAt
-      - url
-      - version
+      - enabled
     SinkIn:
       type: object
       properties:
@@ -4631,485 +5364,18 @@ components:
             - autoConfig
         required:
         - type
-    EndpointUpdate:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        version:
-          type: integer
-          format: uint16
-          default: 1
-          deprecated: true
-          nullable: true
-          minimum: 1
-          example: 1
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        channels:
-          description: List of message channels this endpoint listens to (omit for all).
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - url
-    EndpointMtlsOut:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        config:
-          $ref: '#/components/schemas/EndpointMtlsConfigOut'
-          nullable: true
-      required:
-      - enabled
-    ReplayIn:
-      type: object
-      properties:
-        since:
-          type: string
-          format: date-time
-        until:
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - since
-    StatusCodeClass:
-      title: StatusCodeClass
-      description: 'The different classes of HTTP status codes:
-
-
-        - CodeNone = 0
-
-        - Code1xx = 100
-
-        - Code2xx = 200
-
-        - Code3xx = 300
-
-        - Code4xx = 400
-
-        - Code5xx = 500'
-      type: integer
-      enum:
-      - 0
-      - 100
-      - 200
-      - 300
-      - 400
-      - 500
-      x-enum-varnames:
-      - CodeNone
-      - Code1xx
-      - Code2xx
-      - Code3xx
-      - Code4xx
-      - Code5xx
-    TransformationHttpMethod:
-      type: string
-      enum:
-      - POST
-      - PUT
-      - PATCH
-    EndpointOauthConfigIn:
-      type: object
-      properties:
-        grantType:
-          description: The OAuth grant type.
-          $ref: '#/components/schemas/Oauth2GrantTypeInOut'
-        authMethod:
-          $ref: '#/components/schemas/Oauth2AuthMethodInOut'
-        jwtParams:
-          description: Optional JWT parameters. Only required for `clientSecretJwt`
-          $ref: '#/components/schemas/ClientSecretJwtParamsIn'
-          nullable: true
-        clientId:
-          description: The client ID. Required for all authentication types.
-          type: string
-        clientSecret:
-          description: 'Optional client secret. This is only used for `clientSecretBasic` and `clientSecretPost`.
-
-
-            For `clientSecretBasic`, the secret will be appended to the `Authorization` header. For `clientSecretPost`, this will be added to the body in a `client_secret` parameter.'
-          type: string
-          nullable: true
-        tokenUrl:
-          description: The URL of the authorization server.
-          type: string
-          format: uri
-        scopes:
-          description: Optional OAuth scopes added to the request body.
-          type: array
-          items:
-            type: string
-          nullable: true
-        extraParams:
-          description: Extra parameters added to the request body as key-value pairs.
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-        refreshToken:
-          description: For `refreshToken` grant type.
-          type: string
-          nullable: true
-        extraHeaders:
-          description: Optional headers added to the token request.
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-      required:
-      - authMethod
-      - clientId
-      - grantType
-      - tokenUrl
-    ClientSecretJwtParamsIn:
-      type: object
-      properties:
-        secretBase64:
-          description: The base64-encoded secret used for signing the JWT.
-          type: string
-        signingAlgorithm:
-          description: The algorithm used to sign the JWT.
-          $ref: '#/components/schemas/OauthJwsSigningAlgorithm'
-        secretId:
-          description: Optional secret identifier. If supplied, this will be populated in the JWT header in the `kid` field.
-          type: string
-          nullable: true
-        tokenExpirySecs:
-          description: Optional number of seconds after which the JWT should expire. Defaults to 300 seconds.
-          type: integer
-          format: uint64
-          minimum: 0
-          nullable: true
-      required:
-      - secretBase64
-      - signingAlgorithm
-    EndpointTransformationPatch:
-      type: object
-      properties:
-        code:
-          type: string
-          nullable: true
-          maxLength: 51200
-          minLength: 10
-          example: function handler(webhook) { /* ... */ }
-        enabled:
-          type: boolean
-        variables:
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-    EndpointIn:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        version:
-          type: integer
-          format: uint16
-          default: 1
-          deprecated: true
-          nullable: true
-          minimum: 1
-          example: 1
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        channels:
-          description: List of message channels this endpoint listens to (omit for all).
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-        headers:
-          type: object
-          nullable: true
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-      required:
-      - url
-    MessageStatus:
-      title: MessageStatus
-      description: 'The sending status of the message:
-
-
-        - Success = 0
-
-        - Pending = 1
-
-        - Fail = 2
-
-        - Sending = 3
-
-        - Canceled = 4'
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      x-enum-varnames:
-      - Success
-      - Pending
-      - Fail
-      - Sending
-      - Canceled
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    ConnectorKind:
-      type: string
-      enum:
-      - Custom
-      - AgenticCommerceProtocol
-      - CloseCRM
-      - CustomerIO
-      - Discord
-      - Hubspot
-      - Inngest
-      - Loops
-      - Otel
-      - Resend
-      - Salesforce
-      - Segment
-      - Sendgrid
-      - Slack
-      - Teams
-      - TriggerDev
-      - Windmill
-      - Zapier
-    EndpointMtlsConfigOut:
-      type: object
-    RecoverOut:
-      type: object
-      properties:
-        id:
-          description: The QueueBackgroundTask's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^qtask_[A-Za-z0-9]{27}$
-          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        status:
-          $ref: '#/components/schemas/BackgroundTaskStatus'
-        task:
-          $ref: '#/components/schemas/BackgroundTaskType'
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - status
-      - task
-      - updatedAt
-    EndpointOauthOut:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        config:
-          $ref: '#/components/schemas/EndpointOauthConfigOut'
-          nullable: true
-      required:
-      - enabled
-    RecoverIn:
-      type: object
-      properties:
-        since:
-          type: string
-          format: date-time
-        until:
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - since
-    EndpointHeadersPatchIn:
+    EndpointHeadersIn:
       type: object
       properties:
         headers:
           type: object
           additionalProperties:
             type: string
-            nullable: true
           example:
             X-Example: '123'
             X-Foobar: Bar
-        deleteHeaders:
-          description: A list of headers be be removed
-          type: array
-          default: []
-          items:
-            type: string
       required:
       - headers
-    EndpointServerCaIn:
-      type: object
-      properties:
-        cert:
-          description: 'A PEM encoded X.509 certificate used to verify the webhook receiver''s certificate.
-
-
-            Set to `null` to use standard CAs.'
-          type: string
-          nullable: true
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
     EndpointMtlsConfigIn:
       type: object
       properties:
@@ -5118,272 +5384,6 @@ components:
           type: string
       required:
       - identity
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    MessageOut:
-      type: object
-      properties:
-        eventId:
-          description: Optional unique identifier for the message
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: object
-          additionalProperties: true
-          example:
-            type: user.created
-            email: test@example.com
-            username: test_user
-        channels:
-          description: List of free-form identifiers that endpoints can filter by
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        id:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        timestamp:
-          type: string
-          format: date-time
-        tags:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_./\\#]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        deliverAt:
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - eventType
-      - id
-      - payload
-      - timestamp
-    EndpointHeadersOut:
-      description: 'The value of the headers is returned in the `headers` field.
-
-
-        Sensitive headers that have been redacted are returned in the sensitive field.'
-      type: object
-      properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-        sensitive:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-          example:
-          - Authorization
-      required:
-      - headers
-      - sensitive
-    EndpointRateLimitStatusOut:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/EndpointRateLimitStatus'
-        throttledSince:
-          description: When throttling started for this endpoint, if currently throttled.
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - status
-    ListResponse_SinkOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/SinkOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    ReplayOut:
-      type: object
-      properties:
-        id:
-          description: The QueueBackgroundTask's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^qtask_[A-Za-z0-9]{27}$
-          example: qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        status:
-          $ref: '#/components/schemas/BackgroundTaskStatus'
-        task:
-          $ref: '#/components/schemas/BackgroundTaskType'
-        updatedAt:
-          type: string
-          format: date-time
-      required:
-      - id
-      - status
-      - task
-      - updatedAt
-    EndpointSecretOut:
-      type: object
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-      required:
-      - key
-    EndpointTransformationOut:
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-          nullable: true
-        enabled:
-          type: boolean
-          default: false
-        variables:
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-        updatedAt:
-          type: string
-          format: date-time
-          nullable: true
-    ListResponse_EndpointOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EndpointOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    ConnectorProduct:
-      type: string
-      enum:
-      - Dispatch
-      - Stream
-    CancelMsgsIn:
-      type: object
-      properties:
-        createdBefore:
-          type: string
-          format: date-time
-      required:
-      - createdBefore
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
-    EndpointSecretRotateIn:
-      type: object
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          default: null
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        gracePeriodSeconds:
-          description: 'How long the old secret will be valid for, in seconds.
-
-
-            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
-          type: integer
-          format: uint32
-          default: 86400
-          maximum: 604800
-          minimum: 0
-          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http
