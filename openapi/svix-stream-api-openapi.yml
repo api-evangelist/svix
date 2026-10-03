@@ -857,6 +857,14 @@ paths:
       x-internal: true
 components:
   schemas:
+    StreamAlertEmailPatch:
+      type: object
+      properties:
+        email:
+          description: A comma-separated list of email addresses
+          type: string
+          nullable: true
+          example: user1@example.com, user2@example.com
     StreamOut:
       type: object
       properties:
@@ -894,14 +902,23 @@ components:
       - id
       - metadata
       - updatedAt
-    StreamAlertEmailPatch:
+    HTTPValidationError:
       type: object
       properties:
-        email:
-          description: A comma-separated list of email addresses
-          type: string
-          nullable: true
-          example: user1@example.com, user2@example.com
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    StreamTransformationSimulateOut:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+      required:
+      - output
     StreamTransformationSimulateIn:
       type: object
       properties:
@@ -919,24 +936,6 @@ components:
       - code
       - events
       - type
-    StreamPatch:
-      type: object
-      properties:
-        description:
-          description: The Stream's description.
-          type: string
-        uid:
-          description: An optional unique identifier for the stream.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
     StreamIn:
       type: object
       properties:
@@ -959,15 +958,24 @@ components:
             type: string
       required:
       - name
-    HTTPValidationError:
+    StreamPatch:
       type: object
       properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
+        description:
+          description: The Stream's description.
+          type: string
+        uid:
+          description: An optional unique identifier for the stream.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
     Ordering:
       description: Defines the ordering in a listing of results.
       type: string
@@ -1009,14 +1017,6 @@ components:
       required:
       - eventType
       - payload
-    StreamTransformationSimulateOut:
-      type: object
-      properties:
-        output:
-          type: object
-          additionalProperties: true
-      required:
-      - output
     ListResponse_StreamOut_:
       type: object
       properties:

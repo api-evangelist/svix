@@ -373,24 +373,34 @@ paths:
       x-internal: true
 components:
   schemas:
-    EventOut:
+    HTTPValidationError:
       type: object
       properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - eventType
-      - payload
-      - timestamp
+      - detail
+    CreateStreamEventsIn:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventIn'
+          example:
+          - eventType: user.signup
+            payload: '{"email":"test@example.com","username":"test_user"}'
+        stream:
+          description: 'Optionally creates a new Stream alongside the events.
+
+
+            If the stream id or uid that is used in the path already exists, this argument is ignored.'
+          $ref: '#/components/schemas/StreamIn'
+          nullable: true
+      required:
+      - events
     StreamIn:
       type: object
       properties:
@@ -413,7 +423,7 @@ components:
             type: string
       required:
       - name
-    EventIn:
+    EventOut:
       type: object
       properties:
         eventType:
@@ -424,74 +434,13 @@ components:
           example: user.signup
         payload:
           type: string
+        timestamp:
+          type: string
+          format: date-time
       required:
       - eventType
       - payload
-    CreateStreamEventsOut:
-      type: object
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    CreateStreamEventsIn:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventIn'
-          example:
-          - eventType: user.signup
-            payload: '{"email":"test@example.com","username":"test_user"}'
-        stream:
-          description: 'Optionally creates a new Stream alongside the events.
-
-
-            If the stream id or uid that is used in the path already exists, this argument is ignored.'
-          $ref: '#/components/schemas/StreamIn'
-          nullable: true
-      required:
-      - events
-    LatestEventsOut:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventOut'
-      required:
-      - data
-    EventStreamOut:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventOut'
-        iterator:
-          type: string
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
+      - timestamp
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -511,6 +460,57 @@ components:
       - loc
       - msg
       - type
+    EventStreamOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventOut'
+        iterator:
+          type: string
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    CreateStreamEventsOut:
+      type: object
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    EventIn:
+      type: object
+      properties:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+      required:
+      - eventType
+      - payload
+    LatestEventsOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventOut'
+      required:
+      - data
   securitySchemes:
     HTTPBearer:
       type: http

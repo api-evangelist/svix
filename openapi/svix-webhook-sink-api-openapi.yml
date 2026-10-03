@@ -1429,309 +1429,28 @@ paths:
       x-internal: true
 components:
   schemas:
-    SnowflakePatchConfig:
-      type: object
-      properties:
-        privateKey:
-          type: string
-        accountIdentifier:
-          type: string
-        userId:
-          type: string
-        dbName:
-          description: 'Database name.
-
-
-            Only required if not using transformations.'
-          type: string
-        schemaName:
-          description: 'Schema name.
-
-
-            Only required if not using transformations.'
-          type: string
-        tableName:
-          description: 'Table name.
-
-
-            Only required if not using transformations.'
-          type: string
-    OtelTracingPatchConfig:
+    HttpPatchConfig:
       type: object
       properties:
         url:
           type: string
           format: uri
-    ClickhouseConfig:
+    AzureBlobStoragePatchConfig:
       type: object
       properties:
-        url:
-          description: The HTTP URL of the ClickHouse server (e.g. `https://my_clickhouse:8443`).
+        container:
           type: string
-          format: uri
-        username:
-          description: Username to access Clickhouse
+        account:
           type: string
-        password:
-          description: Password to access Clickhouse
+        accessKey:
           type: string
-        database:
-          description: The Clickhouse database to connect to
-          type: string
-          default: default
-        tableName:
-          description: The Clickhouse table to write to
-          type: string
-      required:
-      - password
-      - tableName
-      - url
-      - username
-    StreamSinkPatch:
+    GoogleCloudStoragePatchConfig:
       type: object
       properties:
-        uid:
-          description: The StreamSink's UID.
+        bucket:
           type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!sink_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        status:
-          default: null
-          $ref: '#/components/schemas/SinkStatusIn'
-          nullable: true
-        batchSize:
-          type: integer
-          format: uint16
-          default: null
-          nullable: true
-          maximum: 1000
-          minimum: 1
-          example: 100
-        maxWaitSecs:
-          type: integer
-          format: uint16
-          default: null
-          maximum: 300
-          minimum: 0
-          nullable: true
-        eventTypes:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - poller
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - azureBlobStorage
-          config:
-            $ref: '#/components/schemas/AzureBlobStoragePatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - otelTracing
-          config:
-            $ref: '#/components/schemas/OtelTracingPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - http
-          config:
-            $ref: '#/components/schemas/HttpPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - amazonS3
-          config:
-            $ref: '#/components/schemas/AmazonS3PatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - googleCloudStorage
-          config:
-            $ref: '#/components/schemas/GoogleCloudStoragePatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - googleCloudPubSub
-          config:
-            $ref: '#/components/schemas/GoogleCloudPubSubPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - sqs
-          config:
-            $ref: '#/components/schemas/SqsPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - sns
-          config:
-            $ref: '#/components/schemas/SnsPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - bigQuery
-          config:
-            $ref: '#/components/schemas/BigQueryPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - clickhouse
-          config:
-            $ref: '#/components/schemas/ClickhousePatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - eventBridge
-          config:
-            $ref: '#/components/schemas/EventBridgePatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - snowflake
-          config:
-            $ref: '#/components/schemas/SnowflakePatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - rabbitMq
-          config:
-            $ref: '#/components/schemas/RabbitMqPatchConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - redshift
-          config:
-            $ref: '#/components/schemas/RedshiftPatchConfig'
-        required:
-        - config
-        - type
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
+        credentials:
           type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    SqsConfig:
-      description: Configuration for an SQS sink.
-      type: object
-      properties:
-        queueUrl:
-          type: string
-          format: uri
-        region:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        endpointUrl:
-          type: string
-          format: uri
-          nullable: true
-      required:
-      - accessKeyId
-      - queueUrl
-      - region
-      - secretAccessKey
-    SinkStatus:
-      type: string
-      enum:
-      - enabled
-      - paused
-      - disabled
-      - retrying
     SnsPatchConfig:
       type: object
       properties:
@@ -1747,98 +1466,30 @@ components:
           type: string
           format: uri
           nullable: true
-    RabbitMqPatchConfig:
-      type: object
-      properties:
-        routingKey:
-          type: string
-        uri:
-          type: string
-    SinkTransformIn:
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-          nullable: true
-    SqsPatchConfig:
-      type: object
-      properties:
-        queueUrl:
-          type: string
-          format: uri
-        region:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        endpointUrl:
-          type: string
-          format: uri
-          nullable: true
-    RedshiftConfig:
-      description: 'Configuration parameters for defining a Redshift sink.
+    EndpointHeadersOut:
+      description: 'The value of the headers is returned in the `headers` field.
 
 
-        For provisioned clusters, set `cluster_identifier` and `db_user`. For Redshift Serverless, set `workgroup_name`.'
-      type: object
-      properties:
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        region:
-          type: string
-        clusterIdentifier:
-          description: Required for provisioned clusters.
-          type: string
-          nullable: true
-        dbUser:
-          description: Required for provisioned clusters.
-          type: string
-          nullable: true
-        workgroupName:
-          description: Required for Redshift Serverless.
-          type: string
-          nullable: true
-        dbName:
-          description: 'Database name.
-
-
-            Only required if not using transformations.'
-          type: string
-        schemaName:
-          description: 'Schema name.
-
-
-            Only used if not using transformations.'
-          type: string
-          nullable: true
-        tableName:
-          description: 'Table name.
-
-
-            Only required if not using transformations.'
-          type: string
-      required:
-      - accessKeyId
-      - region
-      - secretAccessKey
-    HttpSinkHeadersPatchIn:
+        Sensitive headers that have been redacted are returned in the sensitive field.'
       type: object
       properties:
         headers:
           type: object
           additionalProperties:
             type: string
-            nullable: true
           example:
             X-Example: '123'
             X-Foobar: Bar
+        sensitive:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          example:
+          - Authorization
       required:
       - headers
+      - sensitive
     StreamSinkOut:
       type: object
       properties:
@@ -2065,125 +1716,6 @@ components:
       - metadata
       - status
       - updatedAt
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    AmazonS3PatchConfig:
-      type: object
-      properties:
-        bucket:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        region:
-          type: string
-        endpointUrl:
-          type: string
-          format: uri
-    RabbitMqConfig:
-      description: Configuration for a RabbitMq sink.
-      type: object
-      properties:
-        uri:
-          type: string
-        routingKey:
-          type: string
-      required:
-      - routingKey
-      - uri
-    SnowflakeConfig:
-      description: Configuration parameters for defining a Snowflake sink.
-      type: object
-      properties:
-        privateKey:
-          description: 'PEM-encoded private key used for signing token-based requests to the Snowflake API.
-
-
-            Beginning/end delimiters are not required.'
-          type: string
-        accountIdentifier:
-          description: Snowflake account identifier, which includes both the organization and account IDs separated by a hyphen.
-          type: string
-        userId:
-          description: The Snowflake user id.
-          type: string
-        dbName:
-          description: 'Database name.
-
-
-            Only required if not using transformations.'
-          type: string
-        schemaName:
-          description: 'Schema name.
-
-
-            Only required if not using transformations.'
-          type: string
-        tableName:
-          description: 'Table name.
-
-
-            Only required if not using transformations.'
-          type: string
-      required:
-      - accountIdentifier
-      - privateKey
-      - userId
-    AzureBlobStoragePatchConfig:
-      type: object
-      properties:
-        container:
-          type: string
-        account:
-          type: string
-        accessKey:
-          type: string
-    BigQueryConfig:
-      description: Configuration for a Google Cloud BigQuery sink.
-      type: object
-      properties:
-        projectId:
-          type: string
-        datasetId:
-          type: string
-        tableId:
-          type: string
-        credentials:
-          description: Google Cloud Credentials JSON Object as a string.
-          type: string
-      required:
-      - credentials
-      - datasetId
-      - projectId
-      - tableId
-    GoogleCloudPubSubPatchConfig:
-      type: object
-      properties:
-        projectId:
-          type: string
-        topicId:
-          type: string
-        credentials:
-          type: string
-    BigQueryPatchConfig:
-      type: object
-      properties:
-        projectId:
-          type: string
-        datasetId:
-          type: string
-        tableId:
-          type: string
-        credentials:
-          type: string
     GoogleCloudPubSubConfig:
       type: object
       properties:
@@ -2198,6 +1730,70 @@ components:
       - credentials
       - projectId
       - topicId
+    EmptyResponse:
+      type: object
+    RedshiftConfig:
+      description: 'Configuration parameters for defining a Redshift sink.
+
+
+        For provisioned clusters, set `cluster_identifier` and `db_user`. For Redshift Serverless, set `workgroup_name`.'
+      type: object
+      properties:
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        region:
+          type: string
+        clusterIdentifier:
+          description: Required for provisioned clusters.
+          type: string
+          nullable: true
+        dbUser:
+          description: Required for provisioned clusters.
+          type: string
+          nullable: true
+        workgroupName:
+          description: Required for Redshift Serverless.
+          type: string
+          nullable: true
+        dbName:
+          description: 'Database name.
+
+
+            Only required if not using transformations.'
+          type: string
+        schemaName:
+          description: 'Schema name.
+
+
+            Only used if not using transformations.'
+          type: string
+          nullable: true
+        tableName:
+          description: 'Table name.
+
+
+            Only required if not using transformations.'
+          type: string
+      required:
+      - accessKeyId
+      - region
+      - secretAccessKey
+    AmazonS3PatchConfig:
+      type: object
+      properties:
+        bucket:
+          type: string
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        region:
+          type: string
+        endpointUrl:
+          type: string
+          format: uri
     S3Config:
       type: object
       properties:
@@ -2218,6 +1814,69 @@ components:
       - bucket
       - region
       - secretAccessKey
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    OtelTracingPatchConfig:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+    RabbitMqConfig:
+      description: Configuration for a RabbitMq sink.
+      type: object
+      properties:
+        uri:
+          type: string
+        routingKey:
+          type: string
+      required:
+      - routingKey
+      - uri
+    SinkSecretOut:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+    AzureBlobStorageConfig:
+      type: object
+      properties:
+        container:
+          type: string
+        account:
+          type: string
+        accessKey:
+          type: string
+      required:
+      - accessKey
+      - account
+      - container
     ClickhousePatchConfig:
       type: object
       properties:
@@ -2232,6 +1891,94 @@ components:
           type: string
         tableName:
           type: string
+    EventBridgePatchConfig:
+      type: object
+      properties:
+        eventBusName:
+          type: string
+        detailType:
+          type: string
+          maxLength: 128
+          example: ResourceGroups Resource State Change
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        region:
+          type: string
+    HttpSinkHeadersPatchIn:
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+            nullable: true
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+      required:
+      - headers
+    RabbitMqPatchConfig:
+      type: object
+      properties:
+        routingKey:
+          type: string
+        uri:
+          type: string
+    GoogleCloudPubSubPatchConfig:
+      type: object
+      properties:
+        projectId:
+          type: string
+        topicId:
+          type: string
+        credentials:
+          type: string
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    SkipParams:
+      type: object
+      properties:
+        iterator:
+          type: string
+          nullable: true
+    SinkStatusIn:
+      type: string
+      enum:
+      - enabled
+      - disabled
+    SqsConfig:
+      description: Configuration for an SQS sink.
+      type: object
+      properties:
+        queueUrl:
+          type: string
+          format: uri
+        region:
+          type: string
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        endpointUrl:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - accessKeyId
+      - queueUrl
+      - region
+      - secretAccessKey
     SinkTransformationOut:
       type: object
       properties:
@@ -2242,11 +1989,285 @@ components:
           type: boolean
       required:
       - enabled
-    SinkStatusIn:
+    SinkTransformIn:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+          nullable: true
+    SqsPatchConfig:
+      type: object
+      properties:
+        queueUrl:
+          type: string
+          format: uri
+        region:
+          type: string
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        endpointUrl:
+          type: string
+          format: uri
+          nullable: true
+    StreamSinkPatch:
+      type: object
+      properties:
+        uid:
+          description: The StreamSink's UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!sink_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        status:
+          default: null
+          $ref: '#/components/schemas/SinkStatusIn'
+          nullable: true
+        batchSize:
+          type: integer
+          format: uint16
+          default: null
+          nullable: true
+          maximum: 1000
+          minimum: 1
+          example: 100
+        maxWaitSecs:
+          type: integer
+          format: uint16
+          default: null
+          maximum: 300
+          minimum: 0
+          nullable: true
+        eventTypes:
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - poller
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - azureBlobStorage
+          config:
+            $ref: '#/components/schemas/AzureBlobStoragePatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - otelTracing
+          config:
+            $ref: '#/components/schemas/OtelTracingPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - http
+          config:
+            $ref: '#/components/schemas/HttpPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - amazonS3
+          config:
+            $ref: '#/components/schemas/AmazonS3PatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - googleCloudStorage
+          config:
+            $ref: '#/components/schemas/GoogleCloudStoragePatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - googleCloudPubSub
+          config:
+            $ref: '#/components/schemas/GoogleCloudPubSubPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - sqs
+          config:
+            $ref: '#/components/schemas/SqsPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - sns
+          config:
+            $ref: '#/components/schemas/SnsPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - bigQuery
+          config:
+            $ref: '#/components/schemas/BigQueryPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - clickhouse
+          config:
+            $ref: '#/components/schemas/ClickhousePatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - eventBridge
+          config:
+            $ref: '#/components/schemas/EventBridgePatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - snowflake
+          config:
+            $ref: '#/components/schemas/SnowflakePatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - rabbitMq
+          config:
+            $ref: '#/components/schemas/RabbitMqPatchConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - redshift
+          config:
+            $ref: '#/components/schemas/RedshiftPatchConfig'
+        required:
+        - config
+        - type
+    BigQueryPatchConfig:
+      type: object
+      properties:
+        projectId:
+          type: string
+        datasetId:
+          type: string
+        tableId:
+          type: string
+        credentials:
+          type: string
+    EventOut:
+      type: object
+      properties:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - eventType
+      - payload
+      - timestamp
+    Ordering:
+      description: Defines the ordering in a listing of results.
       type: string
       enum:
-      - enabled
-      - disabled
+      - ascending
+      - descending
+    GoogleCloudStorageConfig:
+      description: 'Configuration for a Google Cloud Storage sink.
+
+
+        Write stream events into the named bucket using the supplied Google Cloud credentials.'
+      type: object
+      properties:
+        bucket:
+          type: string
+        credentials:
+          description: Google Cloud Credentials JSON Object as a string.
+          type: string
+      required:
+      - bucket
+      - credentials
     ListResponse_StreamSinkOut_:
       type: object
       properties:
@@ -2296,181 +2317,67 @@ components:
 
             Only required if not using transformations.'
           type: string
-    SnsConfig:
-      description: Configuration for a SNS sink.
+    SinkStatus:
+      type: string
+      enum:
+      - enabled
+      - paused
+      - disabled
+      - retrying
+    HTTPValidationError:
       type: object
       properties:
-        topicArn:
-          type: string
-        region:
-          type: string
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        endpointUrl:
-          type: string
-          format: uri
-          nullable: true
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - accessKeyId
-      - region
-      - secretAccessKey
-      - topicArn
-    HttpPatchConfig:
+      - detail
+    BigQueryConfig:
+      description: Configuration for a Google Cloud BigQuery sink.
       type: object
       properties:
-        url:
+        projectId:
           type: string
-          format: uri
-    AzureBlobStorageConfig:
-      type: object
-      properties:
-        container:
+        datasetId:
           type: string
-        account:
-          type: string
-        accessKey:
-          type: string
-      required:
-      - accessKey
-      - account
-      - container
-    EndpointSecretRotateIn:
-      type: object
-      properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          default: null
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        gracePeriodSeconds:
-          description: 'How long the old secret will be valid for, in seconds.
-
-
-            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
-          type: integer
-          format: uint32
-          default: 86400
-          maximum: 604800
-          minimum: 0
-          nullable: true
-    EmptyResponse:
-      type: object
-    EventOut:
-      type: object
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-      required:
-      - eventType
-      - payload
-      - timestamp
-    SkipParams:
-      type: object
-      properties:
-        iterator:
-          type: string
-          nullable: true
-    GoogleCloudStoragePatchConfig:
-      type: object
-      properties:
-        bucket:
-          type: string
-        credentials:
-          type: string
-    EventBridgeConfig:
-      type: object
-      properties:
-        eventBusName:
-          description: The name or ARN of the event bus to receive the event
-          type: string
-        detailType:
-          description: Free-form string, with a maximum of 128 characters
-          type: string
-          default: application/json
-          maxLength: 128
-          example: ResourceGroups Resource State Change
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        region:
-          type: string
-      required:
-      - accessKeyId
-      - eventBusName
-      - region
-      - secretAccessKey
-    EventBridgePatchConfig:
-      type: object
-      properties:
-        eventBusName:
-          type: string
-        detailType:
-          type: string
-          maxLength: 128
-          example: ResourceGroups Resource State Change
-        accessKeyId:
-          type: string
-        secretAccessKey:
-          type: string
-        region:
-          type: string
-    SinkHttpConfig:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-        headers:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-        key:
-          type: string
-          default: null
-          nullable: true
-      required:
-      - url
-    GoogleCloudStorageConfig:
-      description: 'Configuration for a Google Cloud Storage sink.
-
-
-        Write stream events into the named bucket using the supplied Google Cloud credentials.'
-      type: object
-      properties:
-        bucket:
+        tableId:
           type: string
         credentials:
           description: Google Cloud Credentials JSON Object as a string.
           type: string
       required:
-      - bucket
       - credentials
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
+      - datasetId
+      - projectId
+      - tableId
+    SnowflakePatchConfig:
+      type: object
+      properties:
+        privateKey:
+          type: string
+        accountIdentifier:
+          type: string
+        userId:
+          type: string
+        dbName:
+          description: 'Database name.
+
+
+            Only required if not using transformations.'
+          type: string
+        schemaName:
+          description: 'Schema name.
+
+
+            Only required if not using transformations.'
+          type: string
+        tableName:
+          description: 'Table name.
+
+
+            Only required if not using transformations.'
+          type: string
     StreamSinkIn:
       type: object
       properties:
@@ -2691,6 +2598,27 @@ components:
         required:
         - config
         - type
+    SnsConfig:
+      description: Configuration for a SNS sink.
+      type: object
+      properties:
+        topicArn:
+          type: string
+        region:
+          type: string
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        endpointUrl:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - accessKeyId
+      - region
+      - secretAccessKey
+      - topicArn
     SinkOtelV1Config:
       type: object
       properties:
@@ -2704,31 +2632,32 @@ components:
             type: string
       required:
       - url
-    EndpointHeadersOut:
-      description: 'The value of the headers is returned in the `headers` field.
-
-
-        Sensitive headers that have been redacted are returned in the sensitive field.'
+    ClickhouseConfig:
       type: object
       properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-        sensitive:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-          example:
-          - Authorization
+        url:
+          description: The HTTP URL of the ClickHouse server (e.g. `https://my_clickhouse:8443`).
+          type: string
+          format: uri
+        username:
+          description: Username to access Clickhouse
+          type: string
+        password:
+          description: Password to access Clickhouse
+          type: string
+        database:
+          description: The Clickhouse database to connect to
+          type: string
+          default: default
+        tableName:
+          description: The Clickhouse table to write to
+          type: string
       required:
-      - headers
-      - sensitive
-    SinkSecretOut:
+      - password
+      - tableName
+      - url
+      - username
+    EndpointSecretRotateIn:
       type: object
       properties:
         key:
@@ -2739,28 +2668,99 @@ components:
 
             It is recommended to not set this and let the server generate the secret.'
           type: string
+          default: null
           pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
           nullable: true
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+        gracePeriodSeconds:
+          description: 'How long the old secret will be valid for, in seconds.
+
+
+            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
+          type: integer
+          format: uint32
+          default: 86400
+          maximum: 604800
+          minimum: 0
+          nullable: true
+    EventBridgeConfig:
       type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
+        eventBusName:
+          description: The name or ARN of the event bus to receive the event
           type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+        detailType:
+          description: Free-form string, with a maximum of 128 characters
+          type: string
+          default: application/json
+          maxLength: 128
+          example: ResourceGroups Resource State Change
+        accessKeyId:
+          type: string
+        secretAccessKey:
+          type: string
+        region:
           type: string
       required:
-      - loc
-      - msg
-      - type
+      - accessKeyId
+      - eventBusName
+      - region
+      - secretAccessKey
+    SinkHttpConfig:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        headers:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+        key:
+          type: string
+          default: null
+          nullable: true
+      required:
+      - url
+    SnowflakeConfig:
+      description: Configuration parameters for defining a Snowflake sink.
+      type: object
+      properties:
+        privateKey:
+          description: 'PEM-encoded private key used for signing token-based requests to the Snowflake API.
+
+
+            Beginning/end delimiters are not required.'
+          type: string
+        accountIdentifier:
+          description: Snowflake account identifier, which includes both the organization and account IDs separated by a hyphen.
+          type: string
+        userId:
+          description: The Snowflake user id.
+          type: string
+        dbName:
+          description: 'Database name.
+
+
+            Only required if not using transformations.'
+          type: string
+        schemaName:
+          description: 'Schema name.
+
+
+            Only required if not using transformations.'
+          type: string
+        tableName:
+          description: 'Table name.
+
+
+            Only required if not using transformations.'
+          type: string
+      required:
+      - accountIdentifier
+      - privateKey
+      - userId
   securitySchemes:
     HTTPBearer:
       type: http

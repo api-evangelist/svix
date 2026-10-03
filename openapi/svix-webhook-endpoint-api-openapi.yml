@@ -1056,19 +1056,7 @@ paths:
         source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
 components:
   schemas:
-    OperationalWebhookEndpointHeadersIn:
-      type: object
-      properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-      required:
-      - headers
-    OperationalWebhookEndpointUpdate:
+    OperationalWebhookEndpointIn:
       type: object
       properties:
         url:
@@ -1122,6 +1110,17 @@ components:
           uniqueItems: true
           example:
           - message.attempt.failing
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
         metadata:
           type: object
           default: {}
@@ -1138,6 +1137,18 @@ components:
             $ref: '#/components/schemas/ValidationError'
       required:
       - detail
+    OperationalWebhookEndpointHeadersIn:
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+      required:
+      - headers
     OperationalWebhookEndpointOut:
       type: object
       properties:
@@ -1214,7 +1225,22 @@ components:
       - metadata
       - updatedAt
       - url
-    OperationalWebhookEndpointIn:
+    OperationalWebhookEndpointSecretOut:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      required:
+      - key
+    OperationalWebhookEndpointUpdate:
       type: object
       properties:
         url:
@@ -1268,17 +1294,6 @@ components:
           uniqueItems: true
           example:
           - message.attempt.failing
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
         metadata:
           type: object
           default: {}
@@ -1292,37 +1307,6 @@ components:
       enum:
       - ascending
       - descending
-    OperationalWebhookEndpointHeadersOut:
-      type: object
-      properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-        sensitive:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-          example:
-          - Authorization
-      required:
-      - headers
-      - sensitive
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
     OperationalWebhookEndpointSecretIn:
       type: object
       properties:
@@ -1338,21 +1322,17 @@ components:
           pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
           nullable: true
-    OperationalWebhookEndpointSecretOut:
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
+        code:
           type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+        detail:
+          type: string
       required:
-      - key
+      - code
+      - detail
     ListResponse_OperationalWebhookEndpointOut_:
       type: object
       properties:
@@ -1393,6 +1373,26 @@ components:
       - loc
       - msg
       - type
+    OperationalWebhookEndpointHeadersOut:
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+        sensitive:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          example:
+          - Authorization
+      required:
+      - headers
+      - sensitive
   securitySchemes:
     HTTPBearer:
       type: http

@@ -493,6 +493,67 @@ paths:
       x-internal: true
 components:
   schemas:
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    AttemptStatisticsData:
+      type: object
+      properties:
+        successCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        failureCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        canceledCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+    EndpointCountOut:
+      type: object
+      properties:
+        active:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        disabled:
+          type: integer
+          format: uint64
+          minimum: 0.0
+      required:
+      - active
+      - disabled
     AppUsageStatsOut:
       type: object
       properties:
@@ -530,85 +591,6 @@ components:
       - task
       - unresolvedAppIds
       - updatedAt
-    EndpointCountOut:
-      type: object
-      properties:
-        active:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        disabled:
-          type: integer
-          format: uint64
-          minimum: 0.0
-      required:
-      - active
-      - disabled
-    AttemptStatisticsData:
-      type: object
-      properties:
-        successCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        failureCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        canceledCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
-    AttemptStatisticsResponse:
-      type: object
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        period:
-          $ref: '#/components/schemas/StatisticsPeriod'
-        data:
-          $ref: '#/components/schemas/AttemptStatisticsData'
-      required:
-      - data
-      - endDate
-      - period
-      - startDate
     AggregateEventTypesOut:
       type: object
       properties:
@@ -631,24 +613,6 @@ components:
       - status
       - task
       - updatedAt
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    StatisticsPeriod:
-      description: Period length for a statistics data point.
-      type: string
-      enum:
-      - OneDay
-      - OneHour
-      - FiveMinutes
     AppUsageStatsIn:
       type: object
       properties:
@@ -676,6 +640,42 @@ components:
       required:
       - since
       - until
+    AttemptStatisticsResponse:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        period:
+          $ref: '#/components/schemas/StatisticsPeriod'
+        data:
+          $ref: '#/components/schemas/AttemptStatisticsData'
+      required:
+      - data
+      - endDate
+      - period
+      - startDate
+    StatisticsPeriod:
+      description: Period length for a statistics data point.
+      type: string
+      enum:
+      - OneDay
+      - OneHour
+      - FiveMinutes
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object

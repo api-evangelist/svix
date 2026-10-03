@@ -369,6 +369,15 @@ paths:
       x-internal: true
 components:
   schemas:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     SinkInCommon:
       type: object
       properties:
@@ -449,26 +458,6 @@ components:
           default: {}
           additionalProperties:
             type: string
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
     EndpointIn:
       type: object
       properties:
@@ -573,37 +562,6 @@ components:
             X-Foobar: Bar
       required:
       - url
-    RotateSubscriptionIn:
-      type: object
-      properties:
-        signingSecret:
-          default: null
-          $ref: '#/components/schemas/EndpointSecretRotateIn'
-          nullable: true
-    AutoConfigSinkType:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - poller
-          config:
-            $ref: '#/components/schemas/SinkInCommon'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - http
-          config:
-            $ref: '#/components/schemas/EndpointIn'
-        required:
-        - config
-        - type
     AutoConfigCensoredOut:
       type: object
       properties:
@@ -631,6 +589,58 @@ components:
           nullable: true
         sink:
           $ref: '#/components/schemas/AutoConfigSinkType'
+          nullable: true
+    RotateSubscriptionIn:
+      type: object
+      properties:
+        signingSecret:
+          default: null
+          $ref: '#/components/schemas/EndpointSecretRotateIn'
+          nullable: true
+    AutoConfigOut:
+      type: object
+      properties:
+        updatedAt:
+          type: string
+          format: date-time
+        token:
+          type: string
+        endpId:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+      required:
+      - endpId
+      - token
+      - updatedAt
+    EndpointSecretRotateIn:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          default: null
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        gracePeriodSeconds:
+          description: 'How long the old secret will be valid for, in seconds.
+
+
+            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
+          type: integer
+          format: uint32
+          default: 86400
+          maximum: 604800
+          minimum: 0
           nullable: true
     EndpointOut:
       type: object
@@ -731,32 +741,41 @@ components:
       - updatedAt
       - url
       - version
-    EndpointSecretRotateIn:
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
+        code:
           type: string
-          default: null
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        gracePeriodSeconds:
-          description: 'How long the old secret will be valid for, in seconds.
-
-
-            Valid values are between 0 (immediate expiry) and 7 days. The default is 24 hours.'
-          type: integer
-          format: uint32
-          default: 86400
-          maximum: 604800
-          minimum: 0
-          nullable: true
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    AutoConfigSinkType:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - poller
+          config:
+            $ref: '#/components/schemas/SinkInCommon'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - http
+          config:
+            $ref: '#/components/schemas/EndpointIn'
+        required:
+        - config
+        - type
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -776,25 +795,6 @@ components:
       - loc
       - msg
       - type
-    AutoConfigOut:
-      type: object
-      properties:
-        updatedAt:
-          type: string
-          format: date-time
-        token:
-          type: string
-        endpId:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-      required:
-      - endpId
-      - token
-      - updatedAt
   securitySchemes:
     HTTPBearer:
       type: http

@@ -1887,56 +1887,27 @@ paths:
       x-internal: true
 components:
   schemas:
-    CreateMcpTokenOut:
+    ListResponse_ApiTokenCensoredOut_:
       type: object
       properties:
-        token:
-          description: 'The MCP access token.
-
-
-            Pass it to the MCP server as `Authorization: Bearer <token>`. It also encodes the application id, so the server needs nothing else to identify the app.'
-          type: string
-        slug:
-          description: URL-safe slug derived from the customer's app portal display name (or the organization name when it isn't set). The client builds the MCP server name (`<slug>-webhooks`) from it. The server URL itself is `/app/<app_id>`, which is what keeps servers distinct.
-          type: string
-      required:
-      - slug
-      - token
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    ApplicationTokenExpireIn:
-      type: object
-      properties:
-        expiry:
-          description: How many seconds until the old key is expired.
-          type: integer
-          format: int64
-          nullable: true
-          maximum: 259200
-          minimum: 0
-          example: 60
-        sessionIds:
-          description: 'An optional list of session ids.
-
-
-            If any session ids are specified, only Application tokens created with that session id will be expired.'
+        data:
           type: array
           items:
-            type: string
-            maxLength: 64
-            minLength: 1
-            pattern: ^[a-zA-Z0-9@_-]+$
-            example: user_1FB8
-          maxItems: 1000
+            $ref: '#/components/schemas/ApiTokenCensoredOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     GlobalApiTokenCensoredOut:
       type: object
       properties:
@@ -1963,72 +1934,19 @@ components:
       - censoredToken
       - createdAt
       - id
-    OneTimeTokenIn:
+    AppPortalCapability:
+      type: string
+      enum:
+      - ViewBase
+      - ViewEndpointSecret
+      - ManageEndpointSecret
+      - ManageTransformations
+      - CreateAttempts
+      - ManageEndpoint
+    ApiTokenOut:
       type: object
       properties:
-        oneTimeToken:
-          type: string
-      required:
-      - oneTimeToken
-    ApiTokenExpireIn:
-      type: object
-      properties:
-        expiry:
-          description: How many seconds until the old key is expired.
-          type: integer
-          format: int32
-          default: 0
-          maximum: 259200
-          minimum: 0.0
-    ListResponse_McpTokenOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/McpTokenOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    McpTokenOut:
-      type: object
-      properties:
-        id:
-          description: The ApplicationToken's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^key_[A-Za-z0-9]{27}$
-          example: key_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        censoredToken:
-          description: The censored token value (only a short prefix/suffix is shown).
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
-      required:
-      - censoredToken
-      - createdAt
-      - expiresAt
-      - id
-    ApiTokenCensoredOut:
-      type: object
-      properties:
-        censoredToken:
+        token:
           type: string
         id:
           type: string
@@ -2048,100 +1966,77 @@ components:
             type: string
           nullable: true
       required:
-      - censoredToken
       - createdAt
       - id
-    HTTPValidationError:
+      - token
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        detail:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
       required:
-      - detail
-    ApplicationIn:
+      - loc
+      - msg
+      - type
+    AuthenticationSource:
+      description: The authentication type of the current request
+      type: string
+      enum:
+      - OidcJwt
+      - SvixJwt
+      - RegionalAuthToken
+      - GlobalAuthToken
+      - Unknown
+    ApiTokenUpdate:
       type: object
       properties:
         name:
-          description: Application name for human consumption.
           type: string
-          minLength: 1
-          example: My first application
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this application.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the application.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
       required:
       - name
-    ListResponse_ApiTokenCensoredOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiTokenCensoredOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    RotatePollerTokenIn:
+    ApplicationTokenExpireIn:
       type: object
       properties:
         expiry:
-          description: How long the token will be valid for, in seconds. Can be up to 31,536,000 seconds (1 year).
+          description: How many seconds until the old key is expired.
           type: integer
           format: int64
-          maximum: 31536000
-          minimum: 1
           nullable: true
-        oldTokenExpiry:
-          description: 'Updates the previous token''s expiration, in seconds.
+          maximum: 259200
+          minimum: 0
+          example: 60
+        sessionIds:
+          description: 'An optional list of session ids.
 
 
-            If set to 0, the old token will immediately be revoked. Must be between 0 and 86,400 seconds (1 day).
-
-
-            Defaults to 300 seconds (5 minutes).'
+            If any session ids are specified, only Application tokens created with that session id will be expired.'
+          type: array
+          items:
+            type: string
+            maxLength: 64
+            minLength: 1
+            pattern: ^[a-zA-Z0-9@_-]+$
+            example: user_1FB8
+          maxItems: 1000
+    ApiTokenExpireIn:
+      type: object
+      properties:
+        expiry:
+          description: How many seconds until the old key is expired.
           type: integer
-          format: int64
-          default: 300
-          maximum: 86400
+          format: int32
+          default: 0
+          maximum: 259200
           minimum: 0.0
     AppPortalAccessIn:
       type: object
@@ -2225,159 +2120,17 @@ components:
           pattern: ^[a-zA-Z0-9@_-]+$
           example: user_1FB8
           nullable: true
-    ApiTokenIn:
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        name:
+        code:
           type: string
-        scopes:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          nullable: true
-      required:
-      - name
-    ApiTokenPatch:
-      type: object
-      properties:
-        name:
-          type: string
-          nullable: true
-        scopes:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          nullable: true
-    ListResponse_GlobalApiTokenCensoredOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GlobalApiTokenCensoredOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    AppPortalCapability:
-      type: string
-      enum:
-      - ViewBase
-      - ViewEndpointSecret
-      - ManageEndpointSecret
-      - ManageTransformations
-      - CreateAttempts
-      - ManageEndpoint
-    AuthenticationSource:
-      description: The authentication type of the current request
-      type: string
-      enum:
-      - OidcJwt
-      - SvixJwt
-      - RegionalAuthToken
-      - GlobalAuthToken
-      - Unknown
-    AppPortalAccessOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-      required:
-      - token
-      - url
-    ApiTokenUpdate:
-      type: object
-      properties:
-        name:
+        detail:
           type: string
       required:
-      - name
-    CreateTokenIn:
-      type: object
-      properties:
-        name:
-          description: The name of the token.
-          type: string
-        expiry:
-          description: How long the token will be valid for, in seconds.
-          type: integer
-          format: uint64
-          minimum: 0
-          nullable: true
-      required:
-      - name
-    OneTimeTokenOut:
-      type: object
-      properties:
-        token:
-          type: string
-        capabilities:
-          type: array
-          items:
-            type: string
-      required:
-      - capabilities
-      - token
-    CreateMcpTokenIn:
-      type: object
-      properties:
-        expiry:
-          description: How long the token will be valid for in seconds.
-          type: integer
-          format: uint64
-          minimum: 0
-          nullable: true
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    ApiTokenOut:
-      type: object
-      properties:
-        token:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-        scopes:
-          type: array
-          items:
-            type: string
-          nullable: true
-      required:
-      - createdAt
-      - id
-      - token
+      - code
+      - detail
     WhoamiOut:
       type: object
       properties:
@@ -2421,25 +2174,272 @@ components:
           nullable: true
       required:
       - permissionSource
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+    ListResponse_McpTokenOut_:
       type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/McpTokenOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    ApiTokenIn:
+      type: object
+      properties:
+        name:
+          type: string
+        scopes:
           type: array
           items:
             type: string
-        msg:
-          description: The message accompanying the validation error item.
+          minItems: 1
+          nullable: true
+      required:
+      - name
+    McpTokenOut:
+      type: object
+      properties:
+        id:
+          description: The ApplicationToken's ID.
           type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          maxLength: 31
+          minLength: 31
+          pattern: ^key_[A-Za-z0-9]{27}$
+          example: key_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        censoredToken:
+          description: The censored token value (only a short prefix/suffix is shown).
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+      required:
+      - censoredToken
+      - createdAt
+      - expiresAt
+      - id
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    CreateMcpTokenOut:
+      type: object
+      properties:
+        token:
+          description: 'The MCP access token.
+
+
+            Pass it to the MCP server as `Authorization: Bearer <token>`. It also encodes the application id, so the server needs nothing else to identify the app.'
+          type: string
+        slug:
+          description: URL-safe slug derived from the customer's app portal display name (or the organization name when it isn't set). The client builds the MCP server name (`<slug>-webhooks`) from it. The server URL itself is `/app/<app_id>`, which is what keeps servers distinct.
           type: string
       required:
-      - loc
-      - msg
-      - type
+      - slug
+      - token
+    OneTimeTokenOut:
+      type: object
+      properties:
+        token:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+      required:
+      - capabilities
+      - token
+    CreateMcpTokenIn:
+      type: object
+      properties:
+        expiry:
+          description: How long the token will be valid for in seconds.
+          type: integer
+          format: uint64
+          minimum: 0
+          nullable: true
+    ApiTokenCensoredOut:
+      type: object
+      properties:
+        censoredToken:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        scopes:
+          type: array
+          items:
+            type: string
+          nullable: true
+      required:
+      - censoredToken
+      - createdAt
+      - id
+    OneTimeTokenIn:
+      type: object
+      properties:
+        oneTimeToken:
+          type: string
+      required:
+      - oneTimeToken
+    ListResponse_GlobalApiTokenCensoredOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GlobalApiTokenCensoredOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    ApiTokenPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        scopes:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          nullable: true
+    AppPortalAccessOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
+        token:
+          type: string
+          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+      required:
+      - token
+      - url
+    CreateTokenIn:
+      type: object
+      properties:
+        name:
+          description: The name of the token.
+          type: string
+        expiry:
+          description: How long the token will be valid for, in seconds.
+          type: integer
+          format: uint64
+          minimum: 0
+          nullable: true
+      required:
+      - name
+    RotatePollerTokenIn:
+      type: object
+      properties:
+        expiry:
+          description: How long the token will be valid for, in seconds. Can be up to 31,536,000 seconds (1 year).
+          type: integer
+          format: int64
+          maximum: 31536000
+          minimum: 1
+          nullable: true
+        oldTokenExpiry:
+          description: 'Updates the previous token''s expiration, in seconds.
+
+
+            If set to 0, the old token will immediately be revoked. Must be between 0 and 86,400 seconds (1 day).
+
+
+            Defaults to 300 seconds (5 minutes).'
+          type: integer
+          format: int64
+          default: 300
+          maximum: 86400
+          minimum: 0.0
+    ApplicationIn:
+      type: object
+      properties:
+        name:
+          description: Application name for human consumption.
+          type: string
+          minLength: 1
+          example: My first application
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this application.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the application.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - name
   securitySchemes:
     HTTPBearer:
       type: http

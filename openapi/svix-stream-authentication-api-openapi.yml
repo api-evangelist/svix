@@ -620,6 +620,15 @@ paths:
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/auth/stream/strm_31Dc0DD72P5AddYUguyBd/sink/sink_31Dc11sPYY9aLDkwPuGMa/poller/token' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
 components:
   schemas:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     StreamTokenExpireIn:
       type: object
       properties:
@@ -644,26 +653,21 @@ components:
             pattern: ^[a-zA-Z0-9@_-]+$
             example: user_1FB8
           maxItems: 1000
-    HTTPValidationError:
+    AppPortalAccessOut:
       type: object
       properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
+        url:
           type: string
-        detail:
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
+        token:
           type: string
+          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
       required:
-      - code
-      - detail
+      - token
+      - url
     RotatePollerTokenIn:
       type: object
       properties:
@@ -687,6 +691,17 @@ components:
           default: 300
           maximum: 86400
           minimum: 0.0
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     StreamPortalAccessIn:
       type: object
       properties:
@@ -749,21 +764,6 @@ components:
       - createdAt
       - id
       - token
-    AppPortalAccessOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-      required:
-      - token
-      - url
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object

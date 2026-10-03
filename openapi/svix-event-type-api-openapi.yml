@@ -1112,203 +1112,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    EventTypeImportOpenApiOut:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
-      required:
-      - data
-    RetrySchedule:
-      type: array
-      items:
-        $ref: '#/components/schemas/Duration'
-    ListResponse_EventTypeOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventTypeOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    EventTypeImportOpenApiIn:
-      description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
-
-
-        The OpenAPI spec can be specified as either `spec` given the spec as a JSON object, or as `specRaw` (a `string`) which will be parsed as YAML or JSON by the server. Sending neither or both is invalid, resulting in a `400` **Bad Request**.'
-      type: object
-      properties:
-        dryRun:
-          description: If `true`, return the event types that would be modified without actually modifying them.
-          type: boolean
-          default: false
-        replaceAll:
-          description: If `true`, all existing event types that are not in the spec will be archived.
-          type: boolean
-          default: false
-        spec:
-          description: A pre-parsed JSON spec.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            openapi: 3.1.0
-            info:
-              title: Webhook Example
-              version: 1.0.0
-            webhooks:
-              pet.new:
-                post:
-                  requestBody:
-                    description: Information about a new pet in the system
-                    content:
-                      application/json:
-                        schema:
-                          properties:
-                            id:
-                              type: integer
-                              format: int64
-                            name:
-                              type: string
-                            tag:
-                              type: string
-                          required:
-                          - id
-                          - name
-                  responses:
-                    '200':
-                      description: Return a 200 status to indicate that the data was received successfully
-        specRaw:
-          description: A string, parsed by the server as YAML or JSON.
-          type: string
-          nullable: true
-          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    EventTypeIn:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-          example: A user has signed up
-        archived:
-          type: boolean
-          default: false
-          example: false
-        deprecated:
-          type: boolean
-          default: false
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            '1':
-              title: Invoice Paid Event
-              description: An invoice was paid by a user
-              type: object
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
-          type: array
-          default: null
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          default: null
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-      required:
-      - description
-      - name
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    EventTypeImportOpenApiOutData:
-      type: object
-      properties:
-        modified:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-        to_modify:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventTypeFromOpenApi'
-          nullable: true
-      required:
-      - modified
-    RetryScheduleInOut:
-      type: object
-      properties:
-        retrySchedule:
-          $ref: '#/components/schemas/RetrySchedule'
-          nullable: true
     BackgroundTaskType:
       type: string
       enum:
@@ -1320,12 +1123,12 @@ components:
       - event-type.aggregate
       - application.purge_content
       - endpoint.bulk-replay
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
+    RetryScheduleInOut:
+      type: object
+      properties:
+        retrySchedule:
+          $ref: '#/components/schemas/RetrySchedule'
+          nullable: true
     EventTypeFromOpenApi:
       type: object
       properties:
@@ -1383,92 +1186,31 @@ components:
       - deprecated
       - description
       - name
-    EventTypeOut:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-          example: A user has signed up
-        archived:
-          type: boolean
-          default: false
-          example: false
-        deprecated:
-          type: boolean
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            '1':
-              title: Invoice Paid Event
-              description: An invoice was paid by a user
-              type: object
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
-          nullable: true
           items:
             type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
+        msg:
+          description: The message accompanying the validation error item.
           type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
       required:
-      - createdAt
-      - deprecated
-      - description
-      - name
-      - updatedAt
-    Duration:
-      type: object
-      properties:
-        secs:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        nanos:
-          type: integer
-          format: uint32
-          minimum: 0.0
-      required:
-      - nanos
-      - secs
+      - loc
+      - msg
+      - type
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
     EventTypeUpdate:
       type: object
       properties:
@@ -1553,31 +1295,217 @@ components:
       - status
       - task
       - updatedAt
+    EventTypeImportOpenApiOut:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
+      required:
+      - data
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    EventTypeIn:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+          default: false
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          default: null
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          default: null
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - description
+      - name
     Ordering:
       description: Defines the ordering in a listing of results.
       type: string
       enum:
       - ascending
       - descending
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+    ListResponse_EventTypeOut_:
       type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+        data:
           type: array
           items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
+            $ref: '#/components/schemas/EventTypeOut'
+        iterator:
           type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          nullable: true
+          example: iterator
+        prevIterator:
           type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
       required:
-      - loc
-      - msg
-      - type
+      - data
+      - done
+      - iterator
+    RetrySchedule:
+      type: array
+      items:
+        $ref: '#/components/schemas/Duration'
+    Duration:
+      type: object
+      properties:
+        secs:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        nanos:
+          type: integer
+          format: uint32
+          minimum: 0.0
+      required:
+      - nanos
+      - secs
+    EventTypeImportOpenApiIn:
+      description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
+
+
+        The OpenAPI spec can be specified as either `spec` given the spec as a JSON object, or as `specRaw` (a `string`) which will be parsed as YAML or JSON by the server. Sending neither or both is invalid, resulting in a `400` **Bad Request**.'
+      type: object
+      properties:
+        dryRun:
+          description: If `true`, return the event types that would be modified without actually modifying them.
+          type: boolean
+          default: false
+        replaceAll:
+          description: If `true`, all existing event types that are not in the spec will be archived.
+          type: boolean
+          default: false
+        spec:
+          description: A pre-parsed JSON spec.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            openapi: 3.1.0
+            info:
+              title: Webhook Example
+              version: 1.0.0
+            webhooks:
+              pet.new:
+                post:
+                  requestBody:
+                    description: Information about a new pet in the system
+                    content:
+                      application/json:
+                        schema:
+                          properties:
+                            id:
+                              type: integer
+                              format: int64
+                            name:
+                              type: string
+                            tag:
+                              type: string
+                          required:
+                          - id
+                          - name
+                  responses:
+                    '200':
+                      description: Return a 200 status to indicate that the data was received successfully
+        specRaw:
+          description: A string, parsed by the server as YAML or JSON.
+          type: string
+          nullable: true
+          example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    EventTypeImportOpenApiOutData:
+      type: object
+      properties:
+        modified:
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+        to_modify:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventTypeFromOpenApi'
+          nullable: true
+      required:
+      - modified
     EventTypePatch:
       type: object
       properties:
@@ -1630,6 +1558,78 @@ components:
           pattern: ^[a-zA-Z0-9\-_.]+$
           example: user
           nullable: true
+    EventTypeOut:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - createdAt
+      - deprecated
+      - description
+      - name
+      - updatedAt
   securitySchemes:
     HTTPBearer:
       type: http
