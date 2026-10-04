@@ -1400,7 +1400,37 @@ paths:
         source: "curl -X 'PATCH' \\\n  'https://api.eu.svix.com/ingest/api/v1/source/src_31Dc4Mx7vQVLfxFgArIhq/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/transformation' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"code\": \"sample string\",\n    \"enabled\": true\n  }'"
 components:
   schemas:
-    IngestEndpointUpdate:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    IngestEndpointTransformationOut:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+          nullable: true
+        enabled:
+          type: boolean
+          default: false
+    IngestEndpointIn:
       type: object
       properties:
         url:
@@ -1441,6 +1471,17 @@ components:
           type: boolean
           default: false
           example: false
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
         metadata:
           type: object
           default: {}
@@ -1448,6 +1489,12 @@ components:
             type: string
       required:
       - url
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
     ListResponse_IngestEndpointOut_:
       type: object
       properties:
@@ -1469,16 +1516,7 @@ components:
       - data
       - done
       - iterator
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    IngestEndpointTransformationOut:
+    IngestEndpointTransformationPatch:
       type: object
       properties:
         code:
@@ -1488,7 +1526,17 @@ components:
           nullable: true
         enabled:
           type: boolean
-          default: false
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     IngestEndpointOut:
       type: object
       properties:
@@ -1567,34 +1615,16 @@ components:
           pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
           nullable: true
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    IngestEndpointTransformationPatch:
+    HTTPValidationError:
       type: object
       properties:
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-          nullable: true
-        enabled:
-          type: boolean
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
         detail:
-          type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - code
       - detail
-    IngestEndpointIn:
+    IngestEndpointUpdate:
       type: object
       properties:
         url:
@@ -1635,7 +1665,17 @@ components:
           type: boolean
           default: false
           example: false
-        secret:
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - url
+    IngestEndpointSecretOut:
+      type: object
+      properties:
+        key:
           description: 'The endpoint''s verification secret.
 
 
@@ -1645,26 +1685,8 @@ components:
           type: string
           pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
       required:
-      - url
-    IngestEndpointHeadersIn:
-      type: object
-      properties:
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-      required:
-      - headers
+      - key
     IngestEndpointHeadersOut:
       type: object
       properties:
@@ -1685,40 +1707,18 @@ components:
       required:
       - headers
       - sensitive
-    IngestEndpointSecretOut:
+    IngestEndpointHeadersIn:
       type: object
       properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-      required:
-      - key
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
+        headers:
+          type: object
+          additionalProperties:
             type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
       required:
-      - loc
-      - msg
-      - type
+      - headers
   securitySchemes:
     HTTPBearer:
       type: http

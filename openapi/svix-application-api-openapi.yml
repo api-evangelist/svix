@@ -1004,69 +1004,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    ApplicationOut:
-      type: object
-      properties:
-        uid:
-          description: Optional unique identifier for the application.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        name:
-          description: Application name for human consumption.
-          type: string
-          example: My first application
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 0
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this application.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 0
-          nullable: true
-        id:
-          description: The Application's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^app_[A-Za-z0-9]{27}$
-          example: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-      required:
-      - createdAt
-      - id
-      - metadata
-      - name
-      - updatedAt
     ApplicationPatch:
       type: object
       properties:
@@ -1100,12 +1037,25 @@ components:
           type: object
           additionalProperties:
             type: string
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
+    AppAttemptEventTypeStats:
+      type: object
+      properties:
+        success:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        failure:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        canceled:
+          type: integer
+          format: uint64
+          minimum: 0.0
+      required:
+      - canceled
+      - failure
+      - success
     AppAttemptStatsOut:
       type: object
       properties:
@@ -1138,25 +1088,14 @@ components:
       - total_failure
       - total_success
       - until
-    AppAttemptEventTypeStats:
+    AlertEmailPatch:
       type: object
       properties:
-        success:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        failure:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        canceled:
-          type: integer
-          format: uint64
-          minimum: 0.0
-      required:
-      - canceled
-      - failure
-      - success
+        email:
+          description: A comma-separated list of email addresses
+          type: string
+          nullable: true
+          example: user1@example.com, user2@example.com
     ListResponse_ApplicationOut_:
       type: object
       properties:
@@ -1178,6 +1117,21 @@ components:
       - data
       - done
       - iterator
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     HttpErrorOut:
       title: HttpError
       type: object
@@ -1189,14 +1143,6 @@ components:
       required:
       - code
       - detail
-    AlertEmailPatch:
-      type: object
-      properties:
-        email:
-          description: A comma-separated list of email addresses
-          type: string
-          nullable: true
-          example: user1@example.com, user2@example.com
     ApplicationIn:
       type: object
       properties:
@@ -1264,6 +1210,60 @@ components:
       - loc
       - msg
       - type
+    ApplicationOut:
+      type: object
+      properties:
+        uid:
+          description: Optional unique identifier for the application.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        name:
+          description: Application name for human consumption.
+          type: string
+          example: My first application
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 0
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this application.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 0
+          nullable: true
+        id:
+          description: The Application's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^app_[A-Za-z0-9]{27}$
+          example: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+      - createdAt
+      - id
+      - metadata
+      - name
+      - updatedAt
   securitySchemes:
     HTTPBearer:
       type: http

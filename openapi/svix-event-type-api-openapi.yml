@@ -1112,6 +1112,38 @@ paths:
       x-internal: true
 components:
   schemas:
+    EventTypeImportOpenApiOutData:
+      type: object
+      properties:
+        modified:
+          type: array
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+        to_modify:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventTypeFromOpenApi'
+          nullable: true
+      required:
+      - modified
+    Duration:
+      type: object
+      properties:
+        secs:
+          type: integer
+          format: uint64
+          minimum: 0.0
+        nanos:
+          type: integer
+          format: uint32
+          minimum: 0.0
+      required:
+      - nanos
+      - secs
     BackgroundTaskType:
       type: string
       enum:
@@ -1123,69 +1155,6 @@ components:
       - event-type.aggregate
       - application.purge_content
       - endpoint.bulk-replay
-    RetryScheduleInOut:
-      type: object
-      properties:
-        retrySchedule:
-          $ref: '#/components/schemas/RetrySchedule'
-          nullable: true
-    EventTypeFromOpenApi:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-        schemas:
-          type: object
-          additionalProperties: true
-          example:
-            title: Invoice Paid Event
-            description: An invoice was paid by a user
-            type: object
-            properties:
-              invoiceId:
-                description: The invoice id
-                type: string
-              userId:
-                description: The user id
-                type: string
-            required:
-            - invoiceId
-            - userId
-          nullable: true
-        deprecated:
-          type: boolean
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          nullable: true
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-      required:
-      - deprecated
-      - description
-      - name
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -1205,74 +1174,6 @@ components:
       - loc
       - msg
       - type
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
-    EventTypeUpdate:
-      type: object
-      properties:
-        description:
-          type: string
-          example: A user has signed up
-        archived:
-          type: boolean
-          default: false
-          example: false
-        deprecated:
-          type: boolean
-          default: false
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            '1':
-              title: Invoice Paid Event
-              description: An invoice was paid by a user
-              type: object
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-        featureFlags:
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          default: null
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          default: null
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-      required:
-      - description
     ExportEventTypeOut:
       type: object
       properties:
@@ -1295,138 +1196,12 @@ components:
       - status
       - task
       - updatedAt
-    EventTypeImportOpenApiOut:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
-      required:
-      - data
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    EventTypeIn:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-          example: A user has signed up
-        archived:
-          type: boolean
-          default: false
-          example: false
-        deprecated:
-          type: boolean
-          default: false
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            '1':
-              title: Invoice Paid Event
-              description: An invoice was paid by a user
-              type: object
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
-          type: array
-          default: null
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          default: null
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-      required:
-      - description
-      - name
-    Ordering:
-      description: Defines the ordering in a listing of results.
+    BackgroundTaskStatus:
       type: string
       enum:
-      - ascending
-      - descending
-    ListResponse_EventTypeOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventTypeOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    RetrySchedule:
-      type: array
-      items:
-        $ref: '#/components/schemas/Duration'
-    Duration:
-      type: object
-      properties:
-        secs:
-          type: integer
-          format: uint64
-          minimum: 0.0
-        nanos:
-          type: integer
-          format: uint32
-          minimum: 0.0
-      required:
-      - nanos
-      - secs
+      - running
+      - finished
+      - failed
     EventTypeImportOpenApiIn:
       description: 'Import a list of event types from webhooks defined in an OpenAPI spec.
 
@@ -1479,85 +1254,6 @@ components:
           type: string
           nullable: true
           example: "\n# Both YAML and JSON are supported\nopenapi: 3.1.0\ninfo:\n  title: Webhook Example\n  version: 1.0.0\n# Since OAS 3.1.0 the paths element isn't necessary. Now a valid OpenAPI Document can describe only paths, webhooks, or even only reusable components\nwebhooks:\n  # Each webhook needs a name\n  \"pet.new\":\n    # This is a Path Item Object, the only difference is that the request is initiated by the API provider\n    post:\n      requestBody:\n        description: Information about a new pet in the system\n        content:\n          application/json:\n            schema:\n              $ref: \"#/components/schemas/Pet\"\n      responses:\n        \"200\":\n          description: Return a 200 status to indicate that the data was received successfully\n\ncomponents:\n  schemas:\n    Pet:\n      required:\n        - id\n        - name\n      properties:\n        id:\n          type: integer\n          format: int64\n        name:\n          type: string\n        tag:\n          type: string\n"
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    EventTypeImportOpenApiOutData:
-      type: object
-      properties:
-        modified:
-          type: array
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-        to_modify:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventTypeFromOpenApi'
-          nullable: true
-      required:
-      - modified
-    EventTypePatch:
-      type: object
-      properties:
-        description:
-          type: string
-        archived:
-          type: boolean
-        deprecated:
-          type: boolean
-        schemas:
-          type: object
-          additionalProperties: true
-          example:
-            title: Invoice Paid Event
-            description: An invoice was paid by a user
-            type: object
-            properties:
-              invoiceId:
-                description: The invoice id
-                type: string
-              userId:
-                description: The user id
-                type: string
-            required:
-            - invoiceId
-            - userId
-          nullable: true
-        featureFlags:
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          minItems: 1
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
-          description: Deprecated, use `featureFlags` instead.
-          type: string
-          deprecated: true
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
     EventTypeOut:
       type: object
       properties:
@@ -1630,6 +1326,310 @@ components:
       - description
       - name
       - updatedAt
+    ListResponse_EventTypeOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventTypeOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    EventTypeUpdate:
+      type: object
+      properties:
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+          default: false
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          default: null
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+        groupName:
+          description: The event type group's name
+          type: string
+          default: null
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+      required:
+      - description
+    RetrySchedule:
+      type: array
+      items:
+        $ref: '#/components/schemas/Duration'
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    EventTypeIn:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+          default: false
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          default: null
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          default: null
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - description
+      - name
+    EventTypeFromOpenApi:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+        schemas:
+          type: object
+          additionalProperties: true
+          example:
+            title: Invoice Paid Event
+            description: An invoice was paid by a user
+            type: object
+            properties:
+              invoiceId:
+                description: The invoice id
+                type: string
+              userId:
+                description: The user id
+                type: string
+            required:
+            - invoiceId
+            - userId
+          nullable: true
+        deprecated:
+          type: boolean
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          nullable: true
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - deprecated
+      - description
+      - name
+    EventTypeImportOpenApiOut:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EventTypeImportOpenApiOutData'
+      required:
+      - data
+    EventTypePatch:
+      type: object
+      properties:
+        description:
+          type: string
+        archived:
+          type: boolean
+        deprecated:
+          type: boolean
+        schemas:
+          type: object
+          additionalProperties: true
+          example:
+            title: Invoice Paid Event
+            description: An invoice was paid by a user
+            type: object
+            properties:
+              invoiceId:
+                description: The invoice id
+                type: string
+              userId:
+                description: The user id
+                type: string
+            required:
+            - invoiceId
+            - userId
+          nullable: true
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          minItems: 1
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          description: Deprecated, use `featureFlags` instead.
+          type: string
+          deprecated: true
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    RetryScheduleInOut:
+      type: object
+      properties:
+        retrySchedule:
+          $ref: '#/components/schemas/RetrySchedule'
+          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http

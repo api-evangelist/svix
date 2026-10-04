@@ -857,6 +857,143 @@ paths:
       x-internal: true
 components:
   schemas:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    ListResponse_StreamOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StreamOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    StreamTransformationSimulateOut:
+      type: object
+      properties:
+        output:
+          type: object
+          additionalProperties: true
+      required:
+      - output
+    StreamIn:
+      type: object
+      properties:
+        name:
+          description: The stream's name.
+          type: string
+          minLength: 1
+        uid:
+          description: An optional unique identifier for the stream.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - name
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    StreamTransformationSimulateIn:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/StreamTransformationSimulateType'
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventIn'
+      required:
+      - code
+      - events
+      - type
+    EventIn:
+      type: object
+      properties:
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+      required:
+      - eventType
+      - payload
+    StreamTransformationSimulateType:
+      type: string
+      enum:
+      - http
+      - otelTracing
+      - amazonS3
+      - azureBlobStorage
+      - googleCloudStorage
+      - sns
+      - sqs
     StreamAlertEmailPatch:
       type: object
       properties:
@@ -902,62 +1039,6 @@ components:
       - id
       - metadata
       - updatedAt
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    StreamTransformationSimulateOut:
-      type: object
-      properties:
-        output:
-          type: object
-          additionalProperties: true
-      required:
-      - output
-    StreamTransformationSimulateIn:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/StreamTransformationSimulateType'
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventIn'
-      required:
-      - code
-      - events
-      - type
-    StreamIn:
-      type: object
-      properties:
-        name:
-          description: The stream's name.
-          type: string
-          minLength: 1
-        uid:
-          description: An optional unique identifier for the stream.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!strm_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - name
     StreamPatch:
       type: object
       properties:
@@ -976,87 +1057,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    StreamTransformationSimulateType:
-      type: string
-      enum:
-      - http
-      - otelTracing
-      - amazonS3
-      - azureBlobStorage
-      - googleCloudStorage
-      - sns
-      - sqs
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    EventIn:
-      type: object
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-      required:
-      - eventType
-      - payload
-    ListResponse_StreamOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StreamOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
   securitySchemes:
     HTTPBearer:
       type: http

@@ -920,54 +920,92 @@ paths:
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/ingest/api/v1/source/src_31Dc4Mx7vQVLfxFgArIhq/dashboard' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"expiry\": 1,\n    \"readOnly\": true\n  }'"
 components:
   schemas:
+    AirwallexConfigOut:
+      type: object
+    PandaDocConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    VapiConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    StripeConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
     VgsConfigOut:
       type: object
-    PandaDocConfigOut:
-      type: object
-    NangoConfigOut:
-      type: object
-    MetaConfigOut:
-      type: object
-    AdobeSignConfig:
-      type: object
-      properties:
-        clientId:
-          type: string
-      required:
-      - clientId
-    TailscaleConfig:
+    DocusignConfig:
       type: object
       properties:
         secret:
-          description: Shared secret for Tailscale Webhooks
           type: string
-        timestampGraceSeconds:
-          description: 'Grace period (in seconds) for the timestamp.
-
-
-            If not passed, timestamp age will not be checked.'
-          type: integer
-          format: uint32
-          default: null
-          minimum: 0
           nullable: true
-      required:
-      - secret
-    ZoomConfig:
+    IngestSourcePatch:
       type: object
       properties:
-        secret:
+        name:
           type: string
-      required:
-      - secret
-    PortIoConfig:
+          maxLength: 256
+          minLength: 2
+        uid:
+          description: The Source's UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+    StripeConfigOut:
+      type: object
+    PortIoConfigOut:
+      type: object
+    AdobeSignConfigOut:
+      type: object
+    TelnyxConfigOut:
       type: object
       properties:
-        secret:
+        publicKey:
           type: string
       required:
-      - secret
-    ShopifyConfigOut:
+      - publicKey
+    DashboardAccessOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
+        token:
+          type: string
+          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+      required:
+      - token
+      - url
+    RotateTokenOut:
+      type: object
+      properties:
+        ingestUrl:
+          type: string
+      required:
+      - ingestUrl
+    MetaConfigOut:
       type: object
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
@@ -988,6 +1026,558 @@ components:
       - loc
       - msg
       - type
+    HubspotConfigOut:
+      type: object
+    SvixConfigOut:
+      type: object
+    OrumIoConfig:
+      type: object
+      properties:
+        publicKey:
+          type: string
+      required:
+      - publicKey
+    DocusignConfigOut:
+      type: object
+    SlackConfigOut:
+      type: object
+    CheckbookConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    VeriffConfigOut:
+      type: object
+    TailscaleConfigOut:
+      type: object
+    SegmentConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    HubspotConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+          nullable: true
+    EasypostConfigOut:
+      type: object
+    IngestSourceIn:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 256
+          minLength: 2
+        uid:
+          description: The Source's UID.
+          type: string
+          maxLength: 60
+          minLength: 1
+          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      oneOf:
+      - description: Webhooks with no verification scheme or special handling.
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - generic-webhook
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - cron
+          config:
+            $ref: '#/components/schemas/CronConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - adobe-sign
+          config:
+            $ref: '#/components/schemas/AdobeSignConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - beehiiv
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - brex
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - checkbook
+          config:
+            $ref: '#/components/schemas/CheckbookConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - clerk
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - docusign
+          config:
+            $ref: '#/components/schemas/DocusignConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - easypost
+          config:
+            $ref: '#/components/schemas/EasypostConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - github
+          config:
+            $ref: '#/components/schemas/GithubConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - guesty
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - hubspot
+          config:
+            $ref: '#/components/schemas/HubspotConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - incident-io
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - lithic
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - meta
+          config:
+            $ref: '#/components/schemas/MetaConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - nango
+          config:
+            $ref: '#/components/schemas/NangoConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - nash
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - openclaw
+          config:
+            $ref: '#/components/schemas/OpenClawConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - orum-io
+          config:
+            $ref: '#/components/schemas/OrumIoConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - panda-doc
+          config:
+            $ref: '#/components/schemas/PandaDocConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - port-io
+          config:
+            $ref: '#/components/schemas/PortIoConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - pleo
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - psi-fi
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - replicate
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - resend
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - rutter
+          config:
+            $ref: '#/components/schemas/RutterConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - safebase
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - sardine
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - segment
+          config:
+            $ref: '#/components/schemas/SegmentConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - shopify
+          config:
+            $ref: '#/components/schemas/ShopifyConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - slack
+          config:
+            $ref: '#/components/schemas/SlackConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - stripe
+          config:
+            $ref: '#/components/schemas/StripeConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - stych
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - svix
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - zoom
+          config:
+            $ref: '#/components/schemas/ZoomConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - tailscale
+          config:
+            $ref: '#/components/schemas/TailscaleConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - telnyx
+          config:
+            $ref: '#/components/schemas/TelnyxConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - vapi
+          config:
+            $ref: '#/components/schemas/VapiConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - open-ai
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - render
+          config:
+            $ref: '#/components/schemas/SvixConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - veriff
+          config:
+            $ref: '#/components/schemas/VeriffConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - airwallex
+          config:
+            $ref: '#/components/schemas/AirwallexConfig'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - vgs
+          config:
+            $ref: '#/components/schemas/VgsConfig'
+        required:
+        - config
+        - type
+      required:
+      - name
+    RutterConfigOut:
+      type: object
+    VeriffConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    PortIoConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    GithubConfigOut:
+      type: object
     SlackConfig:
       type: object
       properties:
@@ -995,17 +1585,173 @@ components:
           type: string
       required:
       - secret
-    RotateTokenOut:
+    SvixConfig:
       type: object
       properties:
-        ingestUrl:
+        secret:
           type: string
       required:
-      - ingestUrl
+      - secret
+    AirwallexConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    IngestSourceConsumerPortalAccessIn:
+      type: object
+      properties:
+        expiry:
+          description: 'How long the token will be valid for, in seconds.
+
+
+            Valid values are between 1 hour and 7 days. The default is 7 days.'
+          type: integer
+          format: uint64
+          maximum: 604800
+          minimum: 3600
+          nullable: true
+        readOnly:
+          description: Whether the app portal should be in read-only mode.
+          type: boolean
+          nullable: true
+    PandaDocConfigOut:
+      type: object
+    OpenClawConfigOut:
+      type: object
+    OpenClawConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    ZoomConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    RutterConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    TelnyxConfig:
+      type: object
+      properties:
+        publicKey:
+          type: string
+      required:
+      - publicKey
+    NangoConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
     CheckbookConfigOut:
       type: object
-    StripeConfigOut:
+    TailscaleConfig:
       type: object
+      properties:
+        secret:
+          description: Shared secret for Tailscale Webhooks
+          type: string
+        timestampGraceSeconds:
+          description: 'Grace period (in seconds) for the timestamp.
+
+
+            If not passed, timestamp age will not be checked.'
+          type: integer
+          format: uint32
+          default: null
+          minimum: 0
+          nullable: true
+      required:
+      - secret
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    ShopifyConfigOut:
+      type: object
+    ShopifyConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+      required:
+      - secret
+    MetaConfig:
+      type: object
+      properties:
+        secret:
+          type: string
+        verifyToken:
+          type: string
+      required:
+      - secret
+      - verifyToken
+    AdobeSignConfig:
+      type: object
+      properties:
+        clientId:
+          type: string
+      required:
+      - clientId
+    VapiConfigOut:
+      type: object
+    ListResponse_IngestSourceOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngestSourceOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    SegmentConfigOut:
+      type: object
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     IngestSourceOut:
       type: object
       properties:
@@ -1517,67 +2263,16 @@ components:
       - metadata
       - name
       - updatedAt
-    PortIoConfigOut:
+    ZoomConfigOut:
       type: object
-    ShopifyConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    CheckbookConfig:
+    VgsConfig:
       type: object
       properties:
         secret:
           type: string
       required:
       - secret
-    AirwallexConfigOut:
-      type: object
-    DashboardAccessOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-      required:
-      - token
-      - url
-    SlackConfigOut:
-      type: object
-    RutterConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    TelnyxConfigOut:
-      type: object
-      properties:
-        publicKey:
-          type: string
-      required:
-      - publicKey
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    VapiConfigOut:
+    NangoConfigOut:
       type: object
     GithubConfig:
       type: object
@@ -1585,49 +2280,6 @@ components:
         secret:
           type: string
           nullable: true
-    SegmentConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    RutterConfigOut:
-      type: object
-    VeriffConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    AdobeSignConfigOut:
-      type: object
-    TailscaleConfigOut:
-      type: object
-    OpenClawConfigOut:
-      type: object
-    TelnyxConfig:
-      type: object
-      properties:
-        publicKey:
-          type: string
-      required:
-      - publicKey
-    HubspotConfigOut:
-      type: object
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    VapiConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
     CronConfig:
       type: object
       properties:
@@ -1645,25 +2297,6 @@ components:
       required:
       - payload
       - schedule
-    SvixConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    SegmentConfigOut:
-      type: object
-    GithubConfigOut:
-      type: object
-    SvixConfigOut:
-      type: object
-    DocusignConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
     OrumIoConfigOut:
       type: object
       properties:
@@ -1671,645 +2304,12 @@ components:
           type: string
       required:
       - publicKey
-    IngestSourceIn:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 256
-          minLength: 2
-        uid:
-          description: The Source's UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      oneOf:
-      - description: Webhooks with no verification scheme or special handling.
-        type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - generic-webhook
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - cron
-          config:
-            $ref: '#/components/schemas/CronConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - adobe-sign
-          config:
-            $ref: '#/components/schemas/AdobeSignConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - beehiiv
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - brex
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - checkbook
-          config:
-            $ref: '#/components/schemas/CheckbookConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - clerk
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - docusign
-          config:
-            $ref: '#/components/schemas/DocusignConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - easypost
-          config:
-            $ref: '#/components/schemas/EasypostConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - github
-          config:
-            $ref: '#/components/schemas/GithubConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - guesty
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - hubspot
-          config:
-            $ref: '#/components/schemas/HubspotConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - incident-io
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - lithic
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - meta
-          config:
-            $ref: '#/components/schemas/MetaConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - nango
-          config:
-            $ref: '#/components/schemas/NangoConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - nash
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - openclaw
-          config:
-            $ref: '#/components/schemas/OpenClawConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - orum-io
-          config:
-            $ref: '#/components/schemas/OrumIoConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - panda-doc
-          config:
-            $ref: '#/components/schemas/PandaDocConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - port-io
-          config:
-            $ref: '#/components/schemas/PortIoConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - pleo
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - psi-fi
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - replicate
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - resend
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - rutter
-          config:
-            $ref: '#/components/schemas/RutterConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - safebase
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - sardine
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - segment
-          config:
-            $ref: '#/components/schemas/SegmentConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - shopify
-          config:
-            $ref: '#/components/schemas/ShopifyConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - slack
-          config:
-            $ref: '#/components/schemas/SlackConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - stripe
-          config:
-            $ref: '#/components/schemas/StripeConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - stych
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - svix
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - zoom
-          config:
-            $ref: '#/components/schemas/ZoomConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - tailscale
-          config:
-            $ref: '#/components/schemas/TailscaleConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - telnyx
-          config:
-            $ref: '#/components/schemas/TelnyxConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - vapi
-          config:
-            $ref: '#/components/schemas/VapiConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - open-ai
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - render
-          config:
-            $ref: '#/components/schemas/SvixConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - veriff
-          config:
-            $ref: '#/components/schemas/VeriffConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - airwallex
-          config:
-            $ref: '#/components/schemas/AirwallexConfig'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - vgs
-          config:
-            $ref: '#/components/schemas/VgsConfig'
-        required:
-        - config
-        - type
-      required:
-      - name
-    VeriffConfigOut:
-      type: object
     EasypostConfig:
       type: object
       properties:
         secret:
           type: string
           nullable: true
-    MetaConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-        verifyToken:
-          type: string
-      required:
-      - secret
-      - verifyToken
-    DocusignConfigOut:
-      type: object
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    PandaDocConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    OrumIoConfig:
-      type: object
-      properties:
-        publicKey:
-          type: string
-      required:
-      - publicKey
-    VgsConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    HubspotConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-          nullable: true
-    NangoConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    StripeConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    ZoomConfigOut:
-      type: object
-    EasypostConfigOut:
-      type: object
-    IngestSourceConsumerPortalAccessIn:
-      type: object
-      properties:
-        expiry:
-          description: 'How long the token will be valid for, in seconds.
-
-
-            Valid values are between 1 hour and 7 days. The default is 7 days.'
-          type: integer
-          format: uint64
-          maximum: 604800
-          minimum: 3600
-          nullable: true
-        readOnly:
-          description: Whether the app portal should be in read-only mode.
-          type: boolean
-          nullable: true
-    OpenClawConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    ListResponse_IngestSourceOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IngestSourceOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    AirwallexConfig:
-      type: object
-      properties:
-        secret:
-          type: string
-      required:
-      - secret
-    IngestSourcePatch:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 256
-          minLength: 2
-        uid:
-          description: The Source's UID.
-          type: string
-          maxLength: 60
-          minLength: 1
-          pattern: ^(?!src_)[a-zA-Z0-9_-]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
   securitySchemes:
     HTTPBearer:
       type: http

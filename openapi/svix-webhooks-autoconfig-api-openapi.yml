@@ -369,95 +369,25 @@ paths:
       x-internal: true
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        detail:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
       required:
-      - detail
-    SinkInCommon:
-      type: object
-      properties:
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the sink.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        channels:
-          description: List of message channels this sink listens to (omit for all).
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
+      - loc
+      - msg
+      - type
     EndpointIn:
       type: object
       properties:
@@ -562,6 +492,13 @@ components:
             X-Foobar: Bar
       required:
       - url
+    RotateSubscriptionIn:
+      type: object
+      properties:
+        signingSecret:
+          default: null
+          $ref: '#/components/schemas/EndpointSecretRotateIn'
+          nullable: true
     AutoConfigCensoredOut:
       type: object
       properties:
@@ -581,22 +518,97 @@ components:
       - endpId
       - tokenCensored
       - updatedAt
-    SubscribeIn:
+    SinkInCommon:
       type: object
       properties:
-        endpoint:
-          $ref: '#/components/schemas/EndpointIn'
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
           nullable: true
-        sink:
-          $ref: '#/components/schemas/AutoConfigSinkType'
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
           nullable: true
-    RotateSubscriptionIn:
+        uid:
+          description: Optional unique identifier for the sink.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        channels:
+          description: List of message channels this sink listens to (omit for all).
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+    HttpErrorOut:
+      title: HttpError
       type: object
       properties:
-        signingSecret:
-          default: null
-          $ref: '#/components/schemas/EndpointSecretRotateIn'
-          nullable: true
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     AutoConfigOut:
       type: object
       properties:
@@ -642,6 +654,39 @@ components:
           maximum: 604800
           minimum: 0
           nullable: true
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    AutoConfigSinkType:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - poller
+          config:
+            $ref: '#/components/schemas/SinkInCommon'
+        required:
+        - config
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - http
+          config:
+            $ref: '#/components/schemas/EndpointIn'
+        required:
+        - config
+        - type
     EndpointOut:
       type: object
       properties:
@@ -741,60 +786,15 @@ components:
       - updatedAt
       - url
       - version
-    HttpErrorOut:
-      title: HttpError
+    SubscribeIn:
       type: object
       properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    AutoConfigSinkType:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - poller
-          config:
-            $ref: '#/components/schemas/SinkInCommon'
-        required:
-        - config
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - http
-          config:
-            $ref: '#/components/schemas/EndpointIn'
-        required:
-        - config
-        - type
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
+        endpoint:
+          $ref: '#/components/schemas/EndpointIn'
+          nullable: true
+        sink:
+          $ref: '#/components/schemas/AutoConfigSinkType'
+          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http

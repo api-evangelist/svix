@@ -135,32 +135,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
     MessageBroadcastOut:
       type: object
       properties:
@@ -183,6 +157,17 @@ components:
       - status
       - task
       - updatedAt
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
     MessageBroadcastIn:
       type: object
       properties:
@@ -242,6 +227,21 @@ components:
       required:
       - eventType
       - payload
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     HttpErrorOut:
       title: HttpError
       type: object

@@ -1251,11 +1251,264 @@ paths:
       x-internal: true
 components:
   schemas:
-    ConnectorAuthenticationMethod:
+    HubspotOauthConfigIn:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+      required:
+      - refresh_token
+    ConnectorProduct:
       type: string
       enum:
-      - HttpBearer
-      - HttpBasic
+      - Dispatch
+      - Stream
+    ConnectorIn:
+      type: object
+      properties:
+        name:
+          type: string
+          example: My first connector
+        uid:
+          description: The Connector's UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          example: https://example.com/logo.png
+        description:
+          type: string
+          default: ''
+          example: Example connector description
+        kind:
+          default: Custom
+          $ref: '#/components/schemas/ConnectorKind'
+          example: Slack
+        instructions:
+          type: string
+          default: ''
+          example: Markdown-formatted instructions
+        allowedEventTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        transformation:
+          type: string
+          minLength: 10
+          maxLength: 51200
+          example: function handler(webhook) { /* ... */ }
+        featureFlags:
+          type: array
+          default: null
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          nullable: true
+        productType:
+          default: null
+          $ref: '#/components/schemas/ConnectorProduct'
+          nullable: true
+      required:
+      - name
+      - transformation
+    OAuthPayloadOut:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          nullable: true
+        refreshToken:
+          type: string
+          nullable: true
+        error:
+          type: string
+          nullable: true
+    TransformationSimulateOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+        payload:
+          type: string
+        method:
+          $ref: '#/components/schemas/TransformationHttpMethod'
+          nullable: true
+        cancel:
+          type: boolean
+      required:
+      - cancel
+      - payload
+      - url
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    ConnectorUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          default: ''
+          example: My first connector
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          example: https://example.com/logo.png
+        description:
+          type: string
+          default: ''
+          example: Example connector description
+        kind:
+          default: Custom
+          $ref: '#/components/schemas/ConnectorKind'
+          example: Slack
+        instructions:
+          type: string
+          default: ''
+          example: Markdown-formatted instructions
+        allowedEventTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        transformation:
+          type: string
+          minLength: 10
+          maxLength: 51200
+          example: function handler(webhook) { /* ... */ }
+        featureFlags:
+          type: array
+          default: null
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+      required:
+      - transformation
+    CustomConnectorOptions:
+      type: object
+      properties:
+        authenticationMethod:
+          $ref: '#/components/schemas/ConnectorAuthenticationMethod'
+          nullable: true
+        defaultUrl:
+          type: string
+          format: uri
+          nullable: true
+    ConnectorPatch:
+      type: object
+      properties:
+        name:
+          type: string
+        logo:
+          type: string
+          format: uri
+          nullable: true
+        description:
+          type: string
+        kind:
+          $ref: '#/components/schemas/ConnectorKind'
+        instructions:
+          type: string
+        allowedEventTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        transformation:
+          type: string
+          maxLength: 51200
+          minLength: 10
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+    ListResponse_ConnectorOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectorOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     ConnectorKind:
       type: string
       enum:
@@ -1277,6 +1530,182 @@ components:
       - TriggerDev
       - Windmill
       - Zapier
+    OAuthPayloadIn:
+      type: object
+      properties:
+        code:
+          type: string
+        redirectUri:
+          type: string
+      required:
+      - code
+      - redirectUri
+    ConnectorAuthenticationMethod:
+      type: string
+      enum:
+      - HttpBearer
+      - HttpBasic
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    TransformationSimulateIn:
+      type: object
+      properties:
+        code:
+          type: string
+          maxLength: 51200
+          minLength: 10
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        channels:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - eventType
+      - payload
+    TransformationHttpMethod:
+      type: string
+      enum:
+      - POST
+      - PUT
+      - PATCH
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    IncomingWebhookPayloadOut:
+      type: object
+      properties:
+        error:
+          type: string
+          nullable: true
+        incomingWebhookUrl:
+          type: string
+          format: uri
+          nullable: true
+        channel:
+          type: string
+          nullable: true
+    ConnectorOut:
+      type: object
+      properties:
+        id:
+          description: The Connector's ID.
+          type: string
+          maxLength: 34
+          minLength: 34
+          pattern: ^trtmpl_[A-Za-z0-9]{27}$
+          example: trtmpl_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        orgId:
+          description: The Environment's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^org_[A-Za-z0-9]{27}$
+          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        uid:
+          description: The Connector's UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        kind:
+          $ref: '#/components/schemas/ConnectorKind'
+        name:
+          type: string
+        logo:
+          type: string
+          format: uri
+          nullable: true
+        description:
+          type: string
+        instructions:
+          type: string
+        allowedEventTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        transformation:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        transformationUpdatedAt:
+          type: string
+          format: date-time
+        featureFlags:
+          type: array
+          default: null
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        productType:
+          $ref: '#/components/schemas/ConnectorProduct'
+      required:
+      - createdAt
+      - description
+      - id
+      - instructions
+      - kind
+      - name
+      - orgId
+      - productType
+      - transformation
+      - transformationUpdatedAt
+      - updatedAt
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     ConnectorOptions:
       oneOf:
       - type: object
@@ -1426,435 +1855,6 @@ components:
             - Zapier
         required:
         - kind
-    ConnectorProduct:
-      type: string
-      enum:
-      - Dispatch
-      - Stream
-    ConnectorIn:
-      type: object
-      properties:
-        name:
-          type: string
-          example: My first connector
-        uid:
-          description: The Connector's UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        logo:
-          type: string
-          format: uri
-          nullable: true
-          example: https://example.com/logo.png
-        description:
-          type: string
-          default: ''
-          example: Example connector description
-        kind:
-          default: Custom
-          $ref: '#/components/schemas/ConnectorKind'
-          example: Slack
-        instructions:
-          type: string
-          default: ''
-          example: Markdown-formatted instructions
-        allowedEventTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        transformation:
-          type: string
-          minLength: 10
-          maxLength: 51200
-          example: function handler(webhook) { /* ... */ }
-        featureFlags:
-          type: array
-          default: null
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          nullable: true
-        productType:
-          default: null
-          $ref: '#/components/schemas/ConnectorProduct'
-          nullable: true
-      required:
-      - name
-      - transformation
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    ConnectorUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          default: ''
-          example: My first connector
-        logo:
-          type: string
-          format: uri
-          nullable: true
-          example: https://example.com/logo.png
-        description:
-          type: string
-          default: ''
-          example: Example connector description
-        kind:
-          default: Custom
-          $ref: '#/components/schemas/ConnectorKind'
-          example: Slack
-        instructions:
-          type: string
-          default: ''
-          example: Markdown-formatted instructions
-        allowedEventTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        transformation:
-          type: string
-          minLength: 10
-          maxLength: 51200
-          example: function handler(webhook) { /* ... */ }
-        featureFlags:
-          type: array
-          default: null
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-      required:
-      - transformation
-    IncomingWebhookPayloadOut:
-      type: object
-      properties:
-        error:
-          type: string
-          nullable: true
-        incomingWebhookUrl:
-          type: string
-          format: uri
-          nullable: true
-        channel:
-          type: string
-          nullable: true
-    ListResponse_ConnectorOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConnectorOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    ConnectorOut:
-      type: object
-      properties:
-        id:
-          description: The Connector's ID.
-          type: string
-          maxLength: 34
-          minLength: 34
-          pattern: ^trtmpl_[A-Za-z0-9]{27}$
-          example: trtmpl_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        orgId:
-          description: The Environment's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^org_[A-Za-z0-9]{27}$
-          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        uid:
-          description: The Connector's UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        kind:
-          $ref: '#/components/schemas/ConnectorKind'
-        name:
-          type: string
-        logo:
-          type: string
-          format: uri
-          nullable: true
-        description:
-          type: string
-        instructions:
-          type: string
-        allowedEventTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        transformation:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        transformationUpdatedAt:
-          type: string
-          format: date-time
-        featureFlags:
-          type: array
-          default: null
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        productType:
-          $ref: '#/components/schemas/ConnectorProduct'
-      required:
-      - createdAt
-      - description
-      - id
-      - instructions
-      - kind
-      - name
-      - orgId
-      - productType
-      - transformation
-      - transformationUpdatedAt
-      - updatedAt
-    OAuthPayloadOut:
-      type: object
-      properties:
-        accessToken:
-          type: string
-          nullable: true
-        refreshToken:
-          type: string
-          nullable: true
-        error:
-          type: string
-          nullable: true
-    HubspotOauthConfigIn:
-      type: object
-      properties:
-        refresh_token:
-          type: string
-      required:
-      - refresh_token
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    OAuthPayloadIn:
-      type: object
-      properties:
-        code:
-          type: string
-        redirectUri:
-          type: string
-      required:
-      - code
-      - redirectUri
-    TransformationSimulateOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-        payload:
-          type: string
-        method:
-          $ref: '#/components/schemas/TransformationHttpMethod'
-          nullable: true
-        cancel:
-          type: boolean
-      required:
-      - cancel
-      - payload
-      - url
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    ConnectorPatch:
-      type: object
-      properties:
-        name:
-          type: string
-        logo:
-          type: string
-          format: uri
-          nullable: true
-        description:
-          type: string
-        kind:
-          $ref: '#/components/schemas/ConnectorKind'
-        instructions:
-          type: string
-        allowedEventTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        transformation:
-          type: string
-          maxLength: 51200
-          minLength: 10
-        featureFlags:
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-    CustomConnectorOptions:
-      type: object
-      properties:
-        authenticationMethod:
-          $ref: '#/components/schemas/ConnectorAuthenticationMethod'
-          nullable: true
-        defaultUrl:
-          type: string
-          format: uri
-          nullable: true
-    TransformationHttpMethod:
-      type: string
-      enum:
-      - POST
-      - PUT
-      - PATCH
-    TransformationSimulateIn:
-      type: object
-      properties:
-        code:
-          type: string
-          maxLength: 51200
-          minLength: 10
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        channels:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        payload:
-          type: object
-          additionalProperties: true
-      required:
-      - code
-      - eventType
-      - payload
   securitySchemes:
     HTTPBearer:
       type: http

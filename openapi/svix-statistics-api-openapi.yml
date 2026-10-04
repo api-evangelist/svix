@@ -493,12 +493,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
     BackgroundTaskType:
       type: string
       enum:
@@ -510,36 +504,12 @@ components:
       - event-type.aggregate
       - application.purge_content
       - endpoint.bulk-replay
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    AttemptStatisticsData:
-      type: object
-      properties:
-        successCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        failureCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        canceledCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
     EndpointCountOut:
       type: object
       properties:
@@ -613,6 +583,44 @@ components:
       - status
       - task
       - updatedAt
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    AttemptStatisticsResponse:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        period:
+          $ref: '#/components/schemas/StatisticsPeriod'
+        data:
+          $ref: '#/components/schemas/AttemptStatisticsData'
+      required:
+      - data
+      - endDate
+      - period
+      - startDate
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
     AppUsageStatsIn:
       type: object
       properties:
@@ -640,42 +648,6 @@ components:
       required:
       - since
       - until
-    AttemptStatisticsResponse:
-      type: object
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        period:
-          $ref: '#/components/schemas/StatisticsPeriod'
-        data:
-          $ref: '#/components/schemas/AttemptStatisticsData'
-      required:
-      - data
-      - endDate
-      - period
-      - startDate
-    StatisticsPeriod:
-      description: Period length for a statistics data point.
-      type: string
-      enum:
-      - OneDay
-      - OneHour
-      - FiveMinutes
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -695,6 +667,34 @@ components:
       - loc
       - msg
       - type
+    StatisticsPeriod:
+      description: Period length for a statistics data point.
+      type: string
+      enum:
+      - OneDay
+      - OneHour
+      - FiveMinutes
+    AttemptStatisticsData:
+      type: object
+      properties:
+        successCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        failureCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        canceledCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http

@@ -1621,6 +1621,145 @@ paths:
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/app/app_1srOrx2ZWZBpBUvZwXKQmoEYga2/msg/msg_33ZHzkmDazsPr4mDUsdzXJrGQ1f/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/resend' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
 components:
   schemas:
+    ListResponse_MessageAttemptOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageAttemptOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    EmptyResponse:
+      type: object
+    MessageStatus:
+      title: MessageStatus
+      description: 'The sending status of the message:
+
+
+        - Success = 0
+
+        - Pending = 1
+
+        - Fail = 2
+
+        - Sending = 3
+
+        - Canceled = 4'
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      x-enum-varnames:
+      - Success
+      - Pending
+      - Fail
+      - Sending
+      - Canceled
+    MessageAttemptOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        response:
+          type: string
+          example: '{}'
+        responseStatusCode:
+          type: integer
+          format: int16
+          example: 200
+        responseDurationMs:
+          description: Response duration in milliseconds.
+          type: integer
+          format: int64
+        status:
+          $ref: '#/components/schemas/MessageStatus'
+        statusText:
+          $ref: '#/components/schemas/MessageStatusText'
+        triggerType:
+          $ref: '#/components/schemas/MessageAttemptTriggerType'
+        msgId:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        endpointId:
+          description: The Endpoint's ID.
+          type: string
+          maxLength: 30
+          minLength: 30
+          pattern: ^ep_[A-Za-z0-9]{27}$
+          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        id:
+          description: The MessageAttempt's ID.
+          type: string
+          maxLength: 33
+          minLength: 33
+          pattern: ^atmpt_[A-Za-z0-9]{27}$
+          example: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
+          type: string
+          format: date-time
+        msg:
+          $ref: '#/components/schemas/MessageOut'
+          nullable: true
+      required:
+      - endpointId
+      - id
+      - msgId
+      - response
+      - responseDurationMs
+      - responseStatusCode
+      - status
+      - statusText
+      - timestamp
+      - triggerType
+      - url
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    MessageAttemptTriggerType:
+      title: MessageAttemptTriggerType
+      description: 'The reason an attempt was made:
+
+
+        - Scheduled = 0
+
+        - Manual = 1'
+      type: integer
+      enum:
+      - 0
+      - 1
+      x-enum-varnames:
+      - Scheduled
+      - Manual
     MessageEndpointOut:
       type: object
       properties:
@@ -1746,14 +1885,62 @@ components:
       - data
       - done
       - iterator
-    MessageStatusText:
-      type: string
-      enum:
-      - success
-      - pending
-      - fail
-      - sending
-      - canceled
+    MessageAttemptHeadersOut:
+      type: object
+      properties:
+        sentHeaders:
+          type: object
+          additionalProperties:
+            type: string
+        responseHeaders:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+            maxItems: 2
+            minItems: 2
+          nullable: true
+        sensitive:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+      required:
+      - sensitive
+      - sentHeaders
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    ListResponse_MessageEndpointOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageEndpointOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
     StatusCodeClass:
       title: StatusCodeClass
       description: 'The different classes of HTTP status codes:
@@ -1785,15 +1972,100 @@ components:
       - Code3xx
       - Code4xx
       - Code5xx
-    HTTPValidationError:
+    MessageStatusText:
+      type: string
+      enum:
+      - success
+      - pending
+      - fail
+      - sending
+      - canceled
+    MessageOut:
       type: object
       properties:
-        detail:
+        eventId:
+          description: Optional unique identifier for the message
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: object
+          additionalProperties: true
+          example:
+            type: user.created
+            email: test@example.com
+            username: test_user
+        channels:
+          description: List of free-form identifiers that endpoints can filter by
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_.:+]+$
+            example: project_1337
+          maxItems: 10
+          minItems: 1
+          uniqueItems: true
+          example:
+          - project_123
+          - group_2
+        id:
+          description: The Message's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^msg_[A-Za-z0-9]{27}$
+          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        timestamp:
+          type: string
+          format: date-time
+        tags:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
+            maxLength: 128
+            pattern: ^[a-zA-Z0-9\-_./\\#]+$
+            example: project_1337
+          uniqueItems: true
+          nullable: true
+        deliverAt:
+          type: string
+          format: date-time
+          nullable: true
       required:
-      - detail
+      - eventType
+      - id
+      - payload
+      - timestamp
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
     CountOut:
       type: object
       properties:
@@ -1885,278 +2157,6 @@ components:
       - payload
       - status
       - statusText
-      - timestamp
-    MessageStatus:
-      title: MessageStatus
-      description: 'The sending status of the message:
-
-
-        - Success = 0
-
-        - Pending = 1
-
-        - Fail = 2
-
-        - Sending = 3
-
-        - Canceled = 4'
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      x-enum-varnames:
-      - Success
-      - Pending
-      - Fail
-      - Sending
-      - Canceled
-    EmptyResponse:
-      type: object
-    MessageAttemptOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        response:
-          type: string
-          example: '{}'
-        responseStatusCode:
-          type: integer
-          format: int16
-          example: 200
-        responseDurationMs:
-          description: Response duration in milliseconds.
-          type: integer
-          format: int64
-        status:
-          $ref: '#/components/schemas/MessageStatus'
-        statusText:
-          $ref: '#/components/schemas/MessageStatusText'
-        triggerType:
-          $ref: '#/components/schemas/MessageAttemptTriggerType'
-        msgId:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        endpointId:
-          description: The Endpoint's ID.
-          type: string
-          maxLength: 30
-          minLength: 30
-          pattern: ^ep_[A-Za-z0-9]{27}$
-          example: ep_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        id:
-          description: The MessageAttempt's ID.
-          type: string
-          maxLength: 33
-          minLength: 33
-          pattern: ^atmpt_[A-Za-z0-9]{27}$
-          example: atmpt_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        timestamp:
-          type: string
-          format: date-time
-        msg:
-          $ref: '#/components/schemas/MessageOut'
-          nullable: true
-      required:
-      - endpointId
-      - id
-      - msgId
-      - response
-      - responseDurationMs
-      - responseStatusCode
-      - status
-      - statusText
-      - timestamp
-      - triggerType
-      - url
-    ListResponse_MessageEndpointOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageEndpointOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    ListResponse_MessageAttemptOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MessageAttemptOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    MessageAttemptHeadersOut:
-      type: object
-      properties:
-        sentHeaders:
-          type: object
-          additionalProperties:
-            type: string
-        responseHeaders:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-            maxItems: 2
-            minItems: 2
-          nullable: true
-        sensitive:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-      required:
-      - sensitive
-      - sentHeaders
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    MessageAttemptTriggerType:
-      title: MessageAttemptTriggerType
-      description: 'The reason an attempt was made:
-
-
-        - Scheduled = 0
-
-        - Manual = 1'
-      type: integer
-      enum:
-      - 0
-      - 1
-      x-enum-varnames:
-      - Scheduled
-      - Manual
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    MessageOut:
-      type: object
-      properties:
-        eventId:
-          description: Optional unique identifier for the message
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: object
-          additionalProperties: true
-          example:
-            type: user.created
-            email: test@example.com
-            username: test_user
-        channels:
-          description: List of free-form identifiers that endpoints can filter by
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_.:+]+$
-            example: project_1337
-          maxItems: 10
-          minItems: 1
-          uniqueItems: true
-          example:
-          - project_123
-          - group_2
-        id:
-          description: The Message's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^msg_[A-Za-z0-9]{27}$
-          example: msg_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        timestamp:
-          type: string
-          format: date-time
-        tags:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-            pattern: ^[a-zA-Z0-9\-_./\\#]+$
-            example: project_1337
-          uniqueItems: true
-          nullable: true
-        deliverAt:
-          type: string
-          format: date-time
-          nullable: true
-      required:
-      - eventType
-      - id
-      - payload
       - timestamp
   securitySchemes:
     HTTPBearer:

@@ -441,336 +441,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    CustomStringsOverride:
-      type: object
-      properties:
-        channelsOne:
-          type: string
-          nullable: true
-        channelsMany:
-          type: string
-          nullable: true
-        channelsHelp:
-          type: string
-          nullable: true
-    SettingsInternalIn:
-      type: object
-      properties:
-        retryPolicy:
-          type: array
-          items:
-            type: integer
-            format: int32
-          nullable: true
-        requireEndpointChannel:
-          type: boolean
-          default: false
-        whitelabelHeaders:
-          type: boolean
-          default: false
-        sendSvixWebhookHeaders:
-          type: boolean
-          default: false
-        enableMsgAtmptLog:
-          type: boolean
-          default: false
-        enableOtlp:
-          type: boolean
-          default: false
-        customColor:
-          type: string
-          format: color
-          nullable: true
-        customLogoUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        customThemeOverride:
-          $ref: '#/components/schemas/CustomThemeOverride'
-          nullable: true
-        customStringsOverride:
-          $ref: '#/components/schemas/CustomStringsOverride'
-          nullable: true
-        customBaseFontSize:
-          type: integer
-          format: int
-          nullable: true
-        customFontFamily:
-          type: string
-          nullable: true
-          pattern: ^[a-zA-Z0-9\-_ ]+$
-          example: Open Sans
-        customFontFamilyUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        disableEndpointOnFailure:
-          type: boolean
-          default: true
-        displayName:
-          type: string
-          nullable: true
-        eventCatalogPublished:
-          type: boolean
-          default: false
-        enforceHttps:
-          type: boolean
-          default: true
-        enableChannels:
-          type: boolean
-          default: false
-        enableMessageStream:
-          type: boolean
-          default: false
-        readOnly:
-          type: boolean
-          default: false
-        enableIntegrationManagement:
-          type: boolean
-          default: false
-        enableTransformations:
-          type: boolean
-          default: false
-        requireEndpointFilterTypes:
-          type: boolean
-          default: false
-        enableEndpointOauthConfig:
-          type: boolean
-          default: false
-        enableEndpointMtlsConfig:
-          type: boolean
-          default: false
-        colorPaletteLight:
-          $ref: '#/components/schemas/CustomColorPalette'
-          nullable: true
-        colorPaletteDark:
-          $ref: '#/components/schemas/CustomColorPalette'
-          nullable: true
-        showUseSvixPlay:
-          type: boolean
-          default: true
-        wipeSuccessfulPayload:
-          type: boolean
-          default: false
-        enableApplicationAlerts:
-          type: boolean
-          default: false
-        applicationAlertEvents:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/ApplicationAlertEvent'
-        applicationAlertsDashboardUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        applicationAlertsLogoUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        showFeatureTooltips:
-          type: boolean
-          default: false
-        webhooksAutoConfig:
-          type: boolean
-          default: false
-        mcpToken:
-          type: boolean
-          default: false
-    OtelConfigOut:
-      type: object
-      properties:
-        url:
-          type: string
-          nullable: true
-        additionalHeaders:
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-        svixManaged:
-          type: boolean
-      required:
-      - svixManaged
-    OtelConfig:
-      type: object
-      properties:
-        url:
-          type: string
-        additionalHeaders:
-          type: object
-          default: null
-          additionalProperties:
-            type: string
-          nullable: true
-      required:
-      - url
-    SettingsInternalOut:
-      type: object
-      properties:
-        showSvixBrandFooter:
-          type: boolean
-          default: false
-        whitelabelLogo:
-          type: string
-          format: uri
-          default: null
-          nullable: true
-        retryPolicy:
-          type: array
-          items:
-            type: integer
-            format: int32
-          nullable: true
-        requireEndpointChannel:
-          type: boolean
-          default: false
-        whitelabelHeaders:
-          type: boolean
-          default: false
-        sendSvixWebhookHeaders:
-          type: boolean
-          default: false
-        enableMsgAtmptLog:
-          type: boolean
-          default: false
-        enableOtlp:
-          type: boolean
-          default: false
-        customColor:
-          type: string
-          format: color
-          nullable: true
-        customLogoUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        customThemeOverride:
-          $ref: '#/components/schemas/CustomThemeOverride'
-          nullable: true
-        customStringsOverride:
-          $ref: '#/components/schemas/CustomStringsOverride'
-          nullable: true
-        customBaseFontSize:
-          type: integer
-          format: int
-          nullable: true
-        customFontFamily:
-          type: string
-          nullable: true
-          pattern: ^[a-zA-Z0-9\-_ ]+$
-          example: Open Sans
-        customFontFamilyUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        disableEndpointOnFailure:
-          type: boolean
-          default: true
-        displayName:
-          type: string
-          nullable: true
-        eventCatalogPublished:
-          type: boolean
-          default: false
-        enforceHttps:
-          type: boolean
-          default: true
-        enableChannels:
-          type: boolean
-          default: false
-        enableMessageStream:
-          type: boolean
-          default: false
-        readOnly:
-          type: boolean
-          default: false
-        enableIntegrationManagement:
-          type: boolean
-          default: false
-        enableTransformations:
-          type: boolean
-          default: false
-        requireEndpointFilterTypes:
-          type: boolean
-          default: false
-        enableEndpointOauthConfig:
-          type: boolean
-          default: false
-        enableEndpointMtlsConfig:
-          type: boolean
-          default: false
-        colorPaletteLight:
-          $ref: '#/components/schemas/CustomColorPalette'
-          nullable: true
-        colorPaletteDark:
-          $ref: '#/components/schemas/CustomColorPalette'
-          nullable: true
-        showUseSvixPlay:
-          type: boolean
-          default: true
-        wipeSuccessfulPayload:
-          type: boolean
-          default: false
-        enableApplicationAlerts:
-          type: boolean
-          default: false
-        applicationAlertEvents:
-          type: array
-          default: []
-          items:
-            $ref: '#/components/schemas/ApplicationAlertEvent'
-        applicationAlertsDashboardUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        applicationAlertsLogoUrl:
-          type: string
-          format: uri
-          maxLength: 65536
-          minLength: 1
-          nullable: true
-        showFeatureTooltips:
-          type: boolean
-          default: false
-        webhooksAutoConfig:
-          type: boolean
-          default: false
-        mcpToken:
-          type: boolean
-          default: false
-    CustomThemeOverride:
-      type: object
-      properties:
-        borderRadius:
-          $ref: '#/components/schemas/BorderRadiusConfig'
-          nullable: true
-        fontSize:
-          $ref: '#/components/schemas/FontSizeConfig'
-          nullable: true
     FontSizeConfig:
       type: object
       properties:
@@ -911,6 +581,159 @@ components:
         mcpToken:
           type: boolean
           default: false
+    SettingsInternalIn:
+      type: object
+      properties:
+        retryPolicy:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+        requireEndpointChannel:
+          type: boolean
+          default: false
+        whitelabelHeaders:
+          type: boolean
+          default: false
+        sendSvixWebhookHeaders:
+          type: boolean
+          default: false
+        enableMsgAtmptLog:
+          type: boolean
+          default: false
+        enableOtlp:
+          type: boolean
+          default: false
+        customColor:
+          type: string
+          format: color
+          nullable: true
+        customLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+          default: true
+        displayName:
+          type: string
+          nullable: true
+        eventCatalogPublished:
+          type: boolean
+          default: false
+        enforceHttps:
+          type: boolean
+          default: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        readOnly:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        requireEndpointFilterTypes:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        enableApplicationAlerts:
+          type: boolean
+          default: false
+        applicationAlertEvents:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+          default: false
+        webhooksAutoConfig:
+          type: boolean
+          default: false
+        mcpToken:
+          type: boolean
+          default: false
+    BorderRadiusConfig:
+      type: object
+      properties:
+        button:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+        card:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+        input:
+          $ref: '#/components/schemas/BorderRadiusEnum'
+          nullable: true
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     ApplicationAlertEvent:
       type: string
       enum:
@@ -995,29 +818,28 @@ components:
         showFeatureTooltips:
           type: boolean
           default: false
-    BorderRadiusConfig:
+    OtelConfig:
       type: object
       properties:
-        button:
-          $ref: '#/components/schemas/BorderRadiusEnum'
-          nullable: true
-        card:
-          $ref: '#/components/schemas/BorderRadiusEnum'
-          nullable: true
-        input:
-          $ref: '#/components/schemas/BorderRadiusEnum'
-          nullable: true
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
+        url:
           type: string
-        detail:
-          type: string
+        additionalHeaders:
+          type: object
+          default: null
+          additionalProperties:
+            type: string
+          nullable: true
       required:
-      - code
-      - detail
+      - url
+    CustomThemeOverride:
+      type: object
+      properties:
+        borderRadius:
+          $ref: '#/components/schemas/BorderRadiusConfig'
+          nullable: true
+        fontSize:
+          $ref: '#/components/schemas/FontSizeConfig'
+          nullable: true
     SettingsInternalPatch:
       type: object
       properties:
@@ -1127,14 +949,172 @@ components:
           type: boolean
         mcpToken:
           type: boolean
-    BorderRadiusEnum:
-      type: string
-      enum:
-      - none
-      - lg
-      - md
-      - sm
-      - full
+    OtelConfigOut:
+      type: object
+      properties:
+        url:
+          type: string
+          nullable: true
+        additionalHeaders:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+        svixManaged:
+          type: boolean
+      required:
+      - svixManaged
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    SettingsInternalOut:
+      type: object
+      properties:
+        showSvixBrandFooter:
+          type: boolean
+          default: false
+        whitelabelLogo:
+          type: string
+          format: uri
+          default: null
+          nullable: true
+        retryPolicy:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+        requireEndpointChannel:
+          type: boolean
+          default: false
+        whitelabelHeaders:
+          type: boolean
+          default: false
+        sendSvixWebhookHeaders:
+          type: boolean
+          default: false
+        enableMsgAtmptLog:
+          type: boolean
+          default: false
+        enableOtlp:
+          type: boolean
+          default: false
+        customColor:
+          type: string
+          format: color
+          nullable: true
+        customLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        customThemeOverride:
+          $ref: '#/components/schemas/CustomThemeOverride'
+          nullable: true
+        customStringsOverride:
+          $ref: '#/components/schemas/CustomStringsOverride'
+          nullable: true
+        customBaseFontSize:
+          type: integer
+          format: int
+          nullable: true
+        customFontFamily:
+          type: string
+          nullable: true
+          pattern: ^[a-zA-Z0-9\-_ ]+$
+          example: Open Sans
+        customFontFamilyUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        disableEndpointOnFailure:
+          type: boolean
+          default: true
+        displayName:
+          type: string
+          nullable: true
+        eventCatalogPublished:
+          type: boolean
+          default: false
+        enforceHttps:
+          type: boolean
+          default: true
+        enableChannels:
+          type: boolean
+          default: false
+        enableMessageStream:
+          type: boolean
+          default: false
+        readOnly:
+          type: boolean
+          default: false
+        enableIntegrationManagement:
+          type: boolean
+          default: false
+        enableTransformations:
+          type: boolean
+          default: false
+        requireEndpointFilterTypes:
+          type: boolean
+          default: false
+        enableEndpointOauthConfig:
+          type: boolean
+          default: false
+        enableEndpointMtlsConfig:
+          type: boolean
+          default: false
+        colorPaletteLight:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        colorPaletteDark:
+          $ref: '#/components/schemas/CustomColorPalette'
+          nullable: true
+        showUseSvixPlay:
+          type: boolean
+          default: true
+        wipeSuccessfulPayload:
+          type: boolean
+          default: false
+        enableApplicationAlerts:
+          type: boolean
+          default: false
+        applicationAlertEvents:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/ApplicationAlertEvent'
+        applicationAlertsDashboardUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        applicationAlertsLogoUrl:
+          type: string
+          format: uri
+          maxLength: 65536
+          minLength: 1
+          nullable: true
+        showFeatureTooltips:
+          type: boolean
+          default: false
+        webhooksAutoConfig:
+          type: boolean
+          default: false
+        mcpToken:
+          type: boolean
+          default: false
     CustomColorPalette:
       type: object
       properties:
@@ -1201,6 +1181,26 @@ components:
       - loc
       - msg
       - type
+    BorderRadiusEnum:
+      type: string
+      enum:
+      - none
+      - lg
+      - md
+      - sm
+      - full
+    CustomStringsOverride:
+      type: object
+      properties:
+        channelsOne:
+          type: string
+          nullable: true
+        channelsMany:
+          type: string
+          nullable: true
+        channelsHelp:
+          type: string
+          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http

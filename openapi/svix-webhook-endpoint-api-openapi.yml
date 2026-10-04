@@ -1056,87 +1056,6 @@ paths:
         source: "curl -X 'PUT' \\\n  'https://api.eu.svix.com/api/v1/operational-webhook/endpoint/ep_33ZIBDmz66FcPG35FnsbM6Ie4X1/headers' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"headers\": {\n      \"X-Example\": \"123\",\n      \"X-Foobar\": \"Bar\"\n    }\n  }'"
 components:
   schemas:
-    OperationalWebhookEndpointIn:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://example.com/webhook/
-        description:
-          type: string
-          default: ''
-          example: An example endpoint name
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this endpoint.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the endpoint.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        disabled:
-          type: boolean
-          default: false
-          example: false
-        filterTypes:
-          type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - message.attempt.failing
-        secret:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - url
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
     OperationalWebhookEndpointHeadersIn:
       type: object
       properties:
@@ -1225,7 +1144,7 @@ components:
       - metadata
       - updatedAt
       - url
-    OperationalWebhookEndpointSecretOut:
+    OperationalWebhookEndpointSecretIn:
       type: object
       properties:
         key:
@@ -1236,10 +1155,25 @@ components:
 
             It is recommended to not set this and let the server generate the secret.'
           type: string
+          default: null
           pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
           example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
-      - key
+      - detail
     OperationalWebhookEndpointUpdate:
       type: object
       properties:
@@ -1301,27 +1235,26 @@ components:
             type: string
       required:
       - url
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    OperationalWebhookEndpointSecretIn:
+    OperationalWebhookEndpointHeadersOut:
       type: object
       properties:
-        key:
-          description: 'The endpoint''s verification secret.
-
-
-            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
-
-            It is recommended to not set this and let the server generate the secret.'
-          type: string
-          default: null
-          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
-          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
-          nullable: true
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            X-Example: '123'
+            X-Foobar: Bar
+        sensitive:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          example:
+          - Authorization
+      required:
+      - headers
+      - sensitive
     HttpErrorOut:
       title: HttpError
       type: object
@@ -1354,6 +1287,21 @@ components:
       - data
       - done
       - iterator
+    OperationalWebhookEndpointSecretOut:
+      type: object
+      properties:
+        key:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+      required:
+      - key
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -1373,26 +1321,78 @@ components:
       - loc
       - msg
       - type
-    OperationalWebhookEndpointHeadersOut:
+    OperationalWebhookEndpointIn:
       type: object
       properties:
-        headers:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://example.com/webhook/
+        description:
+          type: string
+          default: ''
+          example: An example endpoint name
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this endpoint.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the endpoint.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        disabled:
+          type: boolean
+          default: false
+          example: false
+        filterTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - message.attempt.failing
+        secret:
+          description: 'The endpoint''s verification secret.
+
+
+            Format: `base64` encoded random bytes optionally prefixed with `whsec_`.
+
+            It is recommended to not set this and let the server generate the secret.'
+          type: string
+          pattern: ^(whsec_|whsk_|whsk1_|whpk_|whpk1_)?[a-zA-Z0-9+/=]{32,100}$
+          example: whsec_C2FVsBQIhrscChlQIMV+b5sSYspob7oD
+          nullable: true
+        metadata:
           type: object
+          default: {}
           additionalProperties:
             type: string
-          example:
-            X-Example: '123'
-            X-Foobar: Bar
-        sensitive:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-          example:
-          - Authorization
       required:
-      - headers
-      - sensitive
+      - url
   securitySchemes:
     HTTPBearer:
       type: http
