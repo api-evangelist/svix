@@ -1,4 +1,4 @@
-generated: '2026-09-16'
+generated: '2026-09-23'
 method: generated
 source: openapi/svix-application-api-openapi.yml, openapi/svix-authentication-api-openapi.yml,
   openapi/svix-background-task-api-openapi.yml, openapi/svix-broadcast-api-openapi.yml, openapi/svix-connector-api-openapi.yml,
@@ -16,11 +16,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 230
   by_action_class:
-    connected: 93
-    acting: 137
+    connected: 96
+    acting: 134
   by_consequence:
-    read: 93
-    write: 134
+    read: 96
+    write: 131
     safety-critical: 1
     physical: 2
   human_in_the_loop_required: 1
@@ -149,18 +149,12 @@ operations:
   method: post
   operationId: v1.authentication.app-portal-access
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/auth/whoami
   method: get
   operationId: v1.authentication.whoami
@@ -1999,18 +1993,12 @@ operations:
   method: post
   operationId: v1.message.search
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/app/{app_id}/msg/expunge-all-contents
   method: post
   operationId: v1.message.expunge-all-contents
@@ -2605,18 +2593,12 @@ operations:
   method: post
   operationId: v1.authentication.stream-portal-access
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/v1/auth/stream-logout
   method: post
   operationId: v1.authentication.stream-logout
