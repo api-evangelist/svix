@@ -373,26 +373,38 @@ paths:
       x-internal: true
 components:
   schemas:
-    LatestEventsOut:
+    EventOut:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventOut'
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
       required:
-      - data
-    CreateStreamEventsOut:
-      type: object
-    HTTPValidationError:
+      - eventType
+      - payload
+      - timestamp
+    EventIn:
       type: object
       properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
+        eventType:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        payload:
+          type: string
       required:
-      - detail
+      - eventType
+      - payload
     CreateStreamEventsIn:
       type: object
       properties:
@@ -434,64 +446,15 @@ components:
             type: string
       required:
       - name
-    EventOut:
-      type: object
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-      required:
-      - eventType
-      - payload
-      - timestamp
-    EventStreamOut:
+    LatestEventsOut:
       type: object
       properties:
         data:
           type: array
           items:
             $ref: '#/components/schemas/EventOut'
-        iterator:
-          type: string
-        done:
-          type: boolean
       required:
       - data
-      - done
-      - iterator
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    EventIn:
-      type: object
-      properties:
-        eventType:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        payload:
-          type: string
-      required:
-      - eventType
-      - payload
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -511,6 +474,43 @@ components:
       - loc
       - msg
       - type
+    EventStreamOut:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventOut'
+        iterator:
+          type: string
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    CreateStreamEventsOut:
+      type: object
   securitySchemes:
     HTTPBearer:
       type: http

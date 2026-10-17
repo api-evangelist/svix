@@ -1887,224 +1887,6 @@ paths:
       x-internal: true
 components:
   schemas:
-    ApiTokenPatch:
-      type: object
-      properties:
-        name:
-          type: string
-          nullable: true
-        scopes:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          nullable: true
-    ApplicationIn:
-      type: object
-      properties:
-        name:
-          description: Application name for human consumption.
-          type: string
-          minLength: 1
-          example: My first application
-        rateLimit:
-          description: Deprecated, use `throttleRate` instead.
-          type: integer
-          format: uint16
-          deprecated: true
-          minimum: 1
-          nullable: true
-        throttleRate:
-          description: 'Maximum messages per second to send to this application.
-
-
-            Outgoing messages will be throttled to this rate.'
-          type: integer
-          format: uint16
-          minimum: 1
-          nullable: true
-        uid:
-          description: Optional unique identifier for the application.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        metadata:
-          type: object
-          default: {}
-          additionalProperties:
-            type: string
-      required:
-      - name
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-    ApplicationTokenExpireIn:
-      type: object
-      properties:
-        expiry:
-          description: How many seconds until the old key is expired.
-          type: integer
-          format: int64
-          nullable: true
-          maximum: 259200
-          minimum: 0
-          example: 60
-        sessionIds:
-          description: 'An optional list of session ids.
-
-
-            If any session ids are specified, only Application tokens created with that session id will be expired.'
-          type: array
-          items:
-            type: string
-            maxLength: 64
-            minLength: 1
-            pattern: ^[a-zA-Z0-9@_-]+$
-            example: user_1FB8
-          maxItems: 1000
-    AppPortalAccessOut:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          minLength: 1
-          maxLength: 65536
-          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
-        token:
-          type: string
-          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
-      required:
-      - token
-      - url
-    ApiTokenUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    CreateMcpTokenOut:
-      type: object
-      properties:
-        token:
-          description: 'The MCP access token.
-
-
-            Pass it to the MCP server as `Authorization: Bearer <token>`. It also encodes the application id, so the server needs nothing else to identify the app.'
-          type: string
-        slug:
-          description: URL-safe slug derived from the customer's app portal display name (or the organization name when it isn't set). The client builds the MCP server name (`<slug>-webhooks`) from it. The server URL itself is `/app/<app_id>`, which is what keeps servers distinct.
-          type: string
-      required:
-      - slug
-      - token
-    ListResponse_McpTokenOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/McpTokenOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    WhoamiOut:
-      type: object
-      properties:
-        envId:
-          description: The environment ("organization") that the current token is attached to
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^org_[A-Za-z0-9]{27}$
-          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
-          nullable: true
-        appId:
-          description: The dispatch application that the current token is limited to, if there is one
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^app_[A-Za-z0-9]{27}$
-          example: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
-          nullable: true
-        streamAppId:
-          description: The stream application that the current token is limited to, if there is one
-          type: string
-          maxLength: 27
-          minLength: 26
-          pattern: ^strm_[A-Za-z0-9]{21,22}$
-          example: strm_2yZwUhtgs5Ai8T9yRQJXA
-          nullable: true
-        permissionSource:
-          description: 'The source of the current request''s authentication
-
-
-            This field is unstable and may change in the future.'
-          $ref: '#/components/schemas/AuthenticationSource'
-        sessionId:
-          description: The session associated with the current request
-          type: string
-          maxLength: 64
-          minLength: 1
-          pattern: ^[a-zA-Z0-9@_-]+$
-          example: user_1FB8
-          nullable: true
-      required:
-      - permissionSource
-    ApiTokenIn:
-      type: object
-      properties:
-        name:
-          type: string
-        scopes:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          nullable: true
-      required:
-      - name
-    ApiTokenExpireIn:
-      type: object
-      properties:
-        expiry:
-          description: How many seconds until the old key is expired.
-          type: integer
-          format: int32
-          default: 0
-          maximum: 259200
-          minimum: 0.0
     McpTokenOut:
       type: object
       properties:
@@ -2129,70 +1911,6 @@ components:
       - createdAt
       - expiresAt
       - id
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
-    ApiTokenOut:
-      type: object
-      properties:
-        token:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-        scopes:
-          type: array
-          items:
-            type: string
-          nullable: true
-      required:
-      - createdAt
-      - id
-      - token
-    AppPortalCapability:
-      type: string
-      enum:
-      - ViewBase
-      - ViewEndpointSecret
-      - ManageEndpointSecret
-      - ManageTransformations
-      - CreateAttempts
-      - ManageEndpoint
-    CreateTokenIn:
-      type: object
-      properties:
-        name:
-          description: The name of the token.
-          type: string
-        expiry:
-          description: How long the token will be valid for, in seconds.
-          type: integer
-          format: uint64
-          minimum: 0
-          nullable: true
-      required:
-      - name
-    CreateMcpTokenIn:
-      type: object
-      properties:
-        expiry:
-          description: How long the token will be valid for in seconds.
-          type: integer
-          format: uint64
-          minimum: 0
-          nullable: true
     GlobalApiTokenCensoredOut:
       type: object
       properties:
@@ -2219,15 +1937,20 @@ components:
       - censoredToken
       - createdAt
       - id
-    AuthenticationSource:
-      description: The authentication type of the current request
-      type: string
-      enum:
-      - OidcJwt
-      - SvixJwt
-      - RegionalAuthToken
-      - GlobalAuthToken
-      - Unknown
+    CreateTokenIn:
+      type: object
+      properties:
+        name:
+          description: The name of the token.
+          type: string
+        expiry:
+          description: How long the token will be valid for, in seconds.
+          type: integer
+          format: uint64
+          minimum: 0
+          nullable: true
+      required:
+      - name
     RotatePollerTokenIn:
       type: object
       properties:
@@ -2251,102 +1974,6 @@ components:
           default: 300
           maximum: 86400
           minimum: 0.0
-    ApiTokenCensoredOut:
-      type: object
-      properties:
-        censoredToken:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-          nullable: true
-        createdAt:
-          type: string
-          format: date-time
-        expiresAt:
-          type: string
-          format: date-time
-          nullable: true
-        scopes:
-          type: array
-          items:
-            type: string
-          nullable: true
-      required:
-      - censoredToken
-      - createdAt
-      - id
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    ListResponse_GlobalApiTokenCensoredOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/GlobalApiTokenCensoredOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    OneTimeTokenOut:
-      type: object
-      properties:
-        token:
-          type: string
-        capabilities:
-          type: array
-          items:
-            type: string
-      required:
-      - capabilities
-      - token
-    OneTimeTokenIn:
-      type: object
-      properties:
-        oneTimeToken:
-          type: string
-      required:
-      - oneTimeToken
-    ListResponse_ApiTokenCensoredOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiTokenCensoredOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
     AppPortalAccessIn:
       type: object
       properties:
@@ -2429,6 +2056,281 @@ components:
           pattern: ^[a-zA-Z0-9@_-]+$
           example: user_1FB8
           nullable: true
+    AppPortalCapability:
+      type: string
+      enum:
+      - ViewBase
+      - ViewEndpointSecret
+      - ManageEndpointSecret
+      - ManageTransformations
+      - CreateAttempts
+      - ManageEndpoint
+    ApplicationIn:
+      type: object
+      properties:
+        name:
+          description: Application name for human consumption.
+          type: string
+          minLength: 1
+          example: My first application
+        rateLimit:
+          description: Deprecated, use `throttleRate` instead.
+          type: integer
+          format: uint16
+          deprecated: true
+          minimum: 1
+          nullable: true
+        throttleRate:
+          description: 'Maximum messages per second to send to this application.
+
+
+            Outgoing messages will be throttled to this rate.'
+          type: integer
+          format: uint16
+          minimum: 1
+          nullable: true
+        uid:
+          description: Optional unique identifier for the application.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        metadata:
+          type: object
+          default: {}
+          additionalProperties:
+            type: string
+      required:
+      - name
+    OneTimeTokenOut:
+      type: object
+      properties:
+        token:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+      required:
+      - capabilities
+      - token
+    ApiTokenCensoredOut:
+      type: object
+      properties:
+        censoredToken:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        scopes:
+          type: array
+          items:
+            type: string
+          nullable: true
+      required:
+      - censoredToken
+      - createdAt
+      - id
+    OneTimeTokenIn:
+      type: object
+      properties:
+        oneTimeToken:
+          type: string
+      required:
+      - oneTimeToken
+    ApplicationTokenExpireIn:
+      type: object
+      properties:
+        expiry:
+          description: How many seconds until the old key is expired.
+          type: integer
+          format: int64
+          nullable: true
+          maximum: 259200
+          minimum: 0
+          example: 60
+        sessionIds:
+          description: 'An optional list of session ids.
+
+
+            If any session ids are specified, only Application tokens created with that session id will be expired.'
+          type: array
+          items:
+            type: string
+            maxLength: 64
+            minLength: 1
+            pattern: ^[a-zA-Z0-9@_-]+$
+            example: user_1FB8
+          maxItems: 1000
+    ApiTokenExpireIn:
+      type: object
+      properties:
+        expiry:
+          description: How many seconds until the old key is expired.
+          type: integer
+          format: int32
+          default: 0
+          maximum: 259200
+          minimum: 0.0
+    AppPortalAccessOut:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 65536
+          example: https://app.svix.com/login#key=eyJhcHBJZCI6ICJhcHBfMXRSdFl
+        token:
+          type: string
+          example: appsk_kV3ts5tKPNJN4Dl25cMTfUNdmabxbX0O
+      required:
+      - token
+      - url
+    CreateMcpTokenOut:
+      type: object
+      properties:
+        token:
+          description: 'The MCP access token.
+
+
+            Pass it to the MCP server as `Authorization: Bearer <token>`. It also encodes the application id, so the server needs nothing else to identify the app.'
+          type: string
+        slug:
+          description: URL-safe slug derived from the customer's app portal display name (or the organization name when it isn't set). The client builds the MCP server name (`<slug>-webhooks`) from it. The server URL itself is `/app/<app_id>`, which is what keeps servers distinct.
+          type: string
+      required:
+      - slug
+      - token
+    CreateMcpTokenIn:
+      type: object
+      properties:
+        expiry:
+          description: How long the token will be valid for in seconds.
+          type: integer
+          format: uint64
+          minimum: 0
+          nullable: true
+    ApiTokenOut:
+      type: object
+      properties:
+        token:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        scopes:
+          type: array
+          items:
+            type: string
+          nullable: true
+      required:
+      - createdAt
+      - id
+      - token
+    AuthenticationSource:
+      description: The authentication type of the current request
+      type: string
+      enum:
+      - OidcJwt
+      - SvixJwt
+      - RegionalAuthToken
+      - GlobalAuthToken
+      - Unknown
+    ListResponse_ApiTokenCensoredOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiTokenCensoredOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    ApiTokenPatch:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+        scopes:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          nullable: true
+    ApiTokenUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     HttpErrorOut:
       title: HttpError
       type: object
@@ -2440,6 +2342,104 @@ components:
       required:
       - code
       - detail
+    ApiTokenIn:
+      type: object
+      properties:
+        name:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          nullable: true
+      required:
+      - name
+    ListResponse_McpTokenOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/McpTokenOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    WhoamiOut:
+      type: object
+      properties:
+        envId:
+          description: The environment ("organization") that the current token is attached to
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^org_[A-Za-z0-9]{27}$
+          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
+          nullable: true
+        appId:
+          description: The dispatch application that the current token is limited to, if there is one
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^app_[A-Za-z0-9]{27}$
+          example: app_1srOrx2ZWZBpBUvZwXKQmoEYga2
+          nullable: true
+        streamAppId:
+          description: The stream application that the current token is limited to, if there is one
+          type: string
+          maxLength: 27
+          minLength: 26
+          pattern: ^strm_[A-Za-z0-9]{21,22}$
+          example: strm_2yZwUhtgs5Ai8T9yRQJXA
+          nullable: true
+        permissionSource:
+          description: 'The source of the current request''s authentication
+
+
+            This field is unstable and may change in the future.'
+          $ref: '#/components/schemas/AuthenticationSource'
+        sessionId:
+          description: The session associated with the current request
+          type: string
+          maxLength: 64
+          minLength: 1
+          pattern: ^[a-zA-Z0-9@_-]+$
+          example: user_1FB8
+          nullable: true
+      required:
+      - permissionSource
+    ListResponse_GlobalApiTokenCensoredOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GlobalApiTokenCensoredOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
   securitySchemes:
     HTTPBearer:
       type: http

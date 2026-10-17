@@ -625,25 +625,114 @@ paths:
         source: "curl -X 'POST' \\\n  'https://api.eu.svix.com/api/v1/environment/import' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"eventTypes\": [],\n    \"settings\": {},\n    \"connectors\": []\n  }'"
 components:
   schemas:
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+    ListResponse_EnvironmentModelOut_:
       type: object
       properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+        data:
           type: array
           items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
+            $ref: '#/components/schemas/EnvironmentModelOut'
+        iterator:
           type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          nullable: true
+          example: iterator
+        prevIterator:
           type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
       required:
-      - loc
-      - msg
-      - type
+      - data
+      - done
+      - iterator
+    ConnectorKind:
+      type: string
+      enum:
+      - Custom
+      - AgenticCommerceProtocol
+      - CloseCRM
+      - CustomerIO
+      - Discord
+      - Hubspot
+      - Inngest
+      - Loops
+      - Otel
+      - Resend
+      - Salesforce
+      - Segment
+      - Sendgrid
+      - Slack
+      - Teams
+      - TriggerDev
+      - Windmill
+      - Zapier
+    ConnectorIn:
+      type: object
+      properties:
+        name:
+          type: string
+          example: My first connector
+        uid:
+          description: The Connector's UID.
+          type: string
+          maxLength: 256
+          minLength: 1
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: unique-identifier
+          nullable: true
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          example: https://example.com/logo.png
+        description:
+          type: string
+          default: ''
+          example: Example connector description
+        kind:
+          default: Custom
+          $ref: '#/components/schemas/ConnectorKind'
+          example: Slack
+        instructions:
+          type: string
+          default: ''
+          example: Markdown-formatted instructions
+        allowedEventTypes:
+          type: array
+          nullable: true
+          items:
+            description: The event type's name
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: user.signup
+          minItems: 1
+          uniqueItems: true
+          example:
+          - user.signup
+          - user.deleted
+        transformation:
+          type: string
+          minLength: 10
+          maxLength: 51200
+          example: function handler(webhook) { /* ... */ }
+        featureFlags:
+          type: array
+          default: null
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          nullable: true
+        productType:
+          default: null
+          $ref: '#/components/schemas/ConnectorProduct'
+          nullable: true
+      required:
+      - name
+      - transformation
     EnvironmentIn:
       type: object
       properties:
@@ -661,112 +750,6 @@ components:
           items:
             $ref: '#/components/schemas/ConnectorIn'
           nullable: true
-    EnvironmentType:
-      type: string
-      enum:
-      - development
-      - production
-    EnvironmentModelOut:
-      type: object
-      properties:
-        id:
-          description: The Environment's ID.
-          type: string
-          maxLength: 31
-          minLength: 31
-          pattern: ^org_[A-Za-z0-9]{27}$
-          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        region:
-          $ref: '#/components/schemas/EnvironmentRegion'
-        name:
-          type: string
-        type:
-          $ref: '#/components/schemas/EnvironmentType'
-      required:
-      - createdAt
-      - id
-      - name
-      - region
-      - type
-      - updatedAt
-    EventTypeOut:
-      type: object
-      properties:
-        name:
-          description: The event type's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user.signup
-        description:
-          type: string
-          example: A user has signed up
-        archived:
-          type: boolean
-          default: false
-          example: false
-        deprecated:
-          type: boolean
-        schemas:
-          description: The schema for the event type for a specific version as a JSON schema.
-          type: object
-          nullable: true
-          additionalProperties: true
-          example:
-            '1':
-              title: Invoice Paid Event
-              description: An invoice was paid by a user
-              type: object
-              properties:
-                invoiceId:
-                  description: The invoice id
-                  type: string
-                userId:
-                  description: The user id
-                  type: string
-              required:
-              - invoiceId
-              - userId
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        groupName:
-          description: The event type group's name
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: user
-          nullable: true
-        featureFlags:
-          type: array
-          nullable: true
-          items:
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          example:
-          - cool-new-feature
-        featureFlag:
-          type: string
-          maxLength: 256
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          nullable: true
-      required:
-      - createdAt
-      - deprecated
-      - description
-      - name
-      - updatedAt
     ConnectorOut:
       type: object
       properties:
@@ -854,12 +837,105 @@ components:
       - transformation
       - transformationUpdatedAt
       - updatedAt
+    EventTypeOut:
+      type: object
+      properties:
+        name:
+          description: The event type's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user.signup
+        description:
+          type: string
+          example: A user has signed up
+        archived:
+          type: boolean
+          default: false
+          example: false
+        deprecated:
+          type: boolean
+        schemas:
+          description: The schema for the event type for a specific version as a JSON schema.
+          type: object
+          nullable: true
+          additionalProperties: true
+          example:
+            '1':
+              title: Invoice Paid Event
+              description: An invoice was paid by a user
+              type: object
+              properties:
+                invoiceId:
+                  description: The invoice id
+                  type: string
+                userId:
+                  description: The user id
+                  type: string
+              required:
+              - invoiceId
+              - userId
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        groupName:
+          description: The event type group's name
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          example: user
+          nullable: true
+        featureFlags:
+          type: array
+          nullable: true
+          items:
+            type: string
+            maxLength: 256
+            pattern: ^[a-zA-Z0-9\-_.]+$
+          uniqueItems: true
+          example:
+          - cool-new-feature
+        featureFlag:
+          type: string
+          maxLength: 256
+          pattern: ^[a-zA-Z0-9\-_.]+$
+          nullable: true
+      required:
+      - createdAt
+      - deprecated
+      - description
+      - name
+      - updatedAt
+    EnvironmentModelUpdate:
+      type: object
+      properties:
+        name:
+          description: Environment name for human consumption.
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: My environment
+      required:
+      - name
+    ConnectorProduct:
+      type: string
+      enum:
+      - Dispatch
+      - Stream
     Ordering:
       description: Defines the ordering in a listing of results.
       type: string
       enum:
       - ascending
       - descending
+    EnvironmentType:
+      type: string
+      enum:
+      - development
+      - production
     EnvironmentOut:
       type: object
       properties:
@@ -887,120 +963,25 @@ components:
       - createdAt
       - eventTypes
       - settings
-    ConnectorProduct:
-      type: string
-      enum:
-      - Dispatch
-      - Stream
-    ConnectorIn:
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
       properties:
-        name:
-          type: string
-          example: My first connector
-        uid:
-          description: The Connector's UID.
-          type: string
-          maxLength: 256
-          minLength: 1
-          pattern: ^[a-zA-Z0-9\-_.]+$
-          example: unique-identifier
-          nullable: true
-        logo:
-          type: string
-          format: uri
-          nullable: true
-          example: https://example.com/logo.png
-        description:
-          type: string
-          default: ''
-          example: Example connector description
-        kind:
-          default: Custom
-          $ref: '#/components/schemas/ConnectorKind'
-          example: Slack
-        instructions:
-          type: string
-          default: ''
-          example: Markdown-formatted instructions
-        allowedEventTypes:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
           type: array
-          nullable: true
-          items:
-            description: The event type's name
-            type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: user.signup
-          minItems: 1
-          uniqueItems: true
-          example:
-          - user.signup
-          - user.deleted
-        transformation:
-          type: string
-          minLength: 10
-          maxLength: 51200
-          example: function handler(webhook) { /* ... */ }
-        featureFlags:
-          type: array
-          default: null
           items:
             type: string
-            maxLength: 256
-            pattern: ^[a-zA-Z0-9\-_.]+$
-          uniqueItems: true
-          nullable: true
-        productType:
-          default: null
-          $ref: '#/components/schemas/ConnectorProduct'
-          nullable: true
-      required:
-      - name
-      - transformation
-    ConnectorKind:
-      type: string
-      enum:
-      - Custom
-      - AgenticCommerceProtocol
-      - CloseCRM
-      - CustomerIO
-      - Discord
-      - Hubspot
-      - Inngest
-      - Loops
-      - Otel
-      - Resend
-      - Salesforce
-      - Segment
-      - Sendgrid
-      - Slack
-      - Teams
-      - TriggerDev
-      - Windmill
-      - Zapier
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
+        msg:
+          description: The message accompanying the validation error item.
           type: string
-        detail:
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
           type: string
       required:
-      - code
-      - detail
-    EnvironmentModelUpdate:
-      type: object
-      properties:
-        name:
-          description: Environment name for human consumption.
-          type: string
-          minLength: 1
-          maxLength: 255
-          example: My environment
-      required:
-      - name
+      - loc
+      - msg
+      - type
     EnvironmentModelIn:
       type: object
       properties:
@@ -1016,6 +997,14 @@ components:
       required:
       - name
       - type
+    EnvironmentRegion:
+      type: string
+      enum:
+      - eu
+      - us
+      - au
+      - ca
+      - self-hosted
     HTTPValidationError:
       type: object
       properties:
@@ -1025,35 +1014,6 @@ components:
             $ref: '#/components/schemas/ValidationError'
       required:
       - detail
-    ListResponse_EnvironmentModelOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentModelOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
-    EnvironmentRegion:
-      type: string
-      enum:
-      - eu
-      - us
-      - au
-      - ca
-      - self-hosted
     EventTypeIn:
       type: object
       properties:
@@ -1123,6 +1083,46 @@ components:
       required:
       - description
       - name
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    EnvironmentModelOut:
+      type: object
+      properties:
+        id:
+          description: The Environment's ID.
+          type: string
+          maxLength: 31
+          minLength: 31
+          pattern: ^org_[A-Za-z0-9]{27}$
+          example: org_1srOrx2ZWZBpBUvZwXKQmoEYga2
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        region:
+          $ref: '#/components/schemas/EnvironmentRegion'
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/EnvironmentType'
+      required:
+      - createdAt
+      - id
+      - name
+      - region
+      - type
+      - updatedAt
   securitySchemes:
     HTTPBearer:
       type: http

@@ -279,6 +279,50 @@ paths:
         source: "curl -X 'GET' \\\n  'https://api.eu.svix.com/api/v1/background-task/qtask_1srOrx2ZWZBpBUvZwXKQmoEYga2' \\\n  -H 'Authorization: Bearer AUTH_TOKEN' \\\n  -H 'Accept: application/json'"
 components:
   schemas:
+    BackgroundTaskStatus:
+      type: string
+      enum:
+      - running
+      - finished
+      - failed
+    ListResponse_BackgroundTaskOut_:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackgroundTaskOut'
+        iterator:
+          type: string
+          nullable: true
+          example: iterator
+        prevIterator:
+          type: string
+          nullable: true
+          example: -iterator
+        done:
+          type: boolean
+      required:
+      - data
+      - done
+      - iterator
+    Ordering:
+      description: Defines the ordering in a listing of results.
+      type: string
+      enum:
+      - ascending
+      - descending
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
     ValidationError:
       description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
       type: object
@@ -298,23 +342,6 @@ components:
       - loc
       - msg
       - type
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
-    BackgroundTaskStatus:
-      type: string
-      enum:
-      - running
-      - finished
-      - failed
     BackgroundTaskOut:
       type: object
       properties:
@@ -341,12 +368,15 @@ components:
       - status
       - task
       - updatedAt
-    Ordering:
-      description: Defines the ordering in a listing of results.
-      type: string
-      enum:
-      - ascending
-      - descending
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     HttpErrorOut:
       title: HttpError
       type: object
@@ -358,36 +388,6 @@ components:
       required:
       - code
       - detail
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    ListResponse_BackgroundTaskOut_:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BackgroundTaskOut'
-        iterator:
-          type: string
-          nullable: true
-          example: iterator
-        prevIterator:
-          type: string
-          nullable: true
-          example: -iterator
-        done:
-          type: boolean
-      required:
-      - data
-      - done
-      - iterator
   securitySchemes:
     HTTPBearer:
       type: http

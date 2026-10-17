@@ -493,23 +493,39 @@ paths:
       x-internal: true
 components:
   schemas:
-    BackgroundTaskType:
-      type: string
-      enum:
-      - endpoint.replay
-      - endpoint.recover
-      - application.stats
-      - message.broadcast
-      - sdk.generate
-      - event-type.aggregate
-      - application.purge_content
-      - endpoint.bulk-replay
     BackgroundTaskStatus:
       type: string
       enum:
       - running
       - finished
       - failed
+    AppUsageStatsIn:
+      type: object
+      properties:
+        since:
+          type: string
+          format: date-time
+        until:
+          type: string
+          format: date-time
+        appIds:
+          description: 'Specific app IDs or UIDs to aggregate stats for.
+
+
+            Note that if none of the given IDs or UIDs are resolved, a 422 response will be given.'
+          type: array
+          items:
+            description: The Application's ID or UID.
+            type: string
+            maxLength: 256
+            minLength: 1
+            pattern: ^[a-zA-Z0-9\-_.]+$
+            example: unique-identifier
+          uniqueItems: true
+          nullable: true
+      required:
+      - since
+      - until
     EndpointCountOut:
       type: object
       properties:
@@ -524,6 +540,63 @@ components:
       required:
       - active
       - disabled
+    AttemptStatisticsResponse:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        period:
+          $ref: '#/components/schemas/StatisticsPeriod'
+        data:
+          $ref: '#/components/schemas/AttemptStatisticsData'
+      required:
+      - data
+      - endDate
+      - period
+      - startDate
+    BackgroundTaskType:
+      type: string
+      enum:
+      - endpoint.replay
+      - endpoint.recover
+      - application.stats
+      - message.broadcast
+      - sdk.generate
+      - event-type.aggregate
+      - application.purge_content
+      - endpoint.bulk-replay
+    ValidationError:
+      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
+      type: object
+      properties:
+        loc:
+          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
+          type: array
+          items:
+            type: string
+        msg:
+          description: The message accompanying the validation error item.
+          type: string
+        type:
+          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      required:
+      - detail
     AppUsageStatsOut:
       type: object
       properties:
@@ -561,6 +634,38 @@ components:
       - task
       - unresolvedAppIds
       - updatedAt
+    HttpErrorOut:
+      title: HttpError
+      type: object
+      properties:
+        code:
+          type: string
+        detail:
+          type: string
+      required:
+      - code
+      - detail
+    AttemptStatisticsData:
+      type: object
+      properties:
+        successCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        failureCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
+        canceledCount:
+          type: array
+          items:
+            type: integer
+            format: int
+          nullable: true
     AggregateEventTypesOut:
       type: object
       properties:
@@ -583,90 +688,6 @@ components:
       - status
       - task
       - updatedAt
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      required:
-      - detail
-    AttemptStatisticsResponse:
-      type: object
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        period:
-          $ref: '#/components/schemas/StatisticsPeriod'
-        data:
-          $ref: '#/components/schemas/AttemptStatisticsData'
-      required:
-      - data
-      - endDate
-      - period
-      - startDate
-    HttpErrorOut:
-      title: HttpError
-      type: object
-      properties:
-        code:
-          type: string
-        detail:
-          type: string
-      required:
-      - code
-      - detail
-    AppUsageStatsIn:
-      type: object
-      properties:
-        since:
-          type: string
-          format: date-time
-        until:
-          type: string
-          format: date-time
-        appIds:
-          description: 'Specific app IDs or UIDs to aggregate stats for.
-
-
-            Note that if none of the given IDs or UIDs are resolved, a 422 response will be given.'
-          type: array
-          items:
-            description: The Application's ID or UID.
-            type: string
-            maxLength: 256
-            minLength: 1
-            pattern: ^[a-zA-Z0-9\-_.]+$
-            example: unique-identifier
-          uniqueItems: true
-          nullable: true
-      required:
-      - since
-      - until
-    ValidationError:
-      description: Validation errors have their own schema to provide context for invalid requests eg. mismatched types and out of bounds values. There may be any number of these per 422 UNPROCESSABLE ENTITY error.
-      type: object
-      properties:
-        loc:
-          description: The location as a [`Vec`] of [`String`]s -- often in the form `["body", "field_name"]`, `["query", "field_name"]`, etc. They may, however, be arbitrarily deep.
-          type: array
-          items:
-            type: string
-        msg:
-          description: The message accompanying the validation error item.
-          type: string
-        type:
-          description: The type of error, often "type_error" or "value_error", but sometimes with more context like as "value_error.number.not_ge"
-          type: string
-      required:
-      - loc
-      - msg
-      - type
     StatisticsPeriod:
       description: Period length for a statistics data point.
       type: string
@@ -674,27 +695,6 @@ components:
       - OneDay
       - OneHour
       - FiveMinutes
-    AttemptStatisticsData:
-      type: object
-      properties:
-        successCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        failureCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
-        canceledCount:
-          type: array
-          items:
-            type: integer
-            format: int
-          nullable: true
   securitySchemes:
     HTTPBearer:
       type: http
