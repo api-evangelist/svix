@@ -131,5 +131,3 @@ The first message working is not a production integration. Next, in rough order:
 | Event Types | <https://docs.svix.com/event-types> |
 | Consumer App Portal | <https://docs.svix.com/app-portal> |
 | Interactive API docs | <https://api.svix.com/docs> |
-</content>
-</invoke>

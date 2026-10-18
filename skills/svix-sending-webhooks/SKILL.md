@@ -55,4 +55,3 @@ When the user's request does not clearly fit a single domain above, consult:
 - [Quickstart](https://docs.svix.com/quickstart) — Start here when designing any integration.
 - [API reference](https://api.svix.com/docs) — Overview of Svix's API surface.
 - [Verifying payloads](https://docs.svix.com/receiving/verifying-payloads/how) — Authoritative reference for handler-side verification.
-</content>
