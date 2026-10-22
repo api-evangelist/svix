@@ -282,19 +282,6 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
-- slug: svix-terraform-terraform-registry
-  label: Terraform (terraform-registry)
-  partner: terraform
-  partner_name: Terraform (terraform-registry)
-  category: infrastructure-as-code provider registry listing
-  type: marketplace
-  marketplace: terraform-registry
-  channel: partner-built
-  evidence: https://registry.terraform.io/providers/svix/svix
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: svix-andreessen-horowitz-a16z
   label: Andreessen Horowitz (a16z)
   partner: a16z
@@ -323,5 +310,44 @@
     year: '2022'
     status: Active
     sector: Enterprise;Infra;Seed
+  status: not-a-workflow
+  arazzo: null
+- slug: svix-terraform-terraform-registry
+  label: Terraform (terraform-registry)
+  partner: terraform
+  partner_name: Terraform (terraform-registry)
+  category: infrastructure-as-code provider registry listing
+  type: marketplace
+  marketplace: terraform-registry
+  channel: partner-built
+  evidence: https://registry.terraform.io/providers/svix/svix
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: svix-netlify-own
+  label: Netlify (own)
+  partner: netlify
+  partner_name: Netlify (own)
+  category: Search
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.netlify.com/integrations/svix/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: svix-vercel-own
+  label: Vercel (own)
+  partner: vercel
+  partner_name: Vercel (own)
+  category: DevTools
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://vercel.com/marketplace/svix
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
