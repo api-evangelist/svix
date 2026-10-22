@@ -401,6 +401,46 @@ edges:
   detected_by: mirror-platform-listings.py
   category: DevTools
   partner_tier: third-party
+- partner_name: APIs.guru OpenAPI Directory
+  partner: apis-guru
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: third-party
+  evidence: https://apis.guru/
+  category: API definition directory listing (OpenAPI)
+  contract_reference:
+    register: APIs.guru OpenAPI Directory
+    spec_file: null
+    standard: APIs.guru OpenAPI Directory
+    role: listed-in-directory
+    directory_provider: svix.com
+    matched_domain: svix.com
+    matched_by: domain
+    apis_listed: 1
+    version_count: 1
+    first_added: '2023-03-04'
+    last_updated: '2023-03-06'
+    origin_publisher_hosted: true
+    origin_hosts:
+    - api.svix.com
+    categories: []
+    own_openapi_files: 28
+    listings:
+    - key: svix.com
+      title: Svix API
+      preferred: '1.4'
+      versions: 1
+      swagger_url: https://api.apis.guru/v2/specs/svix.com/1.4/openapi.json
+      origin_url: https://api.svix.com/api/v1/openapi.json
+      openapi_version: 3.0.2
+    signal_note: 'participation only: a community directory listing (APIs.guru collects definitions; the provider
+      did not file them). Signals: version_count, apis_listed, origin_publisher_hosted.'
+    detected_by: sweep-openapi-directory-apis-guru.py
+    detected: '2026-10-22'
+  detected_by: sweep-openapi-directory-apis-guru.py
+  first_seen: '2026-10-22'
 method: searched
 checked:
 - https://api.nuget.org/v3
@@ -434,5 +474,7 @@ checked:
 - https://www.sequoiacap.com/sitemap.xml
 - netlify/integrations/netlify-integration-edges.yml
 - vercel/integrations/vercel-integration-edges.yml
+- https://api.apis.guru/v2/list.json
+- https://api.apis.guru/v2/providers.json
 source:
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
